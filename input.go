@@ -31,276 +31,279 @@ import (
 
 type Inputs int
 const (
-  Input_Joy1_Up        Inputs = iota
-  Input_Joy1_Down
-  Input_Joy1_Left
-  Input_Joy1_Right
-  Input_Joy2_Up
-  Input_Joy2_Down
-  Input_Joy2_Left
-  Input_Joy2_Right
-  Input_Joy3_Up
-  Input_Joy3_Down
-  Input_Joy3_Left
-  Input_Joy3_Right
-  Input_Joy4_Up
-  Input_Joy4_Down
-  Input_Joy4_Left
-  Input_Joy4_Right
-  Input_Button1
-  Input_Button2
-  Input_Button3
-  Input_Button4
-  Input_Button5
-  Input_Button6
-  Input_Button7
-  Input_Button8
-  Input_Button9
-  Input_Button10
-  Input_Button11
-  Input_Button12
-  Input_Button13
-  Input_Button14
-  Input_Button15
-  Input_Button16
-  Input_Button17
-  Input_Button18
-  Input_Button19
-  Input_Button20
-  Input_Button21
-  Input_Button22
-  Input_Button23
-  Input_Button24
-  Input_Button25
-  Input_Button26
-  Input_XAxis
-  Input_YAxis
-  Input_ZAxis
+  InputJoy1Up    Inputs = iota        // 0 (0x00)
+  InputJoy1Down                       // 1 (0x01)
+  InputJoy1Left                       // 2 (0x02)
+  InputJoy1Right                      // 3 (0x03)
+  InputJoy2Up                         // 4 (0x04)
+  InputJoy2Down                       // 5 (0x05)
+  InputJoy2Left                       // 6 (0x06)
+  InputJoy2Right                      // 7 (0x07)
+  InputJoy3Up                         // 8 (0x08)
+  InputJoy3Down                       // 9 (0x09)
+  InputJoy3Left                       // 10 (0x0a)
+  InputJoy3Right                      // 11 (0x0b)
+  InputJoy4Up                         // 12 (0x0c)
+  InputJoy4Down                       // 13 (0x0d)
+  InputJoy4Left                       // 14 (0x0e)
+  InputJoy4Right                      // 15 (0x0f)
+  InputButton1                        // 16 (0x10)
+  InputButton2                        // 17 (0x11)
+  InputButton3                        // 18 (0x12)
+  InputButton4                        // 19 (0x13)
+  InputButton5                        // 20 (0x14)
+  InputButton6                        // 21 (0x15)
+  InputButton7                        // 22 (0x16)
+  InputButton8                        // 23 (0x17)
+  InputButton9                        // 24 (0x18)
+  InputButton10                       // 25 (0x19)
+  InputButton11                       // 26 (0x1a)
+  InputButton12                       // 27 (0x1b)
+  InputButton13                       // 28 (0x1c)
+  InputButton14                       // 29 (0x1d)
+  InputButton15                       // 30 (0x1e)
+  InputButton16                       // 31 (0x1f)
+  InputButton17                       // 32 (0x20)
+  InputButton18                       // 33 (0x21)
+  InputButton19                       // 34 (0x22)
+  InputButton20                       // 35 (0x23)
+  InputButton21                       // 36 (0x24)
+  InputButton22                       // 37 (0x25)
+  InputButton23                       // 38 (0x26)
+  InputButton24                       // 39 (0x27)
+  InputButton25                       // 40 (0x28)
+  InputButton26                       // 41 (0x29)
+  InputXAxis                          // 42 (0x2a)
+  InputYAxis                          // 43 (0x2b)
+  InputZAxis                          // 44 (0x2c)
 )
 
 func Input(input string) Inputs {
   switch input {
-    case  "joy1_up":               fallthrough
-    case  "input_joy1_up":         fallthrough
-    case  "Input_Joy1_Up":        
-      return Input_Joy1_Up
+    // 0 (0x00)
+    case "Joy1Up": fallthrough
+    case "InputJoy1Up":
+      return InputJoy1Up
 
-    case  "joy1_down":             fallthrough
-    case  "input_joy1_down":       fallthrough
-    case  "Input_Joy1_Down":      
-      return Input_Joy1_Down
+    // 1 (0x01)
+    case "Joy1Down": fallthrough
+    case "InputJoy1Down":
+      return InputJoy1Down
 
-    case  "joy1_left":             fallthrough
-    case  "input_joy1_left":       fallthrough
-    case  "Input_Joy1_Left":      
-      return Input_Joy1_Left
+    // 2 (0x02)
+    case "Joy1Left": fallthrough
+    case "InputJoy1Left":
+      return InputJoy1Left
 
-    case  "joy1_right":            fallthrough
-    case  "input_joy1_right":      fallthrough
-    case  "Input_Joy1_Right":     
-      return Input_Joy1_Right
+    // 3 (0x03)
+    case "Joy1Right": fallthrough
+    case "InputJoy1Right":
+      return InputJoy1Right
 
-    case  "joy2_up":               fallthrough
-    case  "input_joy2_up":         fallthrough
-    case  "Input_Joy2_Up":        
-      return Input_Joy2_Up
+    // 4 (0x04)
+    case "Joy2Up": fallthrough
+    case "InputJoy2Up":
+      return InputJoy2Up
 
-    case  "joy2_down":             fallthrough
-    case  "input_joy2_down":       fallthrough
-    case  "Input_Joy2_Down":      
-      return Input_Joy2_Down
+    // 5 (0x05)
+    case "Joy2Down": fallthrough
+    case "InputJoy2Down":
+      return InputJoy2Down
 
-    case  "joy2_left":             fallthrough
-    case  "input_joy2_left":       fallthrough
-    case  "Input_Joy2_Left":      
-      return Input_Joy2_Left
+    // 6 (0x06)
+    case "Joy2Left": fallthrough
+    case "InputJoy2Left":
+      return InputJoy2Left
 
-    case  "joy2_right":            fallthrough
-    case  "input_joy2_right":      fallthrough
-    case  "Input_Joy2_Right":     
-      return Input_Joy2_Right
+    // 7 (0x07)
+    case "Joy2Right": fallthrough
+    case "InputJoy2Right":
+      return InputJoy2Right
 
-    case  "joy3_up":               fallthrough
-    case  "input_joy3_up":         fallthrough
-    case  "Input_Joy3_Up":        
-      return Input_Joy3_Up
+    // 8 (0x08)
+    case "Joy3Up": fallthrough
+    case "InputJoy3Up":
+      return InputJoy3Up
 
-    case  "joy3_down":             fallthrough
-    case  "input_joy3_down":       fallthrough
-    case  "Input_Joy3_Down":      
-      return Input_Joy3_Down
+    // 9 (0x09)
+    case "Joy3Down": fallthrough
+    case "InputJoy3Down":
+      return InputJoy3Down
 
-    case  "joy3_left":             fallthrough
-    case  "input_joy3_left":       fallthrough
-    case  "Input_Joy3_Left":      
-      return Input_Joy3_Left
+    // 10 (0x0a)
+    case "Joy3Left": fallthrough
+    case "InputJoy3Left":
+      return InputJoy3Left
 
-    case  "joy3_right":            fallthrough
-    case  "input_joy3_right":      fallthrough
-    case  "Input_Joy3_Right":     
-      return Input_Joy3_Right
+    // 11 (0x0b)
+    case "Joy3Right": fallthrough
+    case "InputJoy3Right":
+      return InputJoy3Right
 
-    case  "joy4_up":               fallthrough
-    case  "input_joy4_up":         fallthrough
-    case  "Input_Joy4_Up":        
-      return Input_Joy4_Up
+    // 12 (0x0c)
+    case "Joy4Up": fallthrough
+    case "InputJoy4Up":
+      return InputJoy4Up
 
-    case  "joy4_down":             fallthrough
-    case  "input_joy4_down":       fallthrough
-    case  "Input_Joy4_Down":      
-      return Input_Joy4_Down
+    // 13 (0x0d)
+    case "Joy4Down": fallthrough
+    case "InputJoy4Down":
+      return InputJoy4Down
 
-    case  "joy4_left":             fallthrough
-    case  "input_joy4_left":       fallthrough
-    case  "Input_Joy4_Left":      
-      return Input_Joy4_Left
+    // 14 (0x0e)
+    case "Joy4Left": fallthrough
+    case "InputJoy4Left":
+      return InputJoy4Left
 
-    case  "joy4_right":            fallthrough
-    case  "input_joy4_right":      fallthrough
-    case  "Input_Joy4_Right":     
-      return Input_Joy4_Right
+    // 15 (0x0f)
+    case "Joy4Right": fallthrough
+    case "InputJoy4Right":
+      return InputJoy4Right
 
-    case  "button1":               fallthrough
-    case  "input_button1":         fallthrough
-    case  "Input_Button1":        
-      return Input_Button1
+    // 16 (0x10)
+    case "Button1": fallthrough
+    case "InputButton1":
+      return InputButton1
 
-    case  "button2":               fallthrough
-    case  "input_button2":         fallthrough
-    case  "Input_Button2":        
-      return Input_Button2
+    // 17 (0x11)
+    case "Button2": fallthrough
+    case "InputButton2":
+      return InputButton2
 
-    case  "button3":               fallthrough
-    case  "input_button3":         fallthrough
-    case  "Input_Button3":        
-      return Input_Button3
+    // 18 (0x12)
+    case "Button3": fallthrough
+    case "InputButton3":
+      return InputButton3
 
-    case  "button4":               fallthrough
-    case  "input_button4":         fallthrough
-    case  "Input_Button4":        
-      return Input_Button4
+    // 19 (0x13)
+    case "Button4": fallthrough
+    case "InputButton4":
+      return InputButton4
 
-    case  "button5":               fallthrough
-    case  "input_button5":         fallthrough
-    case  "Input_Button5":        
-      return Input_Button5
+    // 20 (0x14)
+    case "Button5": fallthrough
+    case "InputButton5":
+      return InputButton5
 
-    case  "button6":               fallthrough
-    case  "input_button6":         fallthrough
-    case  "Input_Button6":        
-      return Input_Button6
+    // 21 (0x15)
+    case "Button6": fallthrough
+    case "InputButton6":
+      return InputButton6
 
-    case  "button7":               fallthrough
-    case  "input_button7":         fallthrough
-    case  "Input_Button7":        
-      return Input_Button7
+    // 22 (0x16)
+    case "Button7": fallthrough
+    case "InputButton7":
+      return InputButton7
 
-    case  "button8":               fallthrough
-    case  "input_button8":         fallthrough
-    case  "Input_Button8":        
-      return Input_Button8
+    // 23 (0x17)
+    case "Button8": fallthrough
+    case "InputButton8":
+      return InputButton8
 
-    case  "button9":               fallthrough
-    case  "input_button9":         fallthrough
-    case  "Input_Button9":        
-      return Input_Button9
+    // 24 (0x18)
+    case "Button9": fallthrough
+    case "InputButton9":
+      return InputButton9
 
-    case  "button10":              fallthrough
-    case  "input_button10":        fallthrough
-    case  "Input_Button10":       
-      return Input_Button10
+    // 25 (0x19)
+    case "Button10": fallthrough
+    case "InputButton10":
+      return InputButton10
 
-    case  "button11":              fallthrough
-    case  "input_button11":        fallthrough
-    case  "Input_Button11":       
-      return Input_Button11
+    // 26 (0x1a)
+    case "Button11": fallthrough
+    case "InputButton11":
+      return InputButton11
 
-    case  "button12":              fallthrough
-    case  "input_button12":        fallthrough
-    case  "Input_Button12":       
-      return Input_Button12
+    // 27 (0x1b)
+    case "Button12": fallthrough
+    case "InputButton12":
+      return InputButton12
 
-    case  "button13":              fallthrough
-    case  "input_button13":        fallthrough
-    case  "Input_Button13":       
-      return Input_Button13
+    // 28 (0x1c)
+    case "Button13": fallthrough
+    case "InputButton13":
+      return InputButton13
 
-    case  "button14":              fallthrough
-    case  "input_button14":        fallthrough
-    case  "Input_Button14":       
-      return Input_Button14
+    // 29 (0x1d)
+    case "Button14": fallthrough
+    case "InputButton14":
+      return InputButton14
 
-    case  "button15":              fallthrough
-    case  "input_button15":        fallthrough
-    case  "Input_Button15":       
-      return Input_Button15
+    // 30 (0x1e)
+    case "Button15": fallthrough
+    case "InputButton15":
+      return InputButton15
 
-    case  "button16":              fallthrough
-    case  "input_button16":        fallthrough
-    case  "Input_Button16":       
-      return Input_Button16
+    // 31 (0x1f)
+    case "Button16": fallthrough
+    case "InputButton16":
+      return InputButton16
 
-    case  "button17":              fallthrough
-    case  "input_button17":        fallthrough
-    case  "Input_Button17":       
-      return Input_Button17
+    // 32 (0x20)
+    case "Button17": fallthrough
+    case "InputButton17":
+      return InputButton17
 
-    case  "button18":              fallthrough
-    case  "input_button18":        fallthrough
-    case  "Input_Button18":       
-      return Input_Button18
+    // 33 (0x21)
+    case "Button18": fallthrough
+    case "InputButton18":
+      return InputButton18
 
-    case  "button19":              fallthrough
-    case  "input_button19":        fallthrough
-    case  "Input_Button19":       
-      return Input_Button19
+    // 34 (0x22)
+    case "Button19": fallthrough
+    case "InputButton19":
+      return InputButton19
 
-    case  "button20":              fallthrough
-    case  "input_button20":        fallthrough
-    case  "Input_Button20":       
-      return Input_Button20
+    // 35 (0x23)
+    case "Button20": fallthrough
+    case "InputButton20":
+      return InputButton20
 
-    case  "button21":              fallthrough
-    case  "input_button21":        fallthrough
-    case  "Input_Button21":       
-      return Input_Button21
+    // 36 (0x24)
+    case "Button21": fallthrough
+    case "InputButton21":
+      return InputButton21
 
-    case  "button22":              fallthrough
-    case  "input_button22":        fallthrough
-    case  "Input_Button22":       
-      return Input_Button22
+    // 37 (0x25)
+    case "Button22": fallthrough
+    case "InputButton22":
+      return InputButton22
 
-    case  "button23":              fallthrough
-    case  "input_button23":        fallthrough
-    case  "Input_Button23":       
-      return Input_Button23
+    // 38 (0x26)
+    case "Button23": fallthrough
+    case "InputButton23":
+      return InputButton23
 
-    case  "button24":              fallthrough
-    case  "button24":              fallthrough
-    case  "Input_Button24":       
-      return Input_Button24
+    // 39 (0x27)
+    case "Button24": fallthrough
+    case "InputButton24":
+      return InputButton24
 
-    case  "button25":              fallthrough
-    case  "input_button25":        fallthrough
-    case  "Input_Button25":       
-      return Input_Button25
+    // 40 (0x28)
+    case "Button25": fallthrough
+    case "InputButton25":
+      return InputButton25
 
-    case  "button26":              fallthrough
-    case  "input_button26":        fallthrough
-    case  "Input_Button26":       
-      return Input_Button26
+    // 41 (0x29)
+    case "Button26": fallthrough
+    case "InputButton26":
+      return InputButton26
 
-    case  "xaxis":                 fallthrough
-    case  "Input_XAxis":          
-      return Input_XAxis
+    // 42 (0x2a)
+    case "XAxis": fallthrough
+    case "InputXAxis":
+      return InputXAxis
 
-    case  "yaxis":                 fallthrough
-    case  "Input_YAxis":          
-      return Input_YAxis
+    // 43 (0x2b)
+    case "YAxis": fallthrough
+    case "InputYAxis":
+      return InputYAxis
 
-    case  "zaxis":                 fallthrough
-    case  "Input_ZAxis":          
-      return Input_ZAxis
+    // 44 (0x2c)
+    case "ZAxis": fallthrough
+    case "InputZAxis":
+      return InputZAxis
   }
 
   return 0
@@ -309,33 +312,29 @@ func Input(input string) Inputs {
 type Modes int
 const (
   _                    Modes = iota
-  Mode_Joystick1
-  Mode_Joystick2
-  Mode_Keyboard
-  Mode_Mouse
+  ModeJoystick1
+  ModeJoystick2
+  ModeKeyboard
+  ModeMouse
 )
 
 func Mode(mode string) Modes {
   switch mode {
-    case  "joystick1":             fallthrough
-    case  "mode_joystick1":        fallthrough
-    case  "Mode_Joystick1":        
-      return Mode_Joystick1
+    case  "joystick1": fallthrough
+    case  "ModeJoystick1":        
+      return ModeJoystick1
 
-    case  "joystick2":             fallthrough
-    case  "mode_joystick2":        fallthrough
-    case  "Mode_Joystick2":        
-      return Mode_Joystick2
+    case  "joystick2": fallthrough
+    case  "ModeJoystick2":        
+      return ModeJoystick2
 
-    case  "keyboard":              fallthrough
-    case  "mode_keyboard":         fallthrough
-    case  "Mode_Keyboard":        
-      return Mode_Keyboard
+    case  "keyboard": fallthrough
+    case  "ModeKeyboard":        
+      return ModeKeyboard
 
-    case  "mouse":                 fallthrough
-    case  "mode_mouse":            fallthrough
-    case  "Mode_mouse":        
-      return Mode_Mouse
+    case  "mouse": fallthrough
+    case  "ModeMouse":        
+      return ModeMouse
   }
 
   return 0
@@ -343,571 +342,574 @@ func Mode(mode string) Modes {
 
 type Keys int
 const (
-  Key_None             Keys = iota
-  _  // Empty
-  _  // Empty
-  _  // Empty
-  Key_A
-  Key_B
-  Key_C
-  Key_D
-  Key_E
-  Key_F
-  Key_G
-  Key_H
-  Key_I
-  Key_J
-  Key_K
-  Key_L
-  Key_M
-  Key_N
-  Key_O
-  Key_P
-  Key_Q
-  Key_R
-  Key_S
-  Key_T
-  Key_U
-  Key_V
-  Key_W
-  Key_X
-  Key_Y
-  Key_Z
-  Key_1
-  Key_2
-  Key_3
-  Key_4
-  Key_5
-  Key_6
-  Key_7
-  Key_8
-  Key_9
-  Key_0
-  Key_ENT
-  Key_ESC
-  Key_BSP
-  Key_TAB
-  Key_SP
-  Key_DASH
-  Key_EQUAL
-  Key_LEFT_BRACKET
-  Key_RIGHT_BRACKET
-  Key_COMMA
-  Key_TILDE
-  Key_BACK_SLASH
-  Key_PERIOD
-  Key_FORWARD_SLASH
-  Key_CAP
-  Key_F1
-  Key_F2
-  Key_F3
-  Key_F4
-  Key_F5
-  Key_F6
-  Key_F7
-  Key_F8
-  Key_F9
-  Key_F10
-  Key_F11
-  Key_F12
-  Key_PSR
-  Key_SCL
-  Key_PAUSE
-  Key_INSERT
-  Key_HOME
-  Key_PAGE_UP
-  Key_DEL
-  Key_END
-  Key_PAGE_DN
-  Key_RIGHT
-  Key_LEFT
-  Key_DOWN
-  Key_UP
-  Key_KNM
-  Key_K_SLASH
-  Key_K_PERIOD
-  Key_K_ASTERISK
-  Key_K_DASH
-  Key_K_ADD
-  Key_K_ENTER
-  Key_K1
-  Key_K2
-  Key_K3
-  Key_K4
-  Key_K5
-  Key_K6
-  Key_K7
-  Key_K8
-  Key_K9
-  Key_K0
+  KeyA  Keys = 4 + iota             // 4 (0x04)
+  KeyB                              // 5 (0x05)
+  KeyC                              // 6 (0x06)
+  KeyD                              // 7 (0x07)
+  KeyE                              // 8 (0x08)
+  KeyF                              // 9 (0x09)
+  KeyG                              // 10 (0x0a)
+  KeyH                              // 11 (0x0b)
+  KeyI                              // 12 (0x0c)
+  KeyJ                              // 13 (0x0d)
+  KeyK                              // 14 (0x0e)
+  KeyL                              // 15 (0x0f)
+  KeyM                              // 16 (0x10)
+  KeyN                              // 17 (0x11)
+  KeyO                              // 18 (0x12)
+  KeyP                              // 19 (0x13)
+  KeyQ                              // 20 (0x14)
+  KeyR                              // 21 (0x15)
+  KeyS                              // 22 (0x16)
+  KeyT                              // 23 (0x17)
+  KeyU                              // 24 (0x18)
+  KeyV                              // 25 (0x19)
+  KeyW                              // 26 (0x1a)
+  KeyX                              // 27 (0x1b)
+  KeyY                              // 28 (0x1c)
+  KeyZ                              // 29 (0x1d)
+  Key1                              // 30 (0x1e)
+  Key2                              // 31 (0x1f)
+  Key3                              // 32 (0x20)
+  Key4                              // 33 (0x21)
+  Key5                              // 34 (0x22)
+  Key6                              // 35 (0x23)
+  Key7                              // 36 (0x24)
+  Key8                              // 37 (0x25)
+  Key9                              // 38 (0x26)
+  Key0                              // 39 (0x27)
+  KeyEnter                          // 40 (0x28)
+  KeyEscape                         // 41 (0x29)
+  KeyBackspace                      // 42 (0x2a)
+  KeyTab                            // 43 (0x2b)
+  KeySpace                          // 44 (0x2c)
+  KeyMinus                          // 45 (0x2d)
+  KeyEqual                          // 46 (0x2e)
+  KeyLeftBracket                    // 47 (0x2f)
+  KeyRightBracket                   // 48 (0x30)
+  KeyBackSlash                      // 49 (0x31)
+  Key-HashTilde                     // 50 (0x32)
+  KeyColon                          // 51 (0x33)
+  KeyApostrophe                     // 52 (0x34)
+  KeyTilde                          // 53 (0x35)
+  KeyComma                          // 54 (0x36)
+  KeyPeriod                         // 55 (0x37)
+  KeySlash                          // 56 (0x38)
+  KeyCapsLock                       // 57 (0x39)
+  KeyF1                             // 58 (0x3a)
+  KeyF2                             // 59 (0x3b)
+  KeyF3                             // 60 (0x3c)
+  KeyF4                             // 61 (0x3d)
+  KeyF5                             // 62 (0x3e)
+  KeyF6                             // 63 (0x3f)
+  KeyF7                             // 64 (0x40)
+  KeyF8                             // 65 (0x41)
+  KeyF9                             // 66 (0x42)
+  KeyF10                            // 67 (0x43)
+  KeyF11                            // 68 (0x44)
+  KeyF12                            // 69 (0x45)
+  KeyPrintScreen                    // 70 (0x46)
+  KeyScrollLock                     // 71 (0x47)
+  KeyPause                          // 72 (0x48)
+  KeyInsert                         // 73 (0x49)
+  KeyHome                           // 74 (0x4a)
+  KeyPageUp                         // 75 (0x4b)
+  KeyDelete                         // 76 (0x4c)
+  KeyEnd                            // 77 (0x4d)
+  KeyPageDown                       // 78 (0x4e)
+  KeyRight                          // 79 (0x4f)
+  KeyLeft                           // 80 (0x50)
+  KeyDown                           // 81 (0x51)
+  KeyUp                             // 82 (0x52)
+  KeyNumLock                        // 83 (0x53)
+  KeyKpSlash                        // 84 (0x54)
+  KeyKpAsterisk                     // 85 (0x55)
+  KeyKpMinus                        // 86 (0x56)
+  KeyKpPlus                         // 87 (0x57)
+  KeyKpEnter                        // 88 (0x58)
+  KeyKp1                            // 89 (0x59)
+  KeyKp2                            // 90 (0x5a)
+  KeyKp3                            // 91 (0x5b)
+  KeyKp4                            // 92 (0x5c)
+  KeyKp5                            // 93 (0x5d)
+  KeyKp6                            // 94 (0x5e)
+  KeyKp7                            // 95 (0x5f)
+  KeyKp8                            // 96 (0x60)
+  KeyKp9                            // 97 (0x61)
+  KeyKp0                            // 98 (0x62)
 )
 
 func Key(key string) Keys {
   switch key {
-    case  "a":                     fallthrough
-    case  "key_a":                 fallthrough
-    case  "Key_A":                
-      return Key_A
-
-    case  "b":                     fallthrough
-    case  "key_b":                 fallthrough
-    case  "Key_B":                
-      return Key_B
-
-    case  "c":                     fallthrough
-    case  "key_c":                 fallthrough
-    case  "Key_C":                
-      return Key_C
-
-    case  "d":                     fallthrough
-    case  "key_d":                 fallthrough
-    case  "Key_D":                
-      return Key_D
-
-    case  "e":                     fallthrough
-    case  "key_e":                 fallthrough
-    case  "Key_E":                
-      return Key_E
-
-    case  "f":                     fallthrough
-    case  "key_f":                 fallthrough
-    case  "Key_F":                
-      return Key_F
-
-    case  "g":                     fallthrough
-    case  "key_g":                 fallthrough
-    case  "Key_G":                
-      return Key_G
-
-    case  "h":                     fallthrough
-    case  "key_h":                 fallthrough
-    case  "Key_H":                
-      return Key_H
-
-    case  "i":                     fallthrough
-    case  "key_i":                 fallthrough
-    case  "Key_I":                
-      return Key_I
-
-    case  "j":                     fallthrough
-    case  "key_j":                 fallthrough
-    case  "Key_J":                
-      return Key_J
-
-    case  "k":                     fallthrough
-    case  "key_k":                 fallthrough
-    case  "Key_K":                
-      return Key_K
-
-    case  "l":                     fallthrough
-    case  "key_l":                 fallthrough
-    case  "Key_L":                
-      return Key_L
-
-    case  "m":                     fallthrough
-    case  "key_m":                 fallthrough
-    case  "Key_M":                
-      return Key_M
-
-    case  "n":                     fallthrough
-    case  "key_n":                 fallthrough
-    case  "Key_N":                
-      return Key_N
-
-    case  "o":                     fallthrough
-    case  "key_o":                 fallthrough
-    case  "Key_O":                
-      return Key_O
-
-    case  "p":                     fallthrough
-    case  "key_p":                 fallthrough
-    case  "Key_P":                
-      return Key_P
-
-    case  "q":                     fallthrough
-    case  "key_q":                 fallthrough
-    case  "Key_Q":                
-      return Key_Q
-
-    case  "r":                     fallthrough
-    case  "key_r":                 fallthrough
-    case  "Key_R":                
-      return Key_R
-
-    case  "s":                     fallthrough
-    case  "key_s":                 fallthrough
-    case  "Key_S":                
-      return Key_S
-
-    case  "t":                     fallthrough
-    case  "key_t":                 fallthrough
-    case  "Key_T":                
-      return Key_T
-
-    case  "u":                     fallthrough
-    case  "key_u":                 fallthrough
-    case  "Key_U":                
-      return Key_U
-
-    case  "v":                     fallthrough
-    case  "key_v":                 fallthrough
-    case  "Key_V":                
-      return Key_V
-
-    case  "w":                     fallthrough
-    case  "key_w":                 fallthrough
-    case  "Key_W":                
-      return Key_W
-
-    case  "x":                     fallthrough
-    case  "key_x":                 fallthrough
-    case  "Key_X":                
-      return Key_X
-
-    case  "y":                     fallthrough
-    case  "key_y":                 fallthrough
-    case  "Key_Y":                
-      return Key_Y
-
-    case  "z":                     fallthrough
-    case  "key_z":                 fallthrough
-    case  "Key_Z":                
-      return Key_Z
-
-    case  "1":                     fallthrough
-    case  "key_1":                 fallthrough
-    case  "Key_1":                
-      return Key_1
-
-    case  "2":                     fallthrough
-    case  "key_2":                 fallthrough
-    case  "Key_2":                
-      return Key_2
-
-    case  "3":                     fallthrough
-    case  "key_3":                 fallthrough
-    case  "Key_3":                
-      return Key_3
-
-    case  "4":                     fallthrough
-    case  "key_4":                 fallthrough
-    case  "Key_4":                
-      return Key_4
-
-    case  "5":                     fallthrough
-    case  "key_5":                 fallthrough
-    case  "Key_5":                
-      return Key_5
-
-    case  "6":                     fallthrough
-    case  "key_6":                 fallthrough
-    case  "Key_6":                
-      return Key_6
-
-    case  "7":                     fallthrough
-    case  "key_7":                 fallthrough
-    case  "Key_7":                
-      return Key_7
-
-    case  "8":                     fallthrough
-    case  "key_8":                 fallthrough
-    case  "Key_8":                
-      return Key_8
-
-    case  "9":                     fallthrough
-    case  "key_9":                 fallthrough
-    case  "Key_9":                
-      return Key_9
-
-    case  "0":                     fallthrough
-    case  "key_0":                 fallthrough
-    case  "Key_0":                
-      return Key_0
-
-    case  "ent":                   fallthrough
-    case  "key_ent":               fallthrough
-    case  "Key_ENT":              
-      return Key_ENT
-
-    case  "esc":                   fallthrough
-    case  "key_esc":               fallthrough
-    case  "Key_ESC":              
-      return Key_ESC
-
-    case  "bsp":                   fallthrough
-    case  "key_bsp":               fallthrough
-    case  "Key_BSP":              
-      return Key_BSP
-
-    case  "tab":                   fallthrough
-    case  "key_tab":               fallthrough
-    case  "Key_TAB":              
-      return Key_TAB
-
-    case  "sp":                    fallthrough
-    case  "key_sp":                fallthrough
-    case  "Key_SP":               
-      return Key_SP
-
-    case  "dash":                  fallthrough
-    case  "key_dash":              fallthrough
-    case  "Key_DASH":             
-      return Key_DASH
-
-    case  "equal":                 fallthrough
-    case  "key_equal":             fallthrough
-    case  "Key_EQUAL":            
-      return Key_EQUAL
-
-    case  "left_bracket":          fallthrough
-    case  "key_left_bracket":      fallthrough
-    case  "Key_LEFT_BRACKET":     
-      return Key_LEFT_BRACKET
-
-    case  "right_bracket":         fallthrough
-    case  "key_right_bracket":     fallthrough
-    case  "Key_RIGHT_BRACKET":    
-      return Key_RIGHT_BRACKET
-
-    case  "comma":                 fallthrough
-    case  "key_comma":             fallthrough
-    case  "Key_COMMA":            
-      return Key_COMMA
-
-    case  "tilde":                 fallthrough
-    case  "key_tilde":             fallthrough
-    case  "Key_TILDE":            
-      return Key_TILDE
-
-    case  "back_slash":            fallthrough
-    case  "key_back_slash":        fallthrough
-    case  "Key_BACK_SLASH":       
-      return Key_BACK_SLASH
-
-    case  "period":                fallthrough
-    case  "key_period":            fallthrough
-    case  "Key_PERIOD":           
-      return Key_PERIOD
-
-    case  "forward_slash":         fallthrough
-    case  "key_forward_slash":     fallthrough
-    case  "Key_FORWARD_SLASH":    
-      return Key_FORWARD_SLASH
-
-    case  "cap":                   fallthrough
-    case  "key_cap":               fallthrough
-    case  "Key_CAP":              
-      return Key_CAP
-
-    case  "f1":                    fallthrough
-    case  "key_f1":                fallthrough
-    case  "Key_F1":               
-      return Key_F1
-
-    case  "f2":                    fallthrough
-    case  "key_f2":                fallthrough
-    case  "Key_F2":               
-      return Key_F2
-
-    case  "f3":                    fallthrough
-    case  "key_f3":                fallthrough
-    case  "Key_F3":               
-      return Key_F3
-
-    case  "f4":                    fallthrough
-    case  "key_f4":                fallthrough
-    case  "Key_F4":               
-      return Key_F4
-
-    case  "f5":                    fallthrough
-    case  "key_f5":                fallthrough
-    case  "Key_F5":               
-      return Key_F5
-
-    case  "f6":                    fallthrough
-    case  "key_f6":                fallthrough
-    case  "Key_F6":               
-      return Key_F6
-
-    case  "f7":                    fallthrough
-    case  "key_f7":                fallthrough
-    case  "Key_F7":               
-      return Key_F7
-
-    case  "f8":                    fallthrough
-    case  "key_f8":                fallthrough
-    case  "Key_F8":               
-      return Key_F8
-
-    case  "f9":                    fallthrough
-    case  "key_f9":                fallthrough
-    case  "Key_F9":               
-      return Key_F9
-
-    case  "f10":                   fallthrough
-    case  "key_f10":               fallthrough
-    case  "Key_F10":              
-      return Key_F10
-
-    case  "f11":                   fallthrough
-    case  "key_f11":               fallthrough
-    case  "Key_F11":              
-      return Key_F11
-
-    case  "f12":                   fallthrough
-    case  "key_f12":               fallthrough
-    case  "Key_F12":              
-      return Key_F12
-
-    case  "psr":                   fallthrough
-    case  "key_psr":               fallthrough
-    case  "Key_PSR":              
-      return Key_PSR
-
-    case  "scl":                   fallthrough
-    case  "key_scl":               fallthrough
-    case  "Key_SCL":              
-      return Key_SCL
-
-    case  "pause":                 fallthrough
-    case  "key_pause":             fallthrough
-    case  "Key_PAUSE":            
-      return Key_PAUSE
-
-    case  "insert":                fallthrough
-    case  "key_insert":            fallthrough
-    case  "Key_INSERT":           
-      return Key_INSERT
-
-    case  "home":                  fallthrough
-    case  "key_home":              fallthrough
-    case  "Key_HOME":             
-      return Key_HOME
-
-    case  "page_up":               fallthrough
-    case  "key_page_up":           fallthrough
-    case  "Key_PAGE_UP":          
-      return Key_PAGE_UP
-
-    case  "del":                   fallthrough
-    case  "key_del":               fallthrough
-    case  "Key_DEL":              
-      return Key_DEL
-
-    case  "end":                   fallthrough
-    case  "key_end":               fallthrough
-    case  "Key_END":              
-      return Key_END
-
-    case  "page_dn":               fallthrough
-    case  "key_page_dn":           fallthrough
-    case  "Key_PAGE_DN":          
-      return Key_PAGE_DN
-
-    case  "right":                 fallthrough
-    case  "key_right":             fallthrough
-    case  "Key_RIGHT":            
-      return Key_RIGHT
-
-    case  "left":                  fallthrough
-    case  "key_left":              fallthrough
-    case  "Key_LEFT":             
-      return Key_LEFT
-
-    case  "down":                  fallthrough
-    case  "key_down":              fallthrough
-    case  "Key_DOWN":             
-      return Key_DOWN
-
-    case  "up":                    fallthrough
-    case  "key_up":                fallthrough
-    case  "Key_UP":               
-      return Key_UP
-
-    case  "knm":                   fallthrough
-    case  "key_knm":               fallthrough
-    case  "Key_KNM":              
-      return Key_KNM
-
-    case  "k_slash":               fallthrough
-    case  "key_k_slash":           fallthrough
-    case  "Key_K_SLASH":          
-      return Key_K_SLASH
-
-    case  "k_period":              fallthrough
-    case  "key_k_period":          fallthrough
-    case  "Key_K_PERIOD":         
-      return Key_K_PERIOD
-
-    case  "k_asterisk":            fallthrough
-    case  "key_k_asterisk":        fallthrough
-    case  "Key_K_ASTERISK":       
-      return Key_K_ASTERISK
-
-    case  "k_dash":                fallthrough
-    case  "key_k_dash":            fallthrough
-    case  "Key_K_DASH":           
-      return Key_K_DASH
-
-    case  "k_add":                 fallthrough
-    case  "key_k_add":             fallthrough
-    case  "Key_K_ADD":            
-      return Key_K_ADD
-
-    case  "k_enter":               fallthrough
-    case  "key_k_enter":           fallthrough
-    case  "Key_K_ENTER":          
-      return Key_K_ENTER
-
-    case  "k1":                    fallthrough
-    case  "key_k1":                fallthrough
-    case  "Key_K1":               
-      return Key_K1
-
-    case  "k2":                    fallthrough
-    case  "key_k2":                fallthrough
-    case  "Key_K2":               
-      return Key_K2
-
-    case  "k3":                    fallthrough
-    case  "key_k3":                fallthrough
-    case  "Key_K3":               
-      return Key_K3
-
-    case  "k4":                    fallthrough
-    case  "key_k4":                fallthrough
-    case  "Key_K4":               
-      return Key_K4
-
-    case  "k5":                    fallthrough
-    case  "key_k5":                fallthrough
-    case  "Key_K5":               
-      return Key_K5
-
-    case  "k6":                    fallthrough
-    case  "key_k6":                fallthrough
-    case  "Key_K6":               
-      return Key_K6
-
-    case  "k7":                    fallthrough
-    case  "key_k7":                fallthrough
-    case  "Key_K7":               
-      return Key_K7
-
-    case  "k8":                    fallthrough
-    case  "key_k8":                fallthrough
-    case  "Key_K8":               
-      return Key_K8
-
-    case  "k9":                    fallthrough
-    case  "key_k9":                fallthrough
-    case  "Key_K9":               
-      return Key_K9
-
-    case  "k0":                    fallthrough
-    case  "key_k0":                fallthrough
-    case  "Key_K0":               
-      return Key_K0
+    // 4 (0x04)
+    case "A": fallthrough
+    case "KeyA":
+      return KeyA
+
+    // 5 (0x05)
+    case "B": fallthrough
+    case "KeyB":
+      return KeyB
+
+    // 6 (0x06)
+    case "C": fallthrough
+    case "KeyC":
+      return KeyC
+
+    // 7 (0x07)
+    case "D": fallthrough
+    case "KeyD":
+      return KeyD
+
+    // 8 (0x08)
+    case "E": fallthrough
+    case "KeyE":
+      return KeyE
+
+    // 9 (0x09)
+    case "F": fallthrough
+    case "KeyF":
+      return KeyF
+
+    // 10 (0x0a)
+    case "G": fallthrough
+    case "KeyG":
+      return KeyG
+
+    // 11 (0x0b)
+    case "H": fallthrough
+    case "KeyH":
+      return KeyH
+
+    // 12 (0x0c)
+    case "I": fallthrough
+    case "KeyI":
+      return KeyI
+
+    // 13 (0x0d)
+    case "J": fallthrough
+    case "KeyJ":
+      return KeyJ
+
+    // 14 (0x0e)
+    case "K": fallthrough
+    case "KeyK":
+      return KeyK
+
+    // 15 (0x0f)
+    case "L": fallthrough
+    case "KeyL":
+      return KeyL
+
+    // 16 (0x10)
+    case "M": fallthrough
+    case "KeyM":
+      return KeyM
+
+    // 17 (0x11)
+    case "N": fallthrough
+    case "KeyN":
+      return KeyN
+
+    // 18 (0x12)
+    case "O": fallthrough
+    case "KeyO":
+      return KeyO
+
+    // 19 (0x13)
+    case "P": fallthrough
+    case "KeyP":
+      return KeyP
+
+    // 20 (0x14)
+    case "Q": fallthrough
+    case "KeyQ":
+      return KeyQ
+
+    // 21 (0x15)
+    case "R": fallthrough
+    case "KeyR":
+      return KeyR
+
+    // 22 (0x16)
+    case "S": fallthrough
+    case "KeyS":
+      return KeyS
+
+    // 23 (0x17)
+    case "T": fallthrough
+    case "KeyT":
+      return KeyT
+
+    // 24 (0x18)
+    case "U": fallthrough
+    case "KeyU":
+      return KeyU
+
+    // 25 (0x19)
+    case "V": fallthrough
+    case "KeyV":
+      return KeyV
+
+    // 26 (0x1a)
+    case "W": fallthrough
+    case "KeyW":
+      return KeyW
+
+    // 27 (0x1b)
+    case "X": fallthrough
+    case "KeyX":
+      return KeyX
+
+    // 28 (0x1c)
+    case "Y": fallthrough
+    case "KeyY":
+      return KeyY
+
+    // 29 (0x1d)
+    case "Z": fallthrough
+    case "KeyZ":
+      return KeyZ
+
+    // 30 (0x1e)
+    case "1": fallthrough
+    case "Key1":
+      return Key1
+
+    // 31 (0x1f)
+    case "2": fallthrough
+    case "Key2":
+      return Key2
+
+    // 32 (0x20)
+    case "3": fallthrough
+    case "Key3":
+      return Key3
+
+    // 33 (0x21)
+    case "4": fallthrough
+    case "Key4":
+      return Key4
+
+    // 34 (0x22)
+    case "5": fallthrough
+    case "Key5":
+      return Key5
+
+    // 35 (0x23)
+    case "6": fallthrough
+    case "Key6":
+      return Key6
+
+    // 36 (0x24)
+    case "7": fallthrough
+    case "Key7":
+      return Key7
+
+    // 37 (0x25)
+    case "8": fallthrough
+    case "Key8":
+      return Key8
+
+    // 38 (0x26)
+    case "9": fallthrough
+    case "Key9":
+      return Key9
+
+    // 39 (0x27)
+    case "0": fallthrough
+    case "Key0":
+      return Key0
+
+    // 40 (0x28)
+    case "Enter": fallthrough
+    case "KeyEnter":
+      return KeyEnter
+
+    // 41 (0x29)
+    case "Escape": fallthrough
+    case "KeyEscape":
+      return KeyEscape
+
+    // 42 (0x2a)
+    case "Backspace": fallthrough
+    case "KeyBackspace":
+      return KeyBackspace
+
+    // 43 (0x2b)
+    case "Tab": fallthrough
+    case "KeyTab":
+      return KeyTab
+
+    // 44 (0x2c)
+    case "Space": fallthrough
+    case "KeySpace":
+      return KeySpace
+
+    // 45 (0x2d)
+    case "Minus": fallthrough
+    case "KeyMinus":
+      return KeyMinus
+
+    // 46 (0x2e)
+    case "Equal": fallthrough
+    case "KeyEqual":
+      return KeyEqual
+
+    // 47 (0x2f)
+    case "LeftBracket": fallthrough
+    case "KeyLeftBracket":
+      return KeyLeftBracket
+
+    // 48 (0x30)
+    case "RightBracket": fallthrough
+    case "KeyRightBracket":
+      return KeyRightBracket
+
+    // 49 (0x31)
+    case "BackSlash": fallthrough
+    case "KeyBackSlash":
+      return KeyBackSlash
+
+    // 51 (0x33)
+    case "Colon": fallthrough
+    case "KeyColon":
+      return KeyColon
+
+    // 52 (0x34)
+    case "Apostrophe": fallthrough
+    case "KeyApostrophe":
+      return KeyApostrophe
+
+    // 53 (0x35)
+    case "Tilde": fallthrough
+    case "KeyTilde":
+      return KeyTilde
+
+    // 54 (0x36)
+    case "Comma": fallthrough
+    case "KeyComma":
+      return KeyComma
+
+    // 55 (0x37)
+    case "Period": fallthrough
+    case "KeyPeriod":
+      return KeyPeriod
+
+    // 56 (0x38)
+    case "Slash": fallthrough
+    case "KeySlash":
+      return KeySlash
+
+    // 57 (0x39)
+    case "CapsLock": fallthrough
+    case "KeyCapsLock":
+      return KeyCapsLock
+
+    // 58 (0x3a)
+    case "F1": fallthrough
+    case "KeyF1":
+      return KeyF1
+
+    // 59 (0x3b)
+    case "F2": fallthrough
+    case "KeyF2":
+      return KeyF2
+
+    // 60 (0x3c)
+    case "F3": fallthrough
+    case "KeyF3":
+      return KeyF3
+
+    // 61 (0x3d)
+    case "F4": fallthrough
+    case "KeyF4":
+      return KeyF4
+
+    // 62 (0x3e)
+    case "F5": fallthrough
+    case "KeyF5":
+      return KeyF5
+
+    // 63 (0x3f)
+    case "F6": fallthrough
+    case "KeyF6":
+      return KeyF6
+
+    // 64 (0x40)
+    case "F7": fallthrough
+    case "KeyF7":
+      return KeyF7
+
+    // 65 (0x41)
+    case "F8": fallthrough
+    case "KeyF8":
+      return KeyF8
+
+    // 66 (0x42)
+    case "F9": fallthrough
+    case "KeyF9":
+      return KeyF9
+
+    // 67 (0x43)
+    case "F10": fallthrough
+    case "KeyF10":
+      return KeyF10
+
+    // 68 (0x44)
+    case "F11": fallthrough
+    case "KeyF11":
+      return KeyF11
+
+    // 69 (0x45)
+    case "F12": fallthrough
+    case "KeyF12":
+      return KeyF12
+
+    // 70 (0x46)
+    case "PrintScreen": fallthrough
+    case "KeyPrintScreen":
+      return KeyPrintScreen
+
+    // 71 (0x47)
+    case "ScrollLock": fallthrough
+    case "KeyScrollLock":
+      return KeyScrollLock
+
+    // 72 (0x48)
+    case "Pause": fallthrough
+    case "KeyPause":
+      return KeyPause
+
+    // 73 (0x49)
+    case "Insert": fallthrough
+    case "KeyInsert":
+      return KeyInsert
+
+    // 74 (0x4a)
+    case "Home": fallthrough
+    case "KeyHome":
+      return KeyHome
+
+    // 75 (0x4b)
+    case "PageUp": fallthrough
+    case "KeyPageUp":
+      return KeyPageUp
+
+    // 76 (0x4c)
+    case "Delete": fallthrough
+    case "KeyDelete":
+      return KeyDelete
+
+    // 77 (0x4d)
+    case "End": fallthrough
+    case "KeyEnd":
+      return KeyEnd
+
+    // 78 (0x4e)
+    case "PageDown": fallthrough
+    case "KeyPageDown":
+      return KeyPageDown
+
+    // 79 (0x4f)
+    case "Right": fallthrough
+    case "KeyRight":
+      return KeyRight
+
+    // 80 (0x50)
+    case "Left": fallthrough
+    case "KeyLeft":
+      return KeyLeft
+
+    // 81 (0x51)
+    case "Down": fallthrough
+    case "KeyDown":
+      return KeyDown
+
+    // 82 (0x52)
+    case "Up": fallthrough
+    case "KeyUp":
+      return KeyUp
+
+    // 83 (0x53)
+    case "NumLock": fallthrough
+    case "KeyNumLock":
+      return KeyNumLock
+
+    // 84 (0x54)
+    case "KpSlash": fallthrough
+    case "KeyKpSlash":
+      return KeyKpSlash
+
+    // 85 (0x55)
+    case "KpAsterisk": fallthrough
+    case "KeyKpAsterisk":
+      return KeyKpAsterisk
+
+    // 86 (0x56)
+    case "KpMinus": fallthrough
+    case "KeyKpMinus":
+      return KeyKpMinus
+
+    // 87 (0x57)
+    case "KpPlus": fallthrough
+    case "KeyKpPlus":
+      return KeyKpPlus
+
+    // 88 (0x58)
+    case "KpEnter": fallthrough
+    case "KeyKpEnter":
+      return KeyKpEnter
+
+    // 89 (0x59)
+    case "Kp1": fallthrough
+    case "KeyKp1":
+      return KeyKp1
+
+    // 90 (0x5a)
+    case "Kp2": fallthrough
+    case "KeyKp2":
+      return KeyKp2
+
+    // 91 (0x5b)
+    case "Kp3": fallthrough
+    case "KeyKp3":
+      return KeyKp3
+
+    // 92 (0x5c)
+    case "Kp4": fallthrough
+    case "KeyKp4":
+      return KeyKp4
+
+    // 93 (0x5d)
+    case "Kp5": fallthrough
+    case "KeyKp5":
+      return KeyKp5
+
+    // 94 (0x5e)
+    case "Kp6": fallthrough
+    case "KeyKp6":
+      return KeyKp6
+
+    // 95 (0x5f)
+    case "Kp7": fallthrough
+    case "KeyKp7":
+      return KeyKp7
+
+    // 96 (0x60)
+    case "Kp8": fallthrough
+    case "KeyKp8":
+      return KeyKp8
+
+    // 97 (0x61)
+    case "Kp9": fallthrough
+    case "KeyKp9":
+      return KeyKp9
+
+    // 98 (0x62)
+    case "Kp0": fallthrough
+    case "KeyKp0":
+      return KeyKp0
   }
 
   return 0
@@ -915,54 +917,45 @@ func Key(key string) Keys {
 
 type Modifiers int
 const (
-  Modifier_None           Modifiers = 0x00
-  Modifier_Left_Control   Modifiers = 0x01
-  Modifier_Left_Shift     Modifiers = 0x02
-  Modifier_Left_Alt       Modifiers = 0x04
-  Modifier_Left_UI        Modifiers = 0x08
-  Modifier_Right_Control  Modifiers = 0x10
-  Modifier_Right_Shift    Modifiers = 0x20
-  Modifier_Right_Alt      Modifiers = 0x40
-  Modifier_Right_UI       Modifiers = 0x80
+  ModifierNone           Modifiers = 0x00
+  ModifierLeftControl    Modifiers = 0x01
+  ModifierLeftShift      Modifiers = 0x02
+  ModifierLeftAlt        Modifiers = 0x04
+  ModifierLeftUI         Modifiers = 0x08
+  ModifierRightControl   Modifiers = 0x10
+  ModifierRightShift     Modifiers = 0x20
+  ModifierRightAlt       Modifiers = 0x40
+  ModifierRightUI        Modifiers = 0x80
 )
 
 func Modifier(modifier string) Modifiers {
   switch modifier {
-    case  "modifier_none":                    fallthrough
-    case  "Modifier_None":      
-      return Modifier_None
+    case  "ModifierNone":      
+      return ModifierNone
 
-    case  "modifier_left_control":            fallthrough
-    case  "Modifier_Left_Control":      
-      return Modifier_Left_Control
+    case  "ModifierLeftControl":      
+      return ModifierLeftControl
 
-    case  "modifier_left_shift":              fallthrough
-    case  "Modifier_Left_Shift":      
-      return Modifier_Left_Shift
+    case  "ModifierLeftShift":      
+      return ModifierLeftShift
 
-    case  "modifier_left_alt":                fallthrough
-    case  "Modifier_Left_Alt":      
-      return Modifier_Left_Alt
+    case  "ModifierLeftAlt":      
+      return ModifierLeftAlt
 
-    case  "modifier_left_ui":                 fallthrough
-    case  "Modifier_Left_UI":      
-      return Modifier_Left_UI
+    case  "ModifierLeftUI":      
+      return ModifierLeftUI
 
-    case  "modifier_right_control":           fallthrough
-    case  "Modifier_Right_Control":      
-      return Modifier_Right_Control
+    case  "ModifierRightControl":      
+      return ModifierRightControl
 
-    case  "modifier_right_shift":             fallthrough
-    case  "Modifier_Right_Shift":      
-      return Modifier_Right_Shift
+    case  "ModifierRightShift":      
+      return ModifierRightShift
 
-    case  "modifier_right_alt":               fallthrough
-    case  "Modifier_Right_Alt":      
-      return Modifier_Right_Alt
+    case  "ModifierRightAlt":      
+      return ModifierRightAlt
 
-    case  "modifier_right_ui":                fallthrough
-    case  "Modifier_Right_UI":      
-      return Modifier_Right_UI
+    case  "ModifierRightUI":      
+      return ModifierRightUI
   }
   return 0
 }
