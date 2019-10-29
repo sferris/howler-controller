@@ -31,7 +31,7 @@ import (
 
 type Inputs int
 const (
-  InputJoy1Up    Inputs = iota        // 0 (0x00)
+  InputJoy1Up  Inputs = iota          // 0 (0x00)
   InputJoy1Down                       // 1 (0x01)
   InputJoy1Left                       // 2 (0x02)
   InputJoy1Right                      // 3 (0x03)
@@ -311,7 +311,7 @@ func Input(input string) Inputs {
 
 type Modes int
 const (
-  _                    Modes = iota
+  _  Modes = iota
   ModeJoystick1
   ModeJoystick2
   ModeKeyboard
@@ -388,7 +388,7 @@ const (
   KeyLeftBracket                    // 47 (0x2f)
   KeyRightBracket                   // 48 (0x30)
   KeyBackSlash                      // 49 (0x31)
-  Key-HashTilde                     // 50 (0x32)
+  _                                 // 50 (0x32) - HashTilde?
   KeyColon                          // 51 (0x33)
   KeyApostrophe                     // 52 (0x34)
   KeyTilde                          // 53 (0x35)
@@ -438,6 +438,13 @@ const (
   KeyKp9                            // 97 (0x61)
   KeyKp0                            // 98 (0x62)
 )
+
+const KeyNone = 0
+const KeyGrave = KeyTilde
+const KeyDot = KeyPeriod
+const KeyForwardSlash = KeySlash
+const KeyDash = KeyMinus
+const KeyKpDash = KeyKpMinus
 
 func Key(key string) Keys {
   switch key {
@@ -917,16 +924,16 @@ func Key(key string) Keys {
 
 type Modifiers int
 const (
-  ModifierNone           Modifiers = 0x00
-  ModifierLeftControl    Modifiers = 0x01
-  ModifierLeftShift      Modifiers = 0x02
-  ModifierLeftAlt        Modifiers = 0x04
-  ModifierLeftUI         Modifiers = 0x08
-  ModifierRightControl   Modifiers = 0x10
-  ModifierRightShift     Modifiers = 0x20
-  ModifierRightAlt       Modifiers = 0x40
-  ModifierRightUI        Modifiers = 0x80
+  ModifierLeftControl  Modifiers = 1 << iota
+  ModifierLeftShift
+  ModifierLeftAlt
+  ModifierLeftUI
+  ModifierRightControl
+  ModifierRightShift
+  ModifierRightAlt
+  ModifierRightUI
 )
+const ModifierNone = 0
 
 func Modifier(modifier string) Modifiers {
   switch modifier {
