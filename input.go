@@ -76,6 +76,7 @@ const (
   InputXAxis                          // 42 (0x2a)
   InputYAxis                          // 43 (0x2b)
   InputZAxis                          // 44 (0x2c)
+  InputMax
 )
 
 func Input(input string) Inputs {
@@ -1001,11 +1002,6 @@ func (howler *HowlerConfig) SetInput(input Inputs, mode Modes, key int, modifier
 
   var data = []byte{HowlerID,byte(scope),byte(input),byte(mode),byte(key),byte(modifier),
                     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-
-  fmt.Printf("Input: 0x%02x\n", byte(input))
-  fmt.Printf("Mode: 0x%02x\n", byte(mode))
-  fmt.Printf("Key: 0x%02x\n", byte(key))
-  fmt.Printf("Modifier: 0x%02x\n", byte(modifier))
 
   fmt.Println(hex.Dump(data))
 

@@ -33,7 +33,7 @@ const (
   Button24                       // 27 (0x1b)
   Button25                       // 28 (0x1c)
   Button26                       // 29 (0x1d)
-  MaxButton                      // 30 (0x1e)
+  ButtonMax
 )
 
 func Button(button string) Buttons {
