@@ -4,7 +4,7 @@ import (
   "fmt"
   "sync"
 
-  "time"
+  //"time"
   //"encoding/hex"
 
   "github.com/google/gousb"
@@ -142,7 +142,7 @@ func (howler *HowlerConfig) Write(data []byte) (error) {
   //fmt.Println(hex.Dump(data))
 
   num, err := howler.out.Write(data)
-  time.Sleep(time.Millisecond*250)
+  //time.Sleep(time.Millisecond*10)
   if num != dataBytes || err != nil {
     return fmt.Errorf(
       "%s.Write([%s]): %d bytes written, returned error is %v", 
@@ -168,7 +168,7 @@ func (howler *HowlerConfig) Read() ([]byte, error) {
   return data, nil
 }
 
-func (howler *HowlerConfig) Query(input []byte) ([]byte, error) {
+func (howler *HowlerConfig) WriteWithResponse(input []byte) ([]byte, error) {
   howler.waitGroup.Add(1)
 
   var err error

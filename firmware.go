@@ -21,7 +21,7 @@ import (
 func (howler *HowlerConfig) GetFWRelease() (string, error) {
   var qry = []byte{HowlerID,0xa0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
-  data, err := howler.Query(qry)
+  data, err := howler.WriteWithResponse(qry)
   fmt.Println(hex.Dump(data))
 
   result := fmt.Sprintf("%d.%d", int(data[2]), int(data[3]))

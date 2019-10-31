@@ -3,16 +3,8 @@ package howler
 func (howler *HowlerConfig) getLEDColor(button Buttons, scope byte) (Color, error) {
   var qry = []byte{HowlerID,scope,byte(button),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
-  data, err := howler.Query(qry)
+  data, err := howler.WriteWithResponse(qry)
   return Color{"unknown", int(data[2]), int(data[3]), int(data[4])}, err
-}
-
-func (howler *HowlerConfig) setDefaultLEDRGB(button Buttons, scope byte, R, G, B int) (error) {
-  var qry = []byte{HowlerID,scope,byte(button),byte(R),byte(G),byte(B),
-                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-
-  _, err := howler.Query(qry)
-  return err
 }
 
 func (howler *HowlerConfig) setLEDRGB(button Buttons, scope byte, R, G, B int) (error) {
@@ -20,6 +12,14 @@ func (howler *HowlerConfig) setLEDRGB(button Buttons, scope byte, R, G, B int) (
                     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
   err := howler.Write(data)
+  return err
+}
+
+func (howler *HowlerConfig) setDefaultLEDRGB(button Buttons, scope byte, R, G, B int) (error) {
+  var qry = []byte{HowlerID,scope,byte(button),byte(R),byte(G),byte(B),
+                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+
+  _, err := howler.WriteWithResponse(qry)
   return err
 }
 

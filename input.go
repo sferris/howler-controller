@@ -7,10 +7,11 @@ import (
 )
 
 /*
-  CMD_SET_INPUT:              0x03
-  CMD_GET_INPUT:              0x04
+  CMD_SET_INPUT: 0x03
+  CMD_GET_INPUT: 0x04
+  Response:
     howler_hid_report[0] = HowlerID;
-    howler_hid_report[1] = CMD_GET_INPUT
+    howler_hid_report[1] = CMD_GET_INPUT || CMD_SET_INPUT
     howler_hid_report[2] = Input Requested
       1: JoyButton1
          1-32
@@ -18,8 +19,6 @@ import (
          1-32
       3: Keyboard
       4: Mouse (left = 1, right = 2, middle = 3)
-         
-
     howler_hid_report[3] = Input Type
     howler_hid_report[4] = Input Value
     howler_hid_report[5] = Input Value2
@@ -27,6 +26,8 @@ import (
     howler_hid_report[7] = ACCEL_*_MAX_TRIG_ADDR);
     howler_hid_report[6] = 0x00;
     howler_hid_report[7] = 0x00;
+    howler_hid_report[8] = controlSet; //1 if set, 0xAF if not set
+
 */
 
 type Inputs int
@@ -969,47 +970,21 @@ func Modifier(modifier string) Modifiers {
 }
 
 
-func (howler *HowlerConfig) GetInput(input Inputs) (string, error) {
-  howler.waitGroup.Add(1)
+func (howler *HowlerConfig) GetInput(input Inputs) (error) {
+  var qry = []byte{HowlerID,0x04,byte(input),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
-  var qryData = []byte{HowlerID,0x04,byte(input),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+  data, err := howler.WriteWithResponse(qry)
+  fmt.Println(hex.Dump(data))
 
-  data := make([]byte, 24)
-  var readErr error;
-  go func() {
-    _, readErr = howler.in.Read(data)
-    howler.waitGroup.Done()
-  }()
-  if readErr != nil {
-    return "unknown", readErr
-  }
-
-  num, err := howler.out.Write(qryData)
-  if num != 24 {
-    return "unknown",
-      fmt.Errorf("%s.Write([24]): only %d bytes written, returned error is %v", howler.out, num, err)
-  }
-
-  howler.waitGroup.Wait()
-
-  fmt.Printf("Read:\n%s", hex.Dump(data))
-  //val := fmt.Sprintf("%d.%d", int(data[2]), int(data[3]))
-  return "unknown", nil
+  return err
 }
 
 func (howler *HowlerConfig) SetInput(input Inputs, mode Modes, key int, modifier Modifiers) (error) {
-  scope := 0x03;
-
-  var data = []byte{HowlerID,byte(scope),byte(input),byte(mode),byte(key),byte(modifier),
+  var stmt = []byte{HowlerID,0x03,byte(input),byte(mode),byte(key),byte(modifier),
                     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
+  data, err := howler.WriteWithResponse(stmt)
   fmt.Println(hex.Dump(data))
 
-  num, err := howler.out.Write(data)
-  if num != 24 {
-    return fmt.Errorf("%s.Write([24]): only %d bytes written, returned error is %v",
-      howler.out, num, err)
-  }
-
-  return nil
+  return err
 }
