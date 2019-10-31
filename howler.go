@@ -4,6 +4,9 @@ import (
   "fmt"
   "sync"
 
+  "time"
+  //"encoding/hex"
+
   "github.com/google/gousb"
   "github.com/google/gousb/usbid"
 )
@@ -21,6 +24,8 @@ const (
   vendor        = 0x03eb
   product       = 0x6800
   HowlerID      = 0xce
+
+  dataBytes     = 24
 )
 
 type HowlerConfig struct {
@@ -99,6 +104,9 @@ func OpenHowlerConfig(device int) (*HowlerConfig, error) {
     }
 
     outDesc, _ := intf.Setting.Endpoints[0x02]
+    // The following returns 8.. but not sure what this means. Wireshark shows
+    // 24 bytes, so that's what I've been using without issue!?
+    // fmt.Printf("MaxPacket: %d\n", outDesc.MaxPacketSize)
     if outDesc.Direction == gousb.EndpointDirectionOut {
       ep, err := intf.OutEndpoint(outDesc.Number)
 
@@ -110,6 +118,9 @@ func OpenHowlerConfig(device int) (*HowlerConfig, error) {
     }
 
     inDesc, _ := intf.Setting.Endpoints[0x81]
+    // The following returns 8.. but not sure what this means. Wireshark shows
+    // 24 bytes, so that's what I've been using without issue!?
+    // fmt.Printf("MaxPacket: %d\n", inDesc.MaxPacketSize)
     if inDesc.Direction == gousb.EndpointDirectionIn {
       ep, err := intf.InEndpoint(inDesc.Number)
 
@@ -124,4 +135,60 @@ func OpenHowlerConfig(device int) (*HowlerConfig, error) {
   }
 
   return nil, fmt.Errorf("Failed to obtain configuration for howler device");
+}
+
+
+func (howler *HowlerConfig) Write(data []byte) (error) {
+  //fmt.Println(hex.Dump(data))
+
+  num, err := howler.out.Write(data)
+  time.Sleep(time.Millisecond*250)
+  if num != dataBytes || err != nil {
+    return fmt.Errorf(
+      "%s.Write([%s]): %d bytes written, returned error is %v", 
+      dataBytes, howler.out, num, err)
+  }
+
+  return nil
+}
+
+func (howler *HowlerConfig) Read() ([]byte, error) {
+  data := make([]byte, dataBytes)
+
+  num, err := howler.in.Read(data)
+  //fmt.Println(hex.Dump(data))
+  if err != nil {
+    return nil, fmt.Errorf(
+      "%s.Read([%s]): %d bytes read, returned error is %v", 
+      dataBytes, howler.in, num, err)
+  }
+
+  //fmt.Println(hex.Dump(data))
+
+  return data, nil
+}
+
+func (howler *HowlerConfig) Query(input []byte) ([]byte, error) {
+  howler.waitGroup.Add(1)
+
+  var err error
+  data := make([]byte, dataBytes)
+
+  go func() {
+    data, err = howler.Read()
+
+    howler.waitGroup.Done()
+  }()
+  if err != nil {
+    return nil, err
+  }
+
+  err = howler.Write(input)
+  if err != nil {
+    return nil, err
+  }
+
+  howler.waitGroup.Wait()
+
+  return data, nil
 }
