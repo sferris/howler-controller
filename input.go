@@ -1,35 +1,5 @@
 package howler
 
-import (
-  "fmt"
-
-  "encoding/hex"
-)
-
-/*
-  CMD_SET_INPUT: 0x03
-  CMD_GET_INPUT: 0x04
-  Response:
-    howler_hid_report[0] = HowlerID;
-    howler_hid_report[1] = CMD_GET_INPUT || CMD_SET_INPUT
-    howler_hid_report[2] = Input Requested
-      1: JoyButton1
-         1-32
-      2: JoyButton2
-         1-32
-      3: Keyboard
-      4: Mouse (left = 1, right = 2, middle = 3)
-    howler_hid_report[3] = Input Type
-    howler_hid_report[4] = Input Value
-    howler_hid_report[5] = Input Value2
-    howler_hid_report[6] = ACCEL_*_MIN_TRIG_ADDR);
-    howler_hid_report[7] = ACCEL_*_MAX_TRIG_ADDR);
-    howler_hid_report[6] = 0x00;
-    howler_hid_report[7] = 0x00;
-    howler_hid_report[8] = controlSet; //1 if set, 0xAF if not set
-
-*/
-
 type Inputs int
 const (
   InputJoy1Up  Inputs = iota          // 0 (0x00)
@@ -970,21 +940,118 @@ func Modifier(modifier string) Modifiers {
 }
 
 
-func (howler *HowlerConfig) GetInput(input Inputs) (error) {
+/*
+  CMD_SET_INPUT: 0x03
+  CMD_GET_INPUT: 0x04
+  Response:
+    howler_hid_report[0] = HowlerID;
+    howler_hid_report[1] = CMD_GET_INPUT || CMD_SET_INPUT
+    howler_hid_report[2] = Input Requested
+      1: JoyButton1
+         1-32
+      2: JoyButton2
+         1-32
+      3: Keyboard
+      4: Mouse (left = 1, right = 2, middle = 3)
+    howler_hid_report[3] = Input Type
+    howler_hid_report[4] = Input Value
+    howler_hid_report[5] = Input Value2
+    howler_hid_report[6] = ACCEL_*_MIN_TRIG_ADDR);
+    howler_hid_report[7] = ACCEL_*_MAX_TRIG_ADDR);
+    howler_hid_report[6] = 0x00;
+    howler_hid_report[7] = 0x00;
+    howler_hid_report[8] = 1 if set -or- 0xaf if not set
+*/
+
+type HowlerInput struct {
+  howlerId, request   int
+  Input               Inputs
+  InputType           int
+  InputValue1         int
+  InputValue2         int
+
+  InputAccelMin       int
+  InputAccelMax       int
+
+  ControlSet          int
+}
+
+func (howler *HowlerConfig) GetInput(input Inputs) (HowlerInput, error) {
   var qry = []byte{HowlerID,0x04,byte(input),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
   data, err := howler.WriteWithResponse(qry)
-  fmt.Println(hex.Dump(data))
 
-  return err
+  result := HowlerInput{
+    howlerId:       int(data[0]),
+    request:        int(data[1]),
+                   
+    Input:          Inputs(data[2]),
+    InputType:      int(data[3]),
+    InputValue1:    int(data[4]),
+    InputValue2:    int(data[5]),
+                   
+    InputAccelMin:  int(data[6]),
+    InputAccelMax:  int(data[7]),
+                   
+    ControlSet:     int(data[8]),
+  }
+
+  return result, err
 }
 
-func (howler *HowlerConfig) SetInput(input Inputs, mode Modes, key int, modifier Modifiers) (error) {
+func (howler *HowlerConfig) SetInput(input Inputs, mode Modes, key int, 
+  modifier Modifiers) (HowlerInput, error) {
   var stmt = []byte{HowlerID,0x03,byte(input),byte(mode),byte(key),byte(modifier),
                     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
   data, err := howler.WriteWithResponse(stmt)
-  fmt.Println(hex.Dump(data))
 
-  return err
+  result := HowlerInput{
+    howlerId:       int(data[0]),
+    request:        int(data[1]),
+                   
+    Input:          Inputs(data[2]),
+    InputType:      int(data[3]),
+    InputValue1:    int(data[4]),
+    InputValue2:    int(data[5]),
+                   
+    InputAccelMin:  int(data[6]),
+    InputAccelMax:  int(data[7]),
+                   
+    ControlSet:     int(data[8]),
+  }
+
+  return result, err
+}
+
+/*
+  CMD_SET_DEFAULT: 0x05
+  Response:
+    howler_hid_report[0] = HOWLER_ID;
+    howler_hid_report[1] = CMD_SET_DEFAULT;
+    howler_hid_report[2] = 0x01;
+    howler_hid_report[3] = 0x00;
+    howler_hid_report[4] = 0x00;
+    howler_hid_report[5] = 0x00;
+    howler_hid_report[6] = 0x00;
+    howler_hid_report[7] = 0x00;
+*/
+
+type HowlerDefault struct {
+  howlerId, request, Response int
+}
+
+func (howler *HowlerConfig) ResetToDefaults() (HowlerDefault, error) {
+  var stmt = []byte{HowlerID,0x05,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+
+  data, err := howler.WriteWithResponse(stmt)
+
+  result := HowlerDefault{
+    howlerId:       int(data[0]),
+    request:        int(data[1]),
+                   
+    Response:       int(data[2]),
+  }
+
+  return result, err
 }

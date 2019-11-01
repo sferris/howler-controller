@@ -1,11 +1,5 @@
 package howler
 
-import (
-  "fmt"
-
-  "encoding/hex"
-)
-
 /*
   CMD_GET_FW_REV:
     [0] = HOWLER_ID: 0xCE
@@ -18,13 +12,14 @@ import (
     [7] = 0x00;
 */
 
-func (howler *HowlerConfig) GetFWRelease() (string, error) {
+type HowlerFirmware struct {
+  Minor, Major int
+}
+
+func (howler *HowlerConfig) GetFWRelease() (HowlerFirmware, error) {
   var qry = []byte{HowlerID,0xa0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
   data, err := howler.WriteWithResponse(qry)
-  fmt.Println(hex.Dump(data))
 
-  result := fmt.Sprintf("%d.%d", int(data[2]), int(data[3]))
-
-  return result, err
+  return HowlerFirmware{int(data[2]), int(data[3])}, err
 }

@@ -139,10 +139,8 @@ func OpenHowlerConfig(device int) (*HowlerConfig, error) {
 
 
 func (howler *HowlerConfig) Write(data []byte) (error) {
-  //fmt.Println(hex.Dump(data))
-
   num, err := howler.out.Write(data)
-  //time.Sleep(time.Millisecond*10)
+
   if num != dataBytes || err != nil {
     return fmt.Errorf(
       "%s.Write([%s]): %d bytes written, returned error is %v", 
@@ -156,14 +154,11 @@ func (howler *HowlerConfig) Read() ([]byte, error) {
   data := make([]byte, dataBytes)
 
   num, err := howler.in.Read(data)
-  //fmt.Println(hex.Dump(data))
   if err != nil {
     return nil, fmt.Errorf(
       "%s.Read([%s]): %d bytes read, returned error is %v", 
       dataBytes, howler.in, num, err)
   }
-
-  //fmt.Println(hex.Dump(data))
 
   return data, nil
 }
