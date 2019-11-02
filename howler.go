@@ -77,6 +77,7 @@ func OpenHowlerConfig(device int) (*HowlerConfig, error) {
       if err != nil {
         fmt.Println(err.Error());
       }
+      fmt.Println("Device Reset");
 
       err = d.Close()
       if err != nil {
