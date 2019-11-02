@@ -61,9 +61,13 @@ func (howler *HowlerConfig) setDefaultLEDRGB(button Buttons, scope byte, R, G, B
 }
 
 
+/*
+// I don't believe there an option for getting the default color
+
 func (howler *HowlerConfig) GetDefaultLEDColor(button Buttons) (HowlerLed, error) {
   return howler.getLEDColor(button, 0x07)
 }
+*/
 
 func (howler *HowlerConfig) GetLEDColor(button Buttons) (HowlerLed, error) {
   return howler.getLEDColor(button, 0x08)

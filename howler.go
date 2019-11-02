@@ -60,6 +60,7 @@ func DumpDevices() (error) {
       fmt.Printf(
         "%d: Bus %03d Device %03d: ID %s:%s %s %s\n",
           i, d.Desc.Bus, d.Desc.Address, d.Desc.Vendor, d.Desc.Product, usbid.Describe(d.Desc), product)
+      d.Reset()
       d.Close()
     }
   }()
@@ -69,6 +70,21 @@ func DumpDevices() (error) {
 
 func OpenHowlerConfig(device int) (*HowlerConfig, error) {
   devices, err := ctx.OpenDevices(filterHowler(product,vendor))
+
+  defer func() { 
+    for _, d := range devices {
+      err := d.Reset()
+      if err != nil {
+        fmt.Println(err.Error());
+      }
+
+      err = d.Close()
+      if err != nil {
+        fmt.Println(err.Error());
+      }
+      fmt.Println("Device closed");
+    }
+  }()
 
   if err != nil {
     return nil, fmt.Errorf("Failed to open device: %s", err.Error())
@@ -90,11 +106,22 @@ func OpenHowlerConfig(device int) (*HowlerConfig, error) {
       continue
     }
 
-    defer config.Close()
+    defer func() { 
+      err := config.Close()
+      if err != nil {
+        fmt.Println(err.Error());
+      }
+      fmt.Println("Config closed")
+    }()
 
     intf, err := config.Interface(0, 0)
     //intf, err := config.Interface(1, 0)
     //fmt.Printf("Endpoints: %d\n", len(intf.Setting.Endpoints))
+
+    defer func() { 
+      intf.Close()
+      fmt.Println("Interface closed")
+    }()
 
     howler := &HowlerConfig {
       context:      ctx,
@@ -125,7 +152,7 @@ func OpenHowlerConfig(device int) (*HowlerConfig, error) {
       ep, err := intf.InEndpoint(inDesc.Number)
 
       if err != nil {
-        return nil, fmt.Errorf("Failed to instantiate out endpoint: %s", err.Error())
+        return nil, fmt.Errorf("Failed to instantiate in endpoint: %s", err.Error())
       }
 
       howler.in = ep
@@ -137,6 +164,9 @@ func OpenHowlerConfig(device int) (*HowlerConfig, error) {
   return nil, fmt.Errorf("Failed to obtain configuration for howler device");
 }
 
+func (howler *HowlerConfig) Reset() (error) {
+  return howler.device.Reset()
+}
 
 func (howler *HowlerConfig) Write(data []byte) (error) {
   num, err := howler.out.Write(data)
