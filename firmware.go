@@ -1,5 +1,10 @@
 package howler
 
+import (
+  "fmt"
+  "encoding/hex"
+)
+
 /*
   CMD_GET_FW_REV:
     [0] = HOWLER_ID: 0xCE
@@ -13,13 +18,28 @@ package howler
 */
 
 type HowlerFirmware struct {
-  Minor, Major int
+  howlerId, request int
+  raw               []byte
+
+  Major, Minor int
+}
+
+func (accel *HowlerFirmware) Dump() {
+  fmt.Println(hex.Dump(accel.raw))
 }
 
 func (howler *HowlerConfig) GetFWRelease() (HowlerFirmware, error) {
   var qry = []byte{HowlerID,0xa0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
-  data, err := howler.WriteWithResponse(qry)
+  raw, err := howler.WriteWithResponse(qry)
+  result := HowlerFirmware{
+    howlerId:  int(raw[0]),
+    request:   int(raw[1]),
+    raw:       raw,
 
-  return HowlerFirmware{int(data[2]), int(data[3])}, err
+    Major:     int(raw[2]),
+    Minor:     int(raw[3]),
+  }
+
+  return result, err
 }

@@ -1,10 +1,9 @@
 package howler
 
-type HowlerAccel struct {
-  XAxis      int
-  YAxis      int
-  ZAxis      int
-}
+import (
+  "fmt"
+  "encoding/hex"
+)
 
 /*
   CMD_GET_ACCEL_DATA: 0XAC
@@ -19,10 +18,34 @@ type HowlerAccel struct {
     howler_hid_report[7] = 0x00;
 */
 
+type HowlerAccel struct {
+  howlerId, request int
+  raw               []byte
+
+   XAxis            int
+   YAxis            int
+   ZAxis            int
+}
+
+func (accel *HowlerAccel) Dump() {
+  fmt.Println(hex.Dump(accel.raw))
+}
+
 func (howler *HowlerConfig) ReadAccel() (HowlerAccel, error) {
   var qry = []byte{HowlerID,0xac,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
-  data, err := howler.WriteWithResponse(qry)
+  raw, err := howler.WriteWithResponse(qry)
 
-  return HowlerAccel{int(data[2]),int(data[3]),int(data[4])}, err
+  result := HowlerAccel{
+    howlerId:  int(raw[0]),
+    request:   int(raw[1]),
+    raw:       raw,
+
+    XAxis:     int(raw[2]),
+    YAxis:     int(raw[3]),
+    ZAxis:     int(raw[4]),
+  }
+
+  return result, err
 }
+

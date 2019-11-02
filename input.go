@@ -1,5 +1,10 @@
 package howler
 
+import (
+  "fmt"
+  "encoding/hex"
+)
+
 type Inputs int
 const (
   InputJoy1Up  Inputs = iota          // 0 (0x00)
@@ -409,6 +414,11 @@ const (
   KeyKp8                            // 96 (0x60)
   KeyKp9                            // 97 (0x61)
   KeyKp0                            // 98 (0x62)
+)
+
+const (
+  MouseButton1 Keys = 1 + iota
+  MouseButton2
 )
 
 const KeyNone = 0
@@ -965,6 +975,8 @@ func Modifier(modifier string) Modifiers {
 
 type HowlerInput struct {
   howlerId, request   int
+  raw                 []byte
+
   Input               Inputs
   InputType           int
   InputValue1         int
@@ -976,49 +988,54 @@ type HowlerInput struct {
   ControlSet          int
 }
 
+func (input *HowlerInput) Dump() {
+  fmt.Println(hex.Dump(input.raw))
+}
+
 func (howler *HowlerConfig) GetInput(input Inputs) (HowlerInput, error) {
   var qry = []byte{HowlerID,0x04,byte(input),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
-  data, err := howler.WriteWithResponse(qry)
+  raw, err := howler.WriteWithResponse(qry)
 
   result := HowlerInput{
-    howlerId:       int(data[0]),
-    request:        int(data[1]),
+    howlerId:       int(raw[0]),
+    request:        int(raw[1]),
+    raw:            raw,
                    
-    Input:          Inputs(data[2]),
-    InputType:      int(data[3]),
-    InputValue1:    int(data[4]),
-    InputValue2:    int(data[5]),
+    Input:          Inputs(raw[2]),
+    InputType:      int(raw[3]),
+    InputValue1:    int(raw[4]),
+    InputValue2:    int(raw[5]),
                    
-    InputAccelMin:  int(data[6]),
-    InputAccelMax:  int(data[7]),
+    InputAccelMin:  int(raw[6]),
+    InputAccelMax:  int(raw[7]),
                    
-    ControlSet:     int(data[8]),
+    ControlSet:     int(raw[8]),
   }
 
   return result, err
 }
 
-func (howler *HowlerConfig) SetInput(input Inputs, mode Modes, key int, 
+func (howler *HowlerConfig) SetInput(input Inputs, mode Modes, key Keys, 
   modifier Modifiers) (HowlerInput, error) {
   var stmt = []byte{HowlerID,0x03,byte(input),byte(mode),byte(key),byte(modifier),
                     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
-  data, err := howler.WriteWithResponse(stmt)
+  raw, err := howler.WriteWithResponse(stmt)
 
   result := HowlerInput{
-    howlerId:       int(data[0]),
-    request:        int(data[1]),
+    howlerId:       int(raw[0]),
+    request:        int(raw[1]),
                    
-    Input:          Inputs(data[2]),
-    InputType:      int(data[3]),
-    InputValue1:    int(data[4]),
-    InputValue2:    int(data[5]),
+    Input:          Inputs(raw[2]),
+    InputType:      int(raw[3]),
+    InputValue1:    int(raw[4]),
+    InputValue2:    int(raw[5]),
                    
-    InputAccelMin:  int(data[6]),
-    InputAccelMax:  int(data[7]),
+    InputAccelMin:  int(raw[6]),
+    InputAccelMax:  int(raw[7]),
                    
-    ControlSet:     int(data[8]),
+    ControlSet:     int(raw[8]),
   }
 
   return result, err
@@ -1037,20 +1054,28 @@ func (howler *HowlerConfig) SetInput(input Inputs, mode Modes, key int,
     howler_hid_report[7] = 0x00;
 */
 
-type HowlerDefault struct {
-  howlerId, request, Response int
+type HowlerReset struct {
+  howlerId, request int
+  raw               []byte
+
+  Response          int
 }
 
-func (howler *HowlerConfig) ResetToDefaults() (HowlerDefault, error) {
+func (input *HowlerReset) Dump() {
+  fmt.Println(hex.Dump(input.raw))
+}
+
+func (howler *HowlerConfig) ResetToDefaults() (HowlerReset, error) {
   var stmt = []byte{HowlerID,0x05,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
-  data, err := howler.WriteWithResponse(stmt)
+  raw, err := howler.WriteWithResponse(stmt)
 
-  result := HowlerDefault{
-    howlerId:       int(data[0]),
-    request:        int(data[1]),
+  result := HowlerReset{
+    howlerId:       int(raw[0]),
+    request:        int(raw[1]),
+    raw:            raw,
                    
-    Response:       int(data[2]),
+    Response:       int(raw[2]),
   }
 
   return result, err
