@@ -1,6 +1,7 @@
 package howler
 
 import (
+  "log"
   "fmt"
   "sync"
 
@@ -28,15 +29,17 @@ const (
   dataBytes     = 24
 )
 
-type HowlerConfig struct {
-  context    *gousb.Context
-  device     *gousb.Device
-  intf       *gousb.Interface
+type HowlerDevice struct {
+  context       *gousb.Context
+  device        *gousb.Device
+  config        *gousb.Config
+  interfaces  []*gousb.Interface
             
-  in         *gousb.InEndpoint
-  out        *gousb.OutEndpoint
+  in            *gousb.InEndpoint
+  out           *gousb.OutEndpoint
+
             
-  waitGroup  *sync.WaitGroup
+  waitGroup     *sync.WaitGroup
 }
 
 var ctx = gousb.NewContext()
@@ -68,108 +71,91 @@ func DumpDevices() (error) {
   return nil
 }
 
-func OpenHowlerConfig(device int) (*HowlerConfig, error) {
+func OpenDevice(device int) (*HowlerDevice, error) {
   devices, err := ctx.OpenDevices(filterHowler(product,vendor))
 
-  defer func() { 
-    for _, d := range devices {
-      err := d.Reset()
-      if err != nil {
-        fmt.Println(err.Error());
-      }
-      fmt.Println("Device Reset");
-
-      err = d.Close()
-      if err != nil {
-        fmt.Println(err.Error());
-      }
-      fmt.Println("Device closed");
-    }
-  }()
-
   if err != nil {
-    return nil, fmt.Errorf("Failed to open device: %s", err.Error())
+    return nil, err
   }
 
-  //fmt.Printf("len: %d, dev: %d\n", len(devices), device)
   if len(devices) < 1 || device >= len(devices) {
-    return nil, fmt.Errorf("No howler devices found")
+    return nil, fmt.Errorf("Howler device not found")
   }
 
   if err := devices[device].SetAutoDetach(true); err != nil {
-    return nil, fmt.Errorf("Failed to set auto kernel detach: %s", err.Error())
+    return nil, err
   }
 
-  for num := range devices[device].Desc.Configs {
-    config, err := devices[device].Config(num)
+  config, err := devices[device].Config(1)
+  if err != nil {
+    return nil, err
+  }
 
+  howler := &HowlerDevice {
+    context:      ctx,
+    device:       devices[device],
+    config:       config,
+    interfaces:   make([]*gousb.Interface, len(config.Desc.Interfaces)),
+
+    waitGroup:    &sync.WaitGroup{},
+  }
+
+  // Claim all interfaces so that when we're done, they're all released 
+  // properly. (Or else the OS doesn't reclaim them)
+  for n, desc := range config.Desc.Interfaces {
+    iface, err := config.Interface(desc.Number, 0)
+    howler.interfaces[n] = iface
     if err != nil {
-      continue
+      log.Printf("Error claiming interface: %s\n", err.Error())
     }
-
-    defer func() { 
-      err := config.Close()
-      if err != nil {
-        fmt.Println(err.Error());
-      }
-      fmt.Println("Config closed")
-    }()
-
-    intf, err := config.Interface(0, 0)
-    //intf, err := config.Interface(1, 0)
-    //fmt.Printf("Endpoints: %d\n", len(intf.Setting.Endpoints))
-
-    defer func() { 
-      intf.Close()
-      fmt.Println("Interface closed")
-    }()
-
-    howler := &HowlerConfig {
-      context:      ctx,
-      device:       devices[device],
-      intf:         intf,
-      waitGroup:    &sync.WaitGroup{},
-    }
-
-    outDesc, _ := intf.Setting.Endpoints[0x02]
-    // The following returns 8.. but not sure what this means. Wireshark shows
-    // 24 bytes, so that's what I've been using without issue!?
-    // fmt.Printf("MaxPacket: %d\n", outDesc.MaxPacketSize)
-    if outDesc.Direction == gousb.EndpointDirectionOut {
-      ep, err := intf.OutEndpoint(outDesc.Number)
-
-      if err != nil {
-        return nil, fmt.Errorf("Failed to instantiate out endpoint: %s", err.Error())
-      }
-
-      howler.out = ep
-    }
-
-    inDesc, _ := intf.Setting.Endpoints[0x81]
-    // The following returns 8.. but not sure what this means. Wireshark shows
-    // 24 bytes, so that's what I've been using without issue!?
-    // fmt.Printf("MaxPacket: %d\n", inDesc.MaxPacketSize)
-    if inDesc.Direction == gousb.EndpointDirectionIn {
-      ep, err := intf.InEndpoint(inDesc.Number)
-
-      if err != nil {
-        return nil, fmt.Errorf("Failed to instantiate in endpoint: %s", err.Error())
-      }
-
-      howler.in = ep
-    }
-
-    return howler, nil
   }
 
-  return nil, fmt.Errorf("Failed to obtain configuration for howler device");
+  // Config interface
+  iface := howler.interfaces[0]
+
+  outDesc, _ := iface.Setting.Endpoints[0x02]
+  // MaxPacketSize returns 8.. but not sure what this means. Wireshark shows
+  // 24 bytes, so that's what I've been using without issue. io.Read/Write might
+  // be splitting/merging streams automatically!?!
+  //
+  // fmt.Printf("MaxPacket: %d\n", outDesc.MaxPacketSize)
+
+  if outDesc.Direction == gousb.EndpointDirectionOut {
+    ep, err := iface.OutEndpoint(outDesc.Number)
+    if err != nil {
+      return nil, err;
+    }
+
+    howler.out = ep
+  }
+
+  inDesc, _ := iface.Setting.Endpoints[0x81]
+  if inDesc.Direction == gousb.EndpointDirectionIn {
+    ep, err := iface.InEndpoint(inDesc.Number)
+    if err != nil {
+      return nil, err;
+    }
+
+    howler.in = ep
+  }
+
+  return howler, nil
 }
 
-func (howler *HowlerConfig) Reset() (error) {
-  return howler.device.Reset()
+func (howler *HowlerDevice) Close() {
+  // Close all interfaces
+  for _, iface := range howler.interfaces {
+    iface.Close()
+  }
+
+  // Close config
+  howler.config.Close()
+
+  // Close device
+  howler.device.Close()
 }
 
-func (howler *HowlerConfig) Write(data []byte) (error) {
+func (howler *HowlerDevice) Write(data []byte) (error) {
   num, err := howler.out.Write(data)
 
   if num != dataBytes || err != nil {
@@ -181,27 +167,27 @@ func (howler *HowlerConfig) Write(data []byte) (error) {
   return nil
 }
 
-func (howler *HowlerConfig) Read() ([]byte, error) {
-  data := make([]byte, dataBytes)
+func (howler *HowlerDevice) Read() ([]byte, error) {
+  result := make([]byte, dataBytes)
 
-  num, err := howler.in.Read(data)
+  num, err := howler.in.Read(result)
   if err != nil {
     return nil, fmt.Errorf(
       "%s.Read([%s]): %d bytes read, returned error is %v", 
       dataBytes, howler.in, num, err)
   }
 
-  return data, nil
+  return result, nil
 }
 
-func (howler *HowlerConfig) WriteWithResponse(input []byte) ([]byte, error) {
+func (howler *HowlerDevice) WriteWithResponse(input []byte) ([]byte, error) {
   howler.waitGroup.Add(1)
 
   var err error
-  data := make([]byte, dataBytes)
+  result := make([]byte, dataBytes)
 
   go func() {
-    data, err = howler.Read()
+    result, err = howler.Read()
 
     howler.waitGroup.Done()
   }()
@@ -216,5 +202,5 @@ func (howler *HowlerConfig) WriteWithResponse(input []byte) ([]byte, error) {
 
   howler.waitGroup.Wait()
 
-  return data, nil
+  return result, nil
 }

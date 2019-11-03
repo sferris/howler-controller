@@ -12,11 +12,15 @@ type HowlerLed struct {
   R, G, B           int
 }
 
-func (accel *HowlerLed) Dump() {
-  fmt.Println(hex.Dump(accel.raw))
+func (led *HowlerLed) Dump() {
+  fmt.Println(hex.Dump(led.raw))
 }
 
-func (howler *HowlerConfig) getLEDColor(button Buttons, scope byte) (HowlerLed, error) {
+func (led *HowlerLed) String() (string) {
+  return fmt.Sprintf("Red: %d, Green: %d, Blue: %d", led.R, led.G, led.B)
+}
+
+func (howler *HowlerDevice) getLEDColor(button Buttons, scope byte) (HowlerLed, error) {
   var qry = []byte{HowlerID,scope,byte(button),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
   raw, err := howler.WriteWithResponse(qry)
@@ -34,7 +38,7 @@ func (howler *HowlerConfig) getLEDColor(button Buttons, scope byte) (HowlerLed, 
   return result, err
 }
 
-func (howler *HowlerConfig) setLEDRGB(button Buttons, scope byte, R, G, B int) (error) {
+func (howler *HowlerDevice) setLEDRGB(button Buttons, scope byte, R, G, B int) (error) {
   var raw = []byte{HowlerID,scope,byte(button),byte(R),byte(G),byte(B),
                     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
@@ -42,7 +46,7 @@ func (howler *HowlerConfig) setLEDRGB(button Buttons, scope byte, R, G, B int) (
   return err
 }
 
-func (howler *HowlerConfig) setDefaultLEDRGB(button Buttons, scope byte, R, G, B int) (HowlerLed, error) {
+func (howler *HowlerDevice) setDefaultLEDRGB(button Buttons, scope byte, R, G, B int) (HowlerLed, error) {
   var qry = []byte{HowlerID,scope,byte(button),byte(R),byte(G),byte(B),
                     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
@@ -61,31 +65,23 @@ func (howler *HowlerConfig) setDefaultLEDRGB(button Buttons, scope byte, R, G, B
 }
 
 
-/*
-// I don't believe there an option for getting the default color
-
-func (howler *HowlerConfig) GetDefaultLEDColor(button Buttons) (HowlerLed, error) {
-  return howler.getLEDColor(button, 0x07)
-}
-*/
-
-func (howler *HowlerConfig) GetLEDColor(button Buttons) (HowlerLed, error) {
+func (howler *HowlerDevice) GetLEDColor(button Buttons) (HowlerLed, error) {
   return howler.getLEDColor(button, 0x08)
 }
 
 
-func (howler *HowlerConfig) SetLEDRGB(button Buttons, R, G, B int) (error) {
+func (howler *HowlerDevice) SetLEDRGB(button Buttons, R, G, B int) (error) {
   return howler.setLEDRGB(button, 0x01, R, G, B)
 }
-func (howler *HowlerConfig) SetLEDColor(button Buttons, color string) (error) {
+func (howler *HowlerDevice) SetLEDColor(button Buttons, color string) (error) {
   var c = colorLookup(color)
   return howler.setLEDRGB(button, 0x01, c.R, c.G, c.B)
 }
 
-func (howler *HowlerConfig) SetDefaultLEDRGB(button Buttons, R, G, B int) (HowlerLed, error) {
+func (howler *HowlerDevice) SetDefaultLEDRGB(button Buttons, R, G, B int) (HowlerLed, error) {
   return howler.setDefaultLEDRGB(button, 0x07, R, G, B)
 }
-func (howler *HowlerConfig) SetDefaultLEDColor(button Buttons, color string) (HowlerLed, error) {
+func (howler *HowlerDevice) SetDefaultLEDColor(button Buttons, color string) (HowlerLed, error) {
   var c = colorLookup(color)
   return howler.setDefaultLEDRGB(button, 0x07, c.R, c.G, c.B)
 }
