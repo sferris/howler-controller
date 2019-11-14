@@ -700,34 +700,42 @@ func Modifier(modifier string) (Modifiers,bool) {
       return ModifierNone, true
 
     case  "leftcontrol": fallthrough
+    case  "left-control": fallthrough
     case  "modifierleftcontrol":      
       return ModifierLeftControl, true
 
     case  "leftshift": fallthrough
+    case  "left-shift": fallthrough
     case  "modifierleftshift":      
       return ModifierLeftShift, true
 
     case  "leftalt": fallthrough
+    case  "left-alt": fallthrough
     case  "modifierleftalt":      
       return ModifierLeftAlt, true
 
     case  "leftui": fallthrough
+    case  "left-ui": fallthrough
     case  "modifierleftui":      
       return ModifierLeftUI, true
 
     case  "rightcontrol": fallthrough
+    case  "right-control": fallthrough
     case  "modifierrightcontrol":      
       return ModifierRightControl, true
 
     case  "rightshift": fallthrough
+    case  "right-shift": fallthrough
     case  "modifierrightshift":      
       return ModifierRightShift, true
 
     case  "rightalt": fallthrough
+    case  "right-alt": fallthrough
     case  "modifierrightalt":      
       return ModifierRightAlt, true
 
     case  "rightui": fallthrough
+    case  "right-ui": fallthrough
     case  "modifierrightui":      
       return ModifierRightUI, true
   }
