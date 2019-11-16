@@ -19,7 +19,7 @@ var ColorMap = map[string]RGBStruct{
   "green":      RGBStruct{  0, 255,   0},
   "orange":     RGBStruct{255, 140,   0},
   "pink":       RGBStruct{255,  20, 147},
-  "purple":     RGBStruct{128,   0,   0},
+  "purple":     RGBStruct{128,   0, 128},
   "red":        RGBStruct{255,   0,   0},
   "teal":       RGBStruct{  0, 128, 128},
   "yellow":     RGBStruct{255, 255,   0},
