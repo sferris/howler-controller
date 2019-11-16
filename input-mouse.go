@@ -1,33 +1,27 @@
 package howler
 
-import (
-  "strings"
-)
+func (howler *HowlerDevice) SetInputMouse(input Inputs, button MouseButtons) (HowlerInput, error) {
 
-const (
-  MouseLeft   InputValues = 1 + iota  // 1 (0x01)
-  MouseRight                          // 2 (0x02)
-  MouseMiddle                         // 3 (0x03)
-)
+  var stmt = []byte{HowlerID,0x03,byte(input),byte(TypeMouse),byte(button),byte(ModifierNone),
+                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
-func MouseButton(button string) (InputValues,bool) {
-  switch strings.ToLower(button) {
-    // 1 (0x01)
-    case "left": fallthrough
-    case "mouseleft":
-      return MouseLeft, true
+  raw, err := howler.WriteWithResponse(stmt)
 
-    // 2 (0x02)
-    case "right": fallthrough
-    case "mouseright":
-      return MouseRight, true
+  result := HowlerInput{
+    howlerId:       int(raw[0]),
+    request:        int(raw[1]),
 
-    // 3 (0x03)
-    case "middle": fallthrough
-    case "mousemiddle":
-      return MouseMiddle, true
+    Input:          Inputs(raw[2]),
+    InputType:      int(raw[3]),
+    InputValue1:    int(raw[4]),
+    InputValue2:    int(raw[5]),
+
+    InputAccelMin:  int(raw[6]),
+    InputAccelMax:  int(raw[7]),
+
+    ControlSet:     int(raw[8]),
   }
 
-  return 0, false
+  return result, err
 }
 
