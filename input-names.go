@@ -8,7 +8,7 @@ type Inputs int
 
 const (
   InputMin       Inputs = 0
-  InputJoy1Up    Inputs = iota        // 0 (0x00)
+  InputJoy1Up    Inputs = iota -1     // 0 (0x00)
   InputJoy1Down                       // 1 (0x01)
   InputJoy1Left                       // 2 (0x02)
   InputJoy1Right                      // 3 (0x03)
@@ -56,7 +56,63 @@ const (
   InputMax
 )
 
-func Input(input string) (Inputs,bool) {
+var InputNames = [...]string {
+  "Joy1Up",
+  "Joy1Down",
+  "Joy1Left",
+  "Joy1Right",
+  "Joy2Up",
+  "Joy2Down",
+  "Joy2Left",
+  "Joy2Right",
+  "Joy3Up",
+  "Joy3Down",
+  "Joy3Left",
+  "Joy3Right",
+  "Joy4Up",
+  "Joy4Down",
+  "Joy4Left",
+  "Joy4Right",
+  "Button1",
+  "Button2",
+  "Button3",
+  "Button4",
+  "Button5",
+  "Button6",
+  "Button7",
+  "Button8",
+  "Button9",
+  "Button10",
+  "Button11",
+  "Button12",
+  "Button13",
+  "Button14",
+  "Button15",
+  "Button16",
+  "Button17",
+  "Button18",
+  "Button19",
+  "Button20",
+  "Button21",
+  "Button22",
+  "Button23",
+  "Button24",
+  "Button25",
+  "Button26",
+  "XAxis",
+  "YAxis",
+  "ZAxis",
+}
+
+func (input Inputs) String() string {
+  if input < InputMin || input > InputMax {
+    return "Unknown"
+  }
+
+  return InputNames[input]
+}
+
+func ToInput(input string) (Inputs,bool) {
   switch strings.ToLower(input) {
     // 0 (0x00)
     case "0": fallthrough

@@ -10,10 +10,11 @@ import (
 
 type Modifiers int
 
+const ModifierNone Modifiers = 0
+
 const (
   ModifierMin           Modifiers = 0
-  ModifierNone          Modifiers = 0 << iota
-  ModifierLeftControl
+  ModifierLeftControl   Modifiers = 1 << iota -2
   ModifierLeftShift
   ModifierLeftAlt
   ModifierLeftUI
@@ -36,6 +37,8 @@ var ModifierNames = [...]string {
   "Right-UI",
 }
 
+/*
+// This won't work because of the enum is left shifted
 func (mod Modifiers) String() string {
   if mod < ModifierMin || mod > ModifierMax {
     return "Unknown"
@@ -43,53 +46,54 @@ func (mod Modifiers) String() string {
 
   return ModifierNames[mod]
 }
+*/
 
-func ToModifier(modifier string) (Modifiers,bool) {
+func ToModifier(modifier string) (Modifiers) {
   switch strings.ToLower(modifier) {
     case  "none": fallthrough
     case  "modifiernone":      
-      return ModifierNone, true
+      return ModifierNone
 
     case  "leftcontrol": fallthrough
     case  "left-control": fallthrough
     case  "modifierleftcontrol":      
-      return ModifierLeftControl, true
+      return ModifierLeftControl
 
     case  "leftshift": fallthrough
     case  "left-shift": fallthrough
     case  "modifierleftshift":      
-      return ModifierLeftShift, true
+      return ModifierLeftShift
 
     case  "leftalt": fallthrough
     case  "left-alt": fallthrough
     case  "modifierleftalt":      
-      return ModifierLeftAlt, true
+      return ModifierLeftAlt
 
     case  "leftui": fallthrough
     case  "left-ui": fallthrough
     case  "modifierleftui":      
-      return ModifierLeftUI, true
+      return ModifierLeftUI
 
     case  "rightcontrol": fallthrough
     case  "right-control": fallthrough
     case  "modifierrightcontrol":      
-      return ModifierRightControl, true
+      return ModifierRightControl
 
     case  "rightshift": fallthrough
     case  "right-shift": fallthrough
     case  "modifierrightshift":      
-      return ModifierRightShift, true
+      return ModifierRightShift
 
     case  "rightalt": fallthrough
     case  "right-alt": fallthrough
     case  "modifierrightalt":      
-      return ModifierRightAlt, true
+      return ModifierRightAlt
 
     case  "rightui": fallthrough
     case  "right-ui": fallthrough
     case  "modifierrightui":      
-      return ModifierRightUI, true
+      return ModifierRightUI
   }
 
-  return 0, false
+  return -1
 }

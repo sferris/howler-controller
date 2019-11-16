@@ -11,8 +11,8 @@ import (
 type InputTypes int
 
 const (
-  TypeMin         InputTypes = 0
-  TypeJoystick1   InputTypes = iota
+  TypeMin         InputTypes = iota
+  TypeJoystick1
   TypeJoystick2
   TypeKeyboard
   TypeMouse

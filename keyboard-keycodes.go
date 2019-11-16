@@ -11,8 +11,8 @@ type Keys byte
 
 const (
   KeyNone        Keys = 0
-  KeyMin         Keys = 3 + iota 
-  KeyA                              // 4 (0x04)
+  KeyMin         Keys = 4
+  KeyA           Keys = 2 + iota    // 4 (0x04)
   KeyB                              // 5 (0x05)
   KeyC                              // 6 (0x06)
   KeyD                              // 7 (0x07)
