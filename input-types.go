@@ -20,10 +20,11 @@ const (
 )
 
 var InputTypeNames = [...]string {
-  "TypeJoystick1",
-  "TypeJoystick2",
-  "TypeKeyboard",
-  "TypeMouse",
+  "Unknown",
+  "Joystick1",
+  "Joystick2",
+  "Keyboard",
+  "Mouse",
 }
 
 func (inputType InputTypes) String() string {

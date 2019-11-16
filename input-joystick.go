@@ -4,13 +4,13 @@ import (
   "fmt"
 )
 
-func (howler *HowlerDevice) SetInputJoystick(input Inputs, joystick InputTypes, value JoystickButtons) (HowlerInput, error) {
+func (howler *HowlerDevice) SetInputJoystick(input Inputs, joystick InputTypes, button JoystickButtons) (HowlerInput, error) {
 
-  if joystick != TypeJoystick1 || joystick != TypeJoystick2 {
+  if joystick != TypeJoystick1 && joystick != TypeJoystick2 {
     return HowlerInput{}, fmt.Errorf("Invalid joystick reference: %s", joystick)
   }
 
-  var stmt = []byte{HowlerID,0x03,byte(input),byte(joystick),byte(value),byte(ModifierNone),
+  var stmt = []byte{HowlerID,0x03,byte(input),byte(joystick),byte(button),byte(ModifierNone),
                     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
   raw, err := howler.WriteWithResponse(stmt)
