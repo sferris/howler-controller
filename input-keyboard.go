@@ -1,21 +1,11 @@
 package howler
 
-import (
-  "fmt"
-  "encoding/hex"
-)
-
 func (howler *HowlerDevice) SetInputKeyboard(input Inputs, key Keys, modifier Modifiers) (HowlerInput, error) {
 
   var stmt = []byte{HowlerID,0x03,byte(input),byte(TypeKeyboard),byte(key),byte(modifier),
                     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
-  fmt.Println( hex.Dump(stmt) )
-
   raw, err := howler.WriteWithResponse(stmt)
-  if err != nil {
-    return HowlerInput{}, err;
-  }
 
   result := HowlerInput{
     howlerId:       int(raw[0]),
