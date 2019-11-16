@@ -35,16 +35,19 @@ func (mouse MouseButtons) String() string {
 func ToMouseButton(button string) (MouseButtons,bool) {
   switch strings.ToLower(button) {
     // 1 (0x01)
+    case "1": fallthrough
     case "left": fallthrough
     case "mouseleft":
       return MouseLeft, true
 
     // 2 (0x02)
+    case "2": fallthrough
     case "right": fallthrough
     case "mouseright":
       return MouseRight, true
 
     // 3 (0x03)
+    case "3": fallthrough
     case "middle": fallthrough
     case "mousemiddle":
       return MouseMiddle, true
