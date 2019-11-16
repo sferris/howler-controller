@@ -41,6 +41,8 @@ const (
   LedButton24                    // 27 (0x1b)
   LedButton25                    // 28 (0x1c)
   LedButton26                    // 29 (0x1d)
+  LedHP1                         // 30 (0x1e)
+  LedHP2                         // 31 (0x1f)
   LedMax
 )
 
@@ -195,6 +197,16 @@ func Led(led string) (Leds, bool) {
     case "button26": fallthrough
     case "ledbutton26":
       return LedButton26, true
+
+    case "30": fallthrough
+    case "hp1": fallthrough
+    case "ledhp1":
+      return LedHP1, true
+
+    case "31": fallthrough
+    case "hp2": fallthrough
+    case "ledhp2":
+      return LedHP2, true
   }
 
   return -1, false
