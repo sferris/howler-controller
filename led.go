@@ -14,14 +14,6 @@ type HowlerLed struct {
   Red, Green, Blue  int
 }
 
-func (led *HowlerLed) Dump() string {
-  return hex.Dump(led.raw)
-}
-
-func (led *HowlerLed) String() string {
-  return fmt.Sprintf("Red: %d, Green: %d, Blue: %d", led.Red, led.Green, led.Blue)
-}
-
 func (howler *HowlerDevice) getLEDColor(led LedInputs, scope byte) (HowlerLed, error) {
   var qry = []byte{HowlerID,scope,byte(led),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
@@ -94,6 +86,14 @@ func (howler *HowlerDevice) SetDefaultLEDColor(led LedInputs, value string) (How
   return HowlerLed{}, fmt.Errorf("Invalid color: %s\n", value)
 }
 
+// String options
+
+func (led *HowlerLed) Dump() string {
+  return hex.Dump(led.raw)
+}
+func (led *HowlerLed) String() string {
+  return fmt.Sprintf("Red: %d, Green: %d, Blue: %d", led.Red, led.Green, led.Blue)
+}
 func (led *HowlerLed) ToIntString() (string) {
   return fmt.Sprintf("%03d %03d %03d", led.Red, led.Green, led.Blue)
 }
