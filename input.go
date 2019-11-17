@@ -23,6 +23,9 @@ type HowlerInput struct {
 func (input *HowlerInput) Dump() {
   fmt.Println(hex.Dump(input.raw))
 }
+func (input *HowlerInput) String() string {
+  return fmt.Sprintf("%s", input.InputType)
+}
 
 func (howler *HowlerDevice) GetInput(input Inputs) (HowlerInput, error) {
   var qry = []byte{HowlerID,0x04,byte(input),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
