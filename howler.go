@@ -104,10 +104,15 @@ func OpenDevice(device int) (*HowlerDevice, error) {
   // properly. (Or else the OS doesn't reclaim them)
   for n, desc := range config.Desc.Interfaces {
     iface, err := config.Interface(desc.Number, 0)
-    howler.interfaces[n] = iface
     if err != nil {
       log.Printf("Error claiming interface: %s\n", err.Error())
+    } else {
+      howler.interfaces[n] = iface
     }
+  }
+
+  if howler.interfaces[0] == nil {
+    return nil, fmt.Errorf("Failed to claim howler config interface\n");
   }
 
   // Config interface
