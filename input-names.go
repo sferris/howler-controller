@@ -56,335 +56,335 @@ const (
   InputMax
 )
 
-var InputNames = [...]string {
-  "Joy1Up",
-  "Joy1Down",
-  "Joy1Left",
-  "Joy1Right",
-  "Joy2Up",
-  "Joy2Down",
-  "Joy2Left",
-  "Joy2Right",
-  "Joy3Up",
-  "Joy3Down",
-  "Joy3Left",
-  "Joy3Right",
-  "Joy4Up",
-  "Joy4Down",
-  "Joy4Left",
-  "Joy4Right",
-  "Button1",
-  "Button2",
-  "Button3",
-  "Button4",
-  "Button5",
-  "Button6",
-  "Button7",
-  "Button8",
-  "Button9",
-  "Button10",
-  "Button11",
-  "Button12",
-  "Button13",
-  "Button14",
-  "Button15",
-  "Button16",
-  "Button17",
-  "Button18",
-  "Button19",
-  "Button20",
-  "Button21",
-  "Button22",
-  "Button23",
-  "Button24",
-  "Button25",
-  "Button26",
-  "XAxis",
-  "YAxis",
-  "ZAxis",
+var InputNames = map[Inputs]string {
+  InputJoy1Up:         "Joy1Up",
+  InputJoy1Down:       "Joy1Down",
+  InputJoy1Left:       "Joy1Left",
+  InputJoy1Right:      "Joy1Right",
+  InputJoy2Up:         "Joy2Up",
+  InputJoy2Down:       "Joy2Down",
+  InputJoy2Left:       "Joy2Left",
+  InputJoy2Right:      "Joy2Right",
+  InputJoy3Up:         "Joy3Up",
+  InputJoy3Down:       "Joy3Down",
+  InputJoy3Left:       "Joy3Left",
+  InputJoy3Right:      "Joy3Right",
+  InputJoy4Up:         "Joy4Up",
+  InputJoy4Down:       "Joy4Down",
+  InputJoy4Left:       "Joy4Left",
+  InputJoy4Right:      "Joy4Right",
+  InputButton1:        "Button1",
+  InputButton2:        "Button2",
+  InputButton3:        "Button3",
+  InputButton4:        "Button4",
+  InputButton5:        "Button5",
+  InputButton6:        "Button6",
+  InputButton7:        "Button7",
+  InputButton8:        "Button8",
+  InputButton9:        "Button9",
+  InputButton10:       "Button10",
+  InputButton11:       "Button11",
+  InputButton12:       "Button12",
+  InputButton13:       "Button13",
+  InputButton14:       "Button14",
+  InputButton15:       "Button15",
+  InputButton16:       "Button16",
+  InputButton17:       "Button17",
+  InputButton18:       "Button18",
+  InputButton19:       "Button19",
+  InputButton20:       "Button20",
+  InputButton21:       "Button21",
+  InputButton22:       "Button22",
+  InputButton23:       "Button23",
+  InputButton24:       "Button24",
+  InputButton25:       "Button25",
+  InputButton26:       "Button26",
+  InputXAxis:          "XAxis",
+  InputYAxis:          "YAxis",
+  InputZAxis:          "ZAxis",
 }
 
 func (input Inputs) String() string {
-  if input < InputMin || input > InputMax {
-    return "Unknown"
+  if value, ok := InputNames[input]; ok {
+    return value
   }
 
-  return InputNames[input]
+  return "Unknown"
 }
 
-func ToInput(input string) (Inputs,bool) {
+func ToInput(input string) Inputs {
   switch strings.ToLower(input) {
     // 0 (0x00)
     case "0": fallthrough
     case "joy1up": fallthrough
     case "inputjoy1up":
-      return InputJoy1Up, true
+      return InputJoy1Up
 
     // 1 (0x01)
     case "1": fallthrough
     case "joy1down": fallthrough
     case "inputjoy1down":
-      return InputJoy1Down, true
+      return InputJoy1Down
 
     // 2 (0x02)
     case "2": fallthrough
     case "joy1left": fallthrough
     case "inputjoy1left":
-      return InputJoy1Left, true
+      return InputJoy1Left
 
     // 3 (0x03)
     case "3": fallthrough
     case "joy1right": fallthrough
     case "inputjoy1right":
-      return InputJoy1Right, true
+      return InputJoy1Right
 
     // 4 (0x04)
     case "4": fallthrough
     case "joy2up": fallthrough
     case "inputjoy2up":
-      return InputJoy2Up, true
+      return InputJoy2Up
 
     // 5 (0x05)
     case "5": fallthrough
     case "joy2down": fallthrough
     case "inputjoy2down":
-      return InputJoy2Down, true
+      return InputJoy2Down
 
     // 6 (0x06)
     case "6": fallthrough
     case "joy2left": fallthrough
     case "inputjoy2left":
-      return InputJoy2Left, true
+      return InputJoy2Left
 
     // 7 (0x07)
     case "7": fallthrough
     case "joy2right": fallthrough
     case "inputjoy2right":
-      return InputJoy2Right, true
+      return InputJoy2Right
 
     // 8 (0x08)
     case "8": fallthrough
     case "joy3up": fallthrough
     case "inputjoy3up":
-      return InputJoy3Up, true
+      return InputJoy3Up
 
     // 9 (0x09)
     case "9": fallthrough
     case "joy3down": fallthrough
     case "inputjoy3down":
-      return InputJoy3Down, true
+      return InputJoy3Down
 
     // 10 (0x0a)
     case "10": fallthrough
     case "joy3left": fallthrough
     case "inputjoy3left":
-      return InputJoy3Left, true
+      return InputJoy3Left
 
     // 11 (0x0b)
     case "11": fallthrough
     case "joy3right": fallthrough
     case "inputjoy3right":
-      return InputJoy3Right, true
+      return InputJoy3Right
 
     // 12 (0x0c)
     case "12": fallthrough
     case "joy4up": fallthrough
     case "inputjoy4up":
-      return InputJoy4Up, true
+      return InputJoy4Up
 
     // 13 (0x0d)
     case "13": fallthrough
     case "joy4down": fallthrough
     case "inputjoy4down":
-      return InputJoy4Down, true
+      return InputJoy4Down
 
     // 14 (0x0e)
     case "14": fallthrough
     case "joy4left": fallthrough
     case "inputjoy4left":
-      return InputJoy4Left, true
+      return InputJoy4Left
 
     // 15 (0x0f)
     case "15": fallthrough
     case "joy4right": fallthrough
     case "inputjoy4right":
-      return InputJoy4Right, true
+      return InputJoy4Right
 
     // 16 (0x10)
     case "16": fallthrough
     case "button1": fallthrough
     case "inputbutton1":
-      return InputButton1, true
+      return InputButton1
 
     // 17 (0x11)
     case "17": fallthrough
     case "button2": fallthrough
     case "inputbutton2":
-      return InputButton2, true
+      return InputButton2
 
     // 18 (0x12)
     case "18": fallthrough
     case "button3": fallthrough
     case "inputbutton3":
-      return InputButton3, true
+      return InputButton3
 
     // 19 (0x13)
     case "19": fallthrough
     case "button4": fallthrough
     case "inputbutton4":
-      return InputButton4, true
+      return InputButton4
 
     // 20 (0x14)
     case "20": fallthrough
     case "button5": fallthrough
     case "inputbutton5":
-      return InputButton5, true
+      return InputButton5
 
     // 21 (0x15)
     case "21": fallthrough
     case "button6": fallthrough
     case "inputbutton6":
-      return InputButton6, true
+      return InputButton6
 
     // 22 (0x16)
     case "22": fallthrough
     case "button7": fallthrough
     case "inputbutton7":
-      return InputButton7, true
+      return InputButton7
 
     // 23 (0x17)
     case "23": fallthrough
     case "button8": fallthrough
     case "inputbutton8":
-      return InputButton8, true
+      return InputButton8
 
     // 24 (0x18)
     case "24": fallthrough
     case "button9": fallthrough
     case "inputbutton9":
-      return InputButton9, true
+      return InputButton9
 
     // 25 (0x19)
     case "25": fallthrough
     case "button10": fallthrough
     case "inputbutton10":
-      return InputButton10, true
+      return InputButton10
 
     // 26 (0x1a)
     case "26": fallthrough
     case "button11": fallthrough
     case "inputbutton11":
-      return InputButton11, true
+      return InputButton11
 
     // 27 (0x1b)
     case "27": fallthrough
     case "button12": fallthrough
     case "inputbutton12":
-      return InputButton12, true
+      return InputButton12
 
     // 28 (0x1c)
     case "28": fallthrough
     case "button13": fallthrough
     case "inputbutton13":
-      return InputButton13, true
+      return InputButton13
 
     // 29 (0x1d)
     case "29": fallthrough
     case "button14": fallthrough
     case "inputbutton14":
-      return InputButton14, true
+      return InputButton14
 
     // 30 (0x1e)
     case "30": fallthrough
     case "button15": fallthrough
     case "inputbutton15":
-      return InputButton15, true
+      return InputButton15
 
     // 31 (0x1f)
     case "31": fallthrough
     case "button16": fallthrough
     case "inputbutton16":
-      return InputButton16, true
+      return InputButton16
 
     // 32 (0x20)
     case "32": fallthrough
     case "button17": fallthrough
     case "inputbutton17":
-      return InputButton17, true
+      return InputButton17
 
     // 33 (0x21)
     case "33": fallthrough
     case "button18": fallthrough
     case "inputbutton18":
-      return InputButton18, true
+      return InputButton18
 
     // 34 (0x22)
     case "34": fallthrough
     case "button19": fallthrough
     case "inputbutton19":
-      return InputButton19, true
+      return InputButton19
 
     // 35 (0x23)
     case "35": fallthrough
     case "button20": fallthrough
     case "inputbutton20":
-      return InputButton20, true
+      return InputButton20
 
     // 36 (0x24)
     case "36": fallthrough
     case "button21": fallthrough
     case "inputbutton21":
-      return InputButton21, true
+      return InputButton21
 
     // 37 (0x25)
     case "37": fallthrough
     case "button22": fallthrough
     case "inputbutton22":
-      return InputButton22, true
+      return InputButton22
 
     // 38 (0x26)
     case "38": fallthrough
     case "button23": fallthrough
     case "inputbutton23":
-      return InputButton23, true
+      return InputButton23
 
     // 39 (0x27)
     case "39": fallthrough
     case "button24": fallthrough
     case "inputbutton24":
-      return InputButton24, true
+      return InputButton24
 
     // 40 (0x28)
     case "40": fallthrough
     case "button25": fallthrough
     case "inputbutton25":
-      return InputButton25, true
+      return InputButton25
 
     // 41 (0x29)
     case "41": fallthrough
     case "button26": fallthrough
     case "inputbutton26":
-      return InputButton26, true
+      return InputButton26
 
     // 42 (0x2a)
     case "42": fallthrough
     case "xaxis": fallthrough
     case "inputxaxis":
-      return InputXAxis, true
+      return InputXAxis
 
     // 43 (0x2b)
     case "43": fallthrough
     case "yaxis": fallthrough
     case "inputyaxis":
-      return InputYAxis, true
+      return InputYAxis
 
     // 44 (0x2c)
     case "44": fallthrough
     case "zaxis": fallthrough
     case "inputzaxis":
-      return InputZAxis, true
+      return InputZAxis
   }
 
-  return 0, false
+  return -1
 }
 

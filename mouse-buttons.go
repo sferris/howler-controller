@@ -11,48 +11,48 @@ import (
 type MouseButtons int
 
 const (
-  MouseMin    MouseButtons = 0
-  MouseLeft   MouseButtons = 1 + iota  // 1 (0x01)
-  MouseRight                           // 2 (0x02)
-  MouseMiddle                          // 3 (0x03)
+  MouseMin    MouseButtons = iota
+  MouseLeft                        // 1 (0x01)
+  MouseRight                       // 2 (0x02)
+  MouseMiddle                      // 3 (0x03)
   MouseMax
 )
 
-var MouseNames = [...]string {
-  "Left",
-  "Right",
-  "Middle",
+var MouseButtonNames = map[MouseButtons]string {
+  MouseLeft:     "Left",
+  MouseRight:    "Right",
+  MouseMiddle:   "Middle",
 }
 
-func (mouse MouseButtons) String() string {
-  if mouse < MouseMin && mouse >= MouseMax {
-    return "Unknown"
+func (button MouseButtons) String() string {
+  if value, ok := MouseButtonNames[button]; ok {
+    return value
   }
 
-  return MouseNames[mouse]
+  return "Unknown"
 }
 
-func ToMouseButton(button string) (MouseButtons,bool) {
+func ToMouseButton(button string) MouseButtons {
   switch strings.ToLower(button) {
     // 1 (0x01)
     case "1": fallthrough
     case "left": fallthrough
     case "mouseleft":
-      return MouseLeft, true
+      return MouseLeft
 
     // 2 (0x02)
     case "2": fallthrough
     case "right": fallthrough
     case "mouseright":
-      return MouseRight, true
+      return MouseRight
 
     // 3 (0x03)
     case "3": fallthrough
     case "middle": fallthrough
     case "mousemiddle":
-      return MouseMiddle, true
+      return MouseMiddle
   }
 
-  return 0, false
+  return -1
 }
 

@@ -46,170 +46,170 @@ const (
   LedMax
 )
 
-func Led(led string) (Leds, bool) {
+func Led(led string) Leds {
   switch strings.ToLower(led) {
     case "0": fallthrough
     case "joy1": fallthrough
     case "ledjoy1":
-      return LedJoy1, true
+      return LedJoy1
 
     case "1": fallthrough
     case "joy2": fallthrough
     case "ledjoy2":
-      return LedJoy2, true
+      return LedJoy2
 
     case "2": fallthrough
     case "joy3": fallthrough
     case "ledjoy3":
-      return LedJoy3, true
+      return LedJoy3
 
     case "3": fallthrough
     case "joy4": fallthrough
     case "ledjoy4":
-      return LedJoy4, true
+      return LedJoy4
 
     case "4": fallthrough
     case "button1": fallthrough
     case "ledbutton1":
-      return LedButton1, true
+      return LedButton1
 
     case "5": fallthrough
     case "button2": fallthrough
     case "ledbutton2":
-      return LedButton2, true
+      return LedButton2
 
     case "6": fallthrough
     case "button3": fallthrough
     case "ledbutton3":
-      return LedButton3, true
+      return LedButton3
 
     case "7": fallthrough
     case "button4": fallthrough
     case "ledbutton4":
-      return LedButton4, true
+      return LedButton4
 
     case "8": fallthrough
     case "button5": fallthrough
     case "ledbutton5":
-      return LedButton5, true
+      return LedButton5
 
     case "9": fallthrough
     case "button6": fallthrough
     case "ledbutton6":
-      return LedButton6, true
+      return LedButton6
 
     case "10": fallthrough
     case "button7": fallthrough
     case "ledbutton7":
-      return LedButton7, true
+      return LedButton7
 
     case "11": fallthrough
     case "button8": fallthrough
     case "ledbutton8":
-      return LedButton8, true
+      return LedButton8
 
     case "12": fallthrough
     case "button9": fallthrough
     case "ledbutton9":
-      return LedButton9, true
+      return LedButton9
 
     case "13": fallthrough
     case "button10": fallthrough
     case "ledbutton10":
-      return LedButton10, true
+      return LedButton10
 
     case "14": fallthrough
     case "button11": fallthrough
     case "ledbutton11":
-      return LedButton11, true
+      return LedButton11
 
     case "15": fallthrough
     case "button12": fallthrough
     case "ledbutton12":
-      return LedButton12, true
+      return LedButton12
 
     case "16": fallthrough
     case "button13": fallthrough
     case "ledbutton13":
-      return LedButton13, true
+      return LedButton13
 
     case "17": fallthrough
     case "button14": fallthrough
     case "ledbutton14":
-      return LedButton14, true
+      return LedButton14
 
     case "18": fallthrough
     case "button15": fallthrough
     case "ledbutton15":
-      return LedButton15, true
+      return LedButton15
 
     case "19": fallthrough
     case "button16": fallthrough
     case "ledbutton16":
-      return LedButton16, true
+      return LedButton16
 
     case "20": fallthrough
     case "button17": fallthrough
     case "ledbutton17":
-      return LedButton17, true
+      return LedButton17
 
     case "21": fallthrough
     case "button18": fallthrough
     case "ledbutton18":
-      return LedButton18, true
+      return LedButton18
 
     case "22": fallthrough
     case "button19": fallthrough
     case "ledbutton19":
-      return LedButton19, true
+      return LedButton19
 
     case "23": fallthrough
     case "button20": fallthrough
     case "ledbutton20":
-      return LedButton20, true
+      return LedButton20
 
     case "24": fallthrough
     case "button21": fallthrough
     case "ledbutton21":
-      return LedButton21, true
+      return LedButton21
 
     case "25": fallthrough
     case "button22": fallthrough
     case "ledbutton22":
-      return LedButton22, true
+      return LedButton22
 
     case "26": fallthrough
     case "button23": fallthrough
     case "ledbutton23":
-      return LedButton23, true
+      return LedButton23
 
     case "27": fallthrough
     case "button24": fallthrough
     case "ledbutton24":
-      return LedButton24, true
+      return LedButton24
 
     case "28": fallthrough
     case "button25": fallthrough
     case "ledbutton25":
-      return LedButton25, true
+      return LedButton25
 
     case "29": fallthrough
     case "button26": fallthrough
     case "ledbutton26":
-      return LedButton26, true
+      return LedButton26
 
     case "30": fallthrough
     case "hp1": fallthrough
     case "ledhp1":
-      return LedHP1, true
+      return LedHP1
 
     case "31": fallthrough
     case "hp2": fallthrough
     case "ledhp2":
-      return LedHP2, true
+      return LedHP2
   }
 
-  return -1, false
+  return -1
 }
 
 type HowlerLed struct {

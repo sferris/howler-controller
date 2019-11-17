@@ -10,43 +10,36 @@ import (
 
 type Modifiers int
 
-const ModifierNone Modifiers = 0
-
 const (
-  ModifierMin           Modifiers = 0
-  ModifierLeftControl   Modifiers = 1 << iota -2
-  ModifierLeftShift
-  ModifierLeftAlt
-  ModifierLeftUI
-  ModifierRightControl
-  ModifierRightShift
-  ModifierRightAlt
-  ModifierRightUI
-  ModifierMax
+  ModifierNone          Modifiers = 0             // 0x00
+  ModifierLeftControl   Modifiers = 1 << (iota-1) // 0x01  
+  ModifierLeftShift                               // 0x02  
+  ModifierLeftAlt                                 // 0x04  
+  ModifierLeftUI                                  // 0x08  
+  ModifierRightControl                            // 0x10  
+  ModifierRightShift                              // 0x20  
+  ModifierRightAlt                                // 0x40  
+  ModifierRightUI                                 // 0x80  
 )
 
-var ModifierNames = [...]string {
-  "None",
-  "Left-Control",
-  "Left-Shift",
-  "Left-Alt",
-  "Left-UI",
-  "Right-Control",
-  "Right-Shift",
-  "Right-Alt",
-  "Right-UI",
+var ModifierNames = map[Modifiers]string{
+  ModifierNone:         "None",
+  ModifierLeftControl:  "Left-Control",
+  ModifierLeftShift:    "Left-Shift",
+  ModifierLeftAlt:      "Left-Alt",
+  ModifierLeftUI:       "Left-UI",
+  ModifierRightControl: "Right-Control",
+  ModifierRightShift:   "Right-Shift",
+  ModifierRightAlt:     "Right-Alt",
+  ModifierRightUI:      "Right-UI",
 }
 
-/*
-// This won't work because of the enum is left shifted
 func (mod Modifiers) String() string {
-  if mod < ModifierMin || mod > ModifierMax {
-    return "Unknown"
+  if value, ok := ModifierNames[mod]; ok {
+    return value
   }
-
-  return ModifierNames[mod]
+  return "Unknown"
 }
-*/
 
 func ToModifier(modifier string) (Modifiers) {
   switch strings.ToLower(modifier) {
