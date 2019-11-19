@@ -72,15 +72,9 @@ var InputTypeNames = map[InputTypes]string{
   TypeJoystick2:                  "Joystick2",
   TypeKeyboard:                   "Keyboard",
   TypeMouse:                      "Mouse",
+}
 
-  TypeJoy1_DigitalThrottle:       "Joy1_DigitalThrottle",
-  TypeJoy1_DigitalXaxis:          "Joy1_DigitalXaxis",
-  TypeJoy1_DigitalYaxis:          "Joy1_DigitalYaxis",
-  TypeJoy1_DigitalZaxis:          "Joy1_DigitalZaxis",
-  TypeJoy1_DigitalXrot:           "Joy1_DigitalXrot",
-  TypeJoy1_DigitalYrot:           "Joy1_DigitalYrot",
-  TypeJoy1_DigitalZrot:           "Joy1_DigitalZrot",
-  TypeJoy1_DigitalSlider:         "Joy1_DigitalSlider",
+var AnalogTypeNames = map[InputTypes]string{
   TypeJoy1_AnalogThrottle:        "Joy1_AnalogThrottle",
   TypeJoy1_AnalogXaxis:           "Joy1_AnalogXaxis",
   TypeJoy1_AnalogYaxis:           "Joy1_AnalogYaxis",
@@ -90,14 +84,6 @@ var InputTypeNames = map[InputTypes]string{
   TypeJoy1_AnalogZrot:            "Joy1_AnalogZrot",
   TypeJoy1_AnalogSlider:          "Joy1_AnalogSlider",
 
-  TypeJoy2_DigitalThrottle:       "Joy2_DigitalThrottle",
-  TypeJoy2_DigitalXaxis:          "Joy2_DigitalXaxis",
-  TypeJoy2_DigitalYaxis:          "Joy2_DigitalYaxis",
-  TypeJoy2_DigitalZaxis:          "Joy2_DigitalZaxis",
-  TypeJoy2_DigitalXrot:           "Joy2_DigitalXrot",
-  TypeJoy2_DigitalYrot:           "Joy2_DigitalYrot",
-  TypeJoy2_DigitalZrot:           "Joy2_DigitalZrot",
-  TypeJoy2_DigitalSlider:         "Joy2_DigitalSlider",
   TypeJoy2_AnalogThrottle:        "Joy2_AnalogThrottle",
   TypeJoy2_AnalogXaxis:           "Joy2_AnalogXaxis",
   TypeJoy2_AnalogYaxis:           "Joy2_AnalogYaxis",
@@ -108,8 +94,34 @@ var InputTypeNames = map[InputTypes]string{
   TypeJoy2_AnalogSlider:          "Joy2_AnalogSlider",
 }
 
+var DigitalTypeNames = map[InputTypes]string{
+  TypeJoy1_DigitalThrottle:       "Joy1_DigitalThrottle",
+  TypeJoy1_DigitalXaxis:          "Joy1_DigitalXaxis",
+  TypeJoy1_DigitalYaxis:          "Joy1_DigitalYaxis",
+  TypeJoy1_DigitalZaxis:          "Joy1_DigitalZaxis",
+  TypeJoy1_DigitalXrot:           "Joy1_DigitalXrot",
+  TypeJoy1_DigitalYrot:           "Joy1_DigitalYrot",
+  TypeJoy1_DigitalZrot:           "Joy1_DigitalZrot",
+  TypeJoy1_DigitalSlider:         "Joy1_DigitalSlider",
+
+  TypeJoy2_DigitalThrottle:       "Joy2_DigitalThrottle",
+  TypeJoy2_DigitalXaxis:          "Joy2_DigitalXaxis",
+  TypeJoy2_DigitalYaxis:          "Joy2_DigitalYaxis",
+  TypeJoy2_DigitalZaxis:          "Joy2_DigitalZaxis",
+  TypeJoy2_DigitalXrot:           "Joy2_DigitalXrot",
+  TypeJoy2_DigitalYrot:           "Joy2_DigitalYrot",
+  TypeJoy2_DigitalZrot:           "Joy2_DigitalZrot",
+  TypeJoy2_DigitalSlider:         "Joy2_DigitalSlider",
+}
+
 func (inputType InputTypes) String() string {
   if value, ok := InputTypeNames[inputType]; ok {
+    return value
+  }
+  if value, ok := AnalogTypeNames[inputType]; ok {
+    return value
+  }
+  if value, ok := DigitalTypeNames[inputType]; ok {
     return value
   }
   return "Unknown"
