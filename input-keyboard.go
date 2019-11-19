@@ -1,6 +1,6 @@
 package howler
 
-func (howler *HowlerDevice) SetInputKeyboard(input Inputs, key Keys, modifier Modifiers) (HowlerInput, error) {
+func (howler *HowlerDevice) SetInputKeyboard(input Inputs, key KeyCodes, modifier KeyModifiers) (HowlerInput, error) {
 
   var stmt = []byte{HowlerID,0x03,byte(input),byte(TypeKeyboard),byte(key),byte(modifier),
                     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}

@@ -7,115 +7,115 @@ import (
   Keyboard scan codes
 */
 
-type Keys int
+type KeyCodes int
 
 const (
-  KeyNone        Keys = 0
-  KeyMin         Keys = 4
-  KeyA           Keys = 2 + iota    // 4 (0x04)
-  KeyB                              // 5 (0x05)
-  KeyC                              // 6 (0x06)
-  KeyD                              // 7 (0x07)
-  KeyE                              // 8 (0x08)
-  KeyF                              // 9 (0x09)
-  KeyG                              // 10 (0x0a)
-  KeyH                              // 11 (0x0b)
-  KeyI                              // 12 (0x0c)
-  KeyJ                              // 13 (0x0d)
-  KeyK                              // 14 (0x0e)
-  KeyL                              // 15 (0x0f)
-  KeyM                              // 16 (0x10)
-  KeyN                              // 17 (0x11)
-  KeyO                              // 18 (0x12)
-  KeyP                              // 19 (0x13)
-  KeyQ                              // 20 (0x14)
-  KeyR                              // 21 (0x15)
-  KeyS                              // 22 (0x16)
-  KeyT                              // 23 (0x17)
-  KeyU                              // 24 (0x18)
-  KeyV                              // 25 (0x19)
-  KeyW                              // 26 (0x1a)
-  KeyX                              // 27 (0x1b)
-  KeyY                              // 28 (0x1c)
-  KeyZ                              // 29 (0x1d)
-  Key1                              // 30 (0x1e)
-  Key2                              // 31 (0x1f)
-  Key3                              // 32 (0x20)
-  Key4                              // 33 (0x21)
-  Key5                              // 34 (0x22)
-  Key6                              // 35 (0x23)
-  Key7                              // 36 (0x24)
-  Key8                              // 37 (0x25)
-  Key9                              // 38 (0x26)
-  Key0                              // 39 (0x27)
-  KeyEnter                          // 40 (0x28)
-  KeyEscape                         // 41 (0x29)
-  KeyBackspace                      // 42 (0x2a)
-  KeyTab                            // 43 (0x2b)
-  KeySpace                          // 44 (0x2c)
-  KeyMinus                          // 45 (0x2d)
-  KeyEqual                          // 46 (0x2e)
-  KeyLeftBracket                    // 47 (0x2f)
-  KeyRightBracket                   // 48 (0x30)
-  KeyBackSlash                      // 49 (0x31)
-  _                                 // 50 (0x32) - HashTilde?
-  KeyColon                          // 51 (0x33)
-  KeyApostrophe                     // 52 (0x34)
-  KeyTilde                          // 53 (0x35)
-  KeyComma                          // 54 (0x36)
-  KeyPeriod                         // 55 (0x37)
-  KeySlash                          // 56 (0x38)
-  KeyCapsLock                       // 57 (0x39)
-  KeyF1                             // 58 (0x3a)
-  KeyF2                             // 59 (0x3b)
-  KeyF3                             // 60 (0x3c)
-  KeyF4                             // 61 (0x3d)
-  KeyF5                             // 62 (0x3e)
-  KeyF6                             // 63 (0x3f)
-  KeyF7                             // 64 (0x40)
-  KeyF8                             // 65 (0x41)
-  KeyF9                             // 66 (0x42)
-  KeyF10                            // 67 (0x43)
-  KeyF11                            // 68 (0x44)
-  KeyF12                            // 69 (0x45)
-  KeyPrintScreen                    // 70 (0x46)
-  KeyScrollLock                     // 71 (0x47)
-  KeyPause                          // 72 (0x48)
-  KeyInsert                         // 73 (0x49)
-  KeyHome                           // 74 (0x4a)
-  KeyPageUp                         // 75 (0x4b)
-  KeyDelete                         // 76 (0x4c)
-  KeyEnd                            // 77 (0x4d)
-  KeyPageDown                       // 78 (0x4e)
-  KeyRight                          // 79 (0x4f)
-  KeyLeft                           // 80 (0x50)
-  KeyDown                           // 81 (0x51)
-  KeyUp                             // 82 (0x52)
-  KeyNumLock                        // 83 (0x53)
-  KeyKpSlash                        // 84 (0x54)
-  KeyKpAsterisk                     // 85 (0x55)
-  KeyKpMinus                        // 86 (0x56)
-  KeyKpPlus                         // 87 (0x57)
-  KeyKpEnter                        // 88 (0x58)
-  KeyKp1                            // 89 (0x59)
-  KeyKp2                            // 90 (0x5a)
-  KeyKp3                            // 91 (0x5b)
-  KeyKp4                            // 92 (0x5c)
-  KeyKp5                            // 93 (0x5d)
-  KeyKp6                            // 94 (0x5e)
-  KeyKp7                            // 95 (0x5f)
-  KeyKp8                            // 96 (0x60)
-  KeyKp9                            // 97 (0x61)
-  KeyKp0                            // 98 (0x62)
+  KeyNone        KeyCodes = 0
+  KeyMin         KeyCodes = 4
+  KeyA           KeyCodes = 2 + iota    // 4 (0x04)
+  KeyB                                  // 5 (0x05)
+  KeyC                                  // 6 (0x06)
+  KeyD                                  // 7 (0x07)
+  KeyE                                  // 8 (0x08)
+  KeyF                                  // 9 (0x09)
+  KeyG                                  // 10 (0x0a)
+  KeyH                                  // 11 (0x0b)
+  KeyI                                  // 12 (0x0c)
+  KeyJ                                  // 13 (0x0d)
+  KeyK                                  // 14 (0x0e)
+  KeyL                                  // 15 (0x0f)
+  KeyM                                  // 16 (0x10)
+  KeyN                                  // 17 (0x11)
+  KeyO                                  // 18 (0x12)
+  KeyP                                  // 19 (0x13)
+  KeyQ                                  // 20 (0x14)
+  KeyR                                  // 21 (0x15)
+  KeyS                                  // 22 (0x16)
+  KeyT                                  // 23 (0x17)
+  KeyU                                  // 24 (0x18)
+  KeyV                                  // 25 (0x19)
+  KeyW                                  // 26 (0x1a)
+  KeyX                                  // 27 (0x1b)
+  KeyY                                  // 28 (0x1c)
+  KeyZ                                  // 29 (0x1d)
+  Key1                                  // 30 (0x1e)
+  Key2                                  // 31 (0x1f)
+  Key3                                  // 32 (0x20)
+  Key4                                  // 33 (0x21)
+  Key5                                  // 34 (0x22)
+  Key6                                  // 35 (0x23)
+  Key7                                  // 36 (0x24)
+  Key8                                  // 37 (0x25)
+  Key9                                  // 38 (0x26)
+  Key0                                  // 39 (0x27)
+  KeyEnter                              // 40 (0x28)
+  KeyEscape                             // 41 (0x29)
+  KeyBackspace                          // 42 (0x2a)
+  KeyTab                                // 43 (0x2b)
+  KeySpace                              // 44 (0x2c)
+  KeyMinus                              // 45 (0x2d)
+  KeyEqual                              // 46 (0x2e)
+  KeyLeftBracket                        // 47 (0x2f)
+  KeyRightBracket                       // 48 (0x30)
+  KeyBackSlash                          // 49 (0x31)
+  _                                     // 50 (0x32) - HashTilde?
+  KeyColon                              // 51 (0x33)
+  KeyApostrophe                         // 52 (0x34)
+  KeyTilde                              // 53 (0x35)
+  KeyComma                              // 54 (0x36)
+  KeyPeriod                             // 55 (0x37)
+  KeySlash                              // 56 (0x38)
+  KeyCapsLock                           // 57 (0x39)
+  KeyF1                                 // 58 (0x3a)
+  KeyF2                                 // 59 (0x3b)
+  KeyF3                                 // 60 (0x3c)
+  KeyF4                                 // 61 (0x3d)
+  KeyF5                                 // 62 (0x3e)
+  KeyF6                                 // 63 (0x3f)
+  KeyF7                                 // 64 (0x40)
+  KeyF8                                 // 65 (0x41)
+  KeyF9                                 // 66 (0x42)
+  KeyF10                                // 67 (0x43)
+  KeyF11                                // 68 (0x44)
+  KeyF12                                // 69 (0x45)
+  KeyPrintScreen                        // 70 (0x46)
+  KeyScrollLock                         // 71 (0x47)
+  KeyPause                              // 72 (0x48)
+  KeyInsert                             // 73 (0x49)
+  KeyHome                               // 74 (0x4a)
+  KeyPageUp                             // 75 (0x4b)
+  KeyDelete                             // 76 (0x4c)
+  KeyEnd                                // 77 (0x4d)
+  KeyPageDown                           // 78 (0x4e)
+  KeyRight                              // 79 (0x4f)
+  KeyLeft                               // 80 (0x50)
+  KeyDown                               // 81 (0x51)
+  KeyUp                                 // 82 (0x52)
+  KeyNumLock                            // 83 (0x53)
+  KeyKpSlash                            // 84 (0x54)
+  KeyKpAsterisk                         // 85 (0x55)
+  KeyKpMinus                            // 86 (0x56)
+  KeyKpPlus                             // 87 (0x57)
+  KeyKpEnter                            // 88 (0x58)
+  KeyKp1                                // 89 (0x59)
+  KeyKp2                                // 90 (0x5a)
+  KeyKp3                                // 91 (0x5b)
+  KeyKp4                                // 92 (0x5c)
+  KeyKp5                                // 93 (0x5d)
+  KeyKp6                                // 94 (0x5e)
+  KeyKp7                                // 95 (0x5f)
+  KeyKp8                                // 96 (0x60)
+  KeyKp9                                // 97 (0x61)
+  KeyKp0                                // 98 (0x62)
   KeyMax
-  KeyGrave         Keys = KeyTilde
-  KeyDot           Keys = KeyPeriod
-  KeyForwardSlash  Keys = KeySlash
-  KeyDash          Keys = KeyMinus
-  KeyKpDash        Keys = KeyKpMinus
+  KeyGrave         KeyCodes = KeyTilde
+  KeyDot           KeyCodes = KeyPeriod
+  KeyForwardSlash  KeyCodes = KeySlash
+  KeyDash          KeyCodes = KeyMinus
+  KeyKpDash        KeyCodes = KeyKpMinus
 )
 
-var KeyNames = map[Keys]string {
+var KeyNames = map[KeyCodes]string {
   KeyA:                "A",
   KeyB:                "B",
   KeyC:                "C",
@@ -212,14 +212,14 @@ var KeyNames = map[Keys]string {
   KeyKp0:              "Kp0",
 }
 
-func (key Keys) String() string {
+func (key KeyCodes) String() string {
   if value, ok := KeyNames[key]; ok {
     return value
   }
   return "Unknown"
 }
 
-func ToKey(key string) Keys {
+func ToKey(key string) KeyCodes {
   switch strings.ToLower(key) {
     // 4 (0x04)
     case "4": fallthrough

@@ -8,21 +8,21 @@ import (
   Modifier values
 */
 
-type Modifiers int
+type KeyModifiers int
 
 const (
-  ModifierNone          Modifiers = 0             // 0x00
-  ModifierLeftControl   Modifiers = 1 << (iota-1) // 0x01  
-  ModifierLeftShift                               // 0x02  
-  ModifierLeftAlt                                 // 0x04  
-  ModifierLeftUI                                  // 0x08  
-  ModifierRightControl                            // 0x10  
-  ModifierRightShift                              // 0x20  
-  ModifierRightAlt                                // 0x40  
-  ModifierRightUI                                 // 0x80  
+  ModifierNone          KeyModifiers = 0             // 0x00
+  ModifierLeftControl   KeyModifiers = 1 << (iota-1) // 0x01  
+  ModifierLeftShift                                  // 0x02  
+  ModifierLeftAlt                                    // 0x04  
+  ModifierLeftUI                                     // 0x08  
+  ModifierRightControl                               // 0x10  
+  ModifierRightShift                                 // 0x20  
+  ModifierRightAlt                                   // 0x40  
+  ModifierRightUI                                    // 0x80  
 )
 
-var ModifierNames = map[Modifiers]string{
+var ModifierNames = map[KeyModifiers]string{
   ModifierNone:         "None",
   ModifierLeftControl:  "Left-Control",
   ModifierLeftShift:    "Left-Shift",
@@ -34,14 +34,14 @@ var ModifierNames = map[Modifiers]string{
   ModifierRightUI:      "Right-UI",
 }
 
-func (mod Modifiers) String() string {
+func (mod KeyModifiers) String() string {
   if value, ok := ModifierNames[mod]; ok {
     return value
   }
   return "Unknown"
 }
 
-func ToModifier(modifier string) (Modifiers) {
+func ToModifier(modifier string) (KeyModifiers) {
   switch strings.ToLower(modifier) {
     case  "none": fallthrough
     case  "modifiernone":      
