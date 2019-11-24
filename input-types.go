@@ -67,7 +67,7 @@ const (
   TypeMax
 )
 
-var InputTypeNames = map[InputTypes]string{
+var ButtonTypeNames = map[InputTypes]string{
   TypeJoystick1:                  "Joystick1",
   TypeJoystick2:                  "Joystick2",
   TypeKeyboard:                   "Keyboard",
@@ -115,7 +115,7 @@ var DigitalTypeNames = map[InputTypes]string{
 }
 
 func (inputType InputTypes) String() string {
-  if value, ok := InputTypeNames[inputType]; ok {
+  if value, ok := ButtonTypeNames[inputType]; ok {
     return value
   }
   if value, ok := AnalogTypeNames[inputType]; ok {
