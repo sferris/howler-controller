@@ -24,8 +24,11 @@ func (input *HowlerInput) Dump() {
   fmt.Println(hex.Dump(input.raw))
 }
 
+/*
 func (input *HowlerInput) String() string {
   bt := input.BaseType();
+
+  //fmt.Printf("%+v\n", input.Control)
 
   switch bt {
     case "joystick-digital":
@@ -75,23 +78,9 @@ func (input *HowlerInput) String() string {
 }
 
 func (input HowlerInput) BaseType() string {
-  if _, ok := AxisNames[ControlInput(input.Control)]; ok {
-    return "accelerometer"
-  }
-  if _, ok := AnalogTypeNames[InputTypes(input.InputType)]; ok {
-    return "joystick-analog"
-  }
-  if _, ok := DigitalTypeNames[InputTypes(input.InputType)]; ok {
-    return "joystick-digital"
-  }
-  switch input.InputType {
-    case 1: fallthrough
-    case 2: return "joystick-button"
-    case 3: return "keyboard-button"
-    case 4: return "mouse-button"
-  }
-  return "Unknown"
+  return input.Control.Type
 }
+*/
 
 func (howler *HowlerDevice) GetInput(control ControlInput) (HowlerInput, error) {
   var qry = []byte{HowlerID,0x04,byte(control),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
