@@ -2,7 +2,7 @@ package howler
 
 func (howler *HowlerDevice) SetInputMouse(control ControlInput, button MouseButtons) (HowlerInput, error) {
 
-  var stmt = []byte{HowlerID,0x03,byte(control),byte(TypeMouse),byte(button),byte(ModifierNone),
+  var stmt = []byte{HowlerID,0x03,byte(control),byte(TypeMouse.id),byte(button),byte(ModifierNone),
                     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
   raw, err := howler.WriteWithResponse(stmt)

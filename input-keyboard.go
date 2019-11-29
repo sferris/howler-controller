@@ -2,7 +2,7 @@ package howler
 
 func (howler *HowlerDevice) SetInputKeyboard(control ControlInput, key KeyCodes, modifier KeyModifiers) (HowlerInput, error) {
 
-  var stmt = []byte{HowlerID,0x03,byte(control),byte(TypeKeyboard),byte(key),byte(modifier),
+  var stmt = []byte{HowlerID,0x03,byte(control),byte(TypeKeyboard.id),byte(key),byte(modifier),
                     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
   raw, err := howler.WriteWithResponse(stmt)

@@ -25,17 +25,36 @@ func (input *HowlerInput) Dump() {
 }
 
 /*
+  CapJoystickButton
+  CapKeyboardButton
+  CapMouseButton
+  CapJoystickAnalog
+  CapJoystickDigital
+  CapAccelerometer
+*/
+
 func (input *HowlerInput) String() string {
-  bt := input.BaseType();
 
-  //fmt.Printf("%+v\n", input.Control)
+  control, err := InputToControl(input.Control)
+  if err != nil {
+    return "unknown"
+  }
 
+  if control.Capability() & CapJoystickAnalog != 0 {
+      return fmt.Sprintf(
+        "%-12s %-16s",
+          control.Name(),
+          control.Type(),
+      )
+  }
+
+/*
   switch bt {
     case "joystick-digital":
       return fmt.Sprintf(
         "%-12s %-16s AxisValue: %d",
-          input.Control,
-          bt,
+          input.Name(),
+          input.Type(),
           int8(input.InputValue1),
       )
     case "joystick-analog":
@@ -73,14 +92,11 @@ func (input *HowlerInput) String() string {
           bt,
       )
   }
+*/
 
   return "Unknown"
 }
 
-func (input HowlerInput) BaseType() string {
-  return input.Control.Type
-}
-*/
 
 func (howler *HowlerDevice) GetInput(control ControlInput) (HowlerInput, error) {
   var qry = []byte{HowlerID,0x04,byte(control),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}

@@ -1,6 +1,7 @@
 package howler
 
 import (
+  "fmt"
   "strings"
 )
 
@@ -8,112 +9,280 @@ import (
   Supported input types
 */
 
-type InputTypes int
+//type InputTypes int
 
-const (
-  TypeMin                   InputTypes = iota        // 0 (0x00)
-  TypeJoystick1                                      // 1 (0x01)
-  TypeJoystick2                                      // 2 (0x02)
-  TypeKeyboard                                       // 3 (0x03)
-  TypeMouse                                          // 4 (0x04)
-)
-
-const (
-  TypeJoy1_DigitalOffset    InputTypes = 0x10          // 0x10
-  TypeJoy1_DigitalThrottle  InputTypes = 0x10+(iota-1) // 0x10
-  TypeJoy1_DigitalXaxis                                // 0x11
-  TypeJoy1_DigitalYaxis                                // 0x12
-  TypeJoy1_DigitalZaxis                                // 0x13
-  TypeJoy1_DigitalXrot                                 // 0x14
-  TypeJoy1_DigitalYrot                                 // 0x15
-  TypeJoy1_DigitalZrot                                 // 0x16
-  TypeJoy1_DigitalSlider                               // 0x17
-)
-
-const (
-  TypeJoy1_AnalogOffset     InputTypes = 0x20          // 0x20
-  TypeJoy1_AnalogThrottle   InputTypes = 0x20+(iota-1) // 0x20
-  TypeJoy1_AnalogXaxis                                 // 0x21
-  TypeJoy1_AnalogYaxis                                 // 0x22
-  TypeJoy1_AnalogZaxis                                 // 0x23
-  TypeJoy1_AnalogXrot                                  // 0x24
-  TypeJoy1_AnalogYrot                                  // 0x25
-  TypeJoy1_AnalogZrot                                  // 0x26
-  TypeJoy1_AnalogSlider                                // 0x27
-)
-
-const (
-  TypeJoy2_DigitalOffset    InputTypes = 0x40          // 0x40
-  TypeJoy2_DigitalThrottle  InputTypes = 0x40+(iota-1) // 0x40
-  TypeJoy2_DigitalXaxis                                // 0x41
-  TypeJoy2_DigitalYaxis                                // 0x42
-  TypeJoy2_DigitalZaxis                                // 0x43
-  TypeJoy2_DigitalXrot                                 // 0x44
-  TypeJoy2_DigitalYrot                                 // 0x45
-  TypeJoy2_DigitalZrot                                 // 0x46
-  TypeJoy2_DigitalSlider                               // 0x47
-)
-
-const (
-  TypeJoy2_AnalogOffset     InputTypes = 0x80          // 0x80
-  TypeJoy2_AnalogThrottle   InputTypes = 0x80+(iota-1) // 0x80
-  TypeJoy2_AnalogXaxis                                 // 0x81
-  TypeJoy2_AnalogYaxis                                 // 0x82
-  TypeJoy2_AnalogZaxis                                 // 0x83
-  TypeJoy2_AnalogXrot                                  // 0x84
-  TypeJoy2_AnalogYrot                                  // 0x85
-  TypeJoy2_AnalogZrot                                  // 0x86
-  TypeJoy2_AnalogSlider                                // 0x87
-  TypeMax
-)
-
-var ButtonTypeNames = map[InputTypes]string{
-  TypeJoystick1:                  "Joystick1",
-  TypeJoystick2:                  "Joystick2",
-  TypeKeyboard:                   "Keyboard",
-  TypeMouse:                      "Mouse",
+type InputType int
+type InputTypes struct {
+  name        string
+  id          InputType
+  capability  ControlCapability
 }
 
-var AnalogTypeNames = map[InputTypes]string{
-  TypeJoy1_AnalogThrottle:        "Joy1_AnalogThrottle",
-  TypeJoy1_AnalogXaxis:           "Joy1_AnalogXaxis",
-  TypeJoy1_AnalogYaxis:           "Joy1_AnalogYaxis",
-  TypeJoy1_AnalogZaxis:           "Joy1_AnalogZaxis",
-  TypeJoy1_AnalogXrot:            "Joy1_AnalogXrot",
-  TypeJoy1_AnalogYrot:            "Joy1_AnalogYrot",
-  TypeJoy1_AnalogZrot:            "Joy1_AnalogZrot",
-  TypeJoy1_AnalogSlider:          "Joy1_AnalogSlider",
-
-  TypeJoy2_AnalogThrottle:        "Joy2_AnalogThrottle",
-  TypeJoy2_AnalogXaxis:           "Joy2_AnalogXaxis",
-  TypeJoy2_AnalogYaxis:           "Joy2_AnalogYaxis",
-  TypeJoy2_AnalogZaxis:           "Joy2_AnalogZaxis",
-  TypeJoy2_AnalogXrot:            "Joy2_AnalogXrot",
-  TypeJoy2_AnalogYrot:            "Joy2_AnalogYrot",
-  TypeJoy2_AnalogZrot:            "Joy2_AnalogZrot",
-  TypeJoy2_AnalogSlider:          "Joy2_AnalogSlider",
+func (typ InputTypes) Name() string {
+  return typ.name
+}
+func (typ InputTypes) ID() InputType {
+  return typ.id
+}
+func (typ InputTypes) Capability() ControlCapability {
+  return typ.capability
 }
 
-var DigitalTypeNames = map[InputTypes]string{
-  TypeJoy1_DigitalThrottle:       "Joy1_DigitalThrottle",
-  TypeJoy1_DigitalXaxis:          "Joy1_DigitalXaxis",
-  TypeJoy1_DigitalYaxis:          "Joy1_DigitalYaxis",
-  TypeJoy1_DigitalZaxis:          "Joy1_DigitalZaxis",
-  TypeJoy1_DigitalXrot:           "Joy1_DigitalXrot",
-  TypeJoy1_DigitalYrot:           "Joy1_DigitalYrot",
-  TypeJoy1_DigitalZrot:           "Joy1_DigitalZrot",
-  TypeJoy1_DigitalSlider:         "Joy1_DigitalSlider",
-
-  TypeJoy2_DigitalThrottle:       "Joy2_DigitalThrottle",
-  TypeJoy2_DigitalXaxis:          "Joy2_DigitalXaxis",
-  TypeJoy2_DigitalYaxis:          "Joy2_DigitalYaxis",
-  TypeJoy2_DigitalZaxis:          "Joy2_DigitalZaxis",
-  TypeJoy2_DigitalXrot:           "Joy2_DigitalXrot",
-  TypeJoy2_DigitalYrot:           "Joy2_DigitalYrot",
-  TypeJoy2_DigitalZrot:           "Joy2_DigitalZrot",
-  TypeJoy2_DigitalSlider:         "Joy2_DigitalSlider",
+// Buttons
+var TypeJoystick1 = InputTypes {
+  name: "Joystick1",
+  id: 1,
+  capability: CapJoystickButton,
+}
+var TypeJoystick2 = InputTypes {
+  name: "Joystick2",
+  id: 2,
+  capability: CapJoystickButton,
+}
+var TypeKeyboard = InputTypes {
+  name: "Keyboard",
+  id: 3,
+  capability: CapKeyboardButton,
+}
+var TypeMouse = InputTypes {
+  name: "Keyboard",
+  id: 4,
+  capability: CapMouseButton,
 }
 
+// Digital joystick 1
+var TypeJoy1_DigitalOffset = InputTypes {
+  name: "Joy1_DigitalOffset",
+  id:   10,
+  capability: CapJoystickDigital,
+}
+var TypeJoy1_DigitalThrottle = InputTypes {
+  name: "Joy1_DigitalThrottle",
+  id:   10,
+  capability: CapJoystickDigital,
+}
+var TypeJoy1_DigitalXaxis = InputTypes {
+  name: "Joy1_DigitalXaxis",
+  id:   11,
+  capability: CapJoystickDigital,
+}
+var TypeJoy1_DigitalYaxis = InputTypes {
+  name: "Joy1_DigitalYaxis",
+  id:   12,
+  capability: CapJoystickDigital,
+}
+var TypeJoy1_DigitalZaxis = InputTypes {
+  name: "Joy1_DigitalZaxis",
+  id:   13,
+  capability: CapJoystickDigital,
+}
+var TypeJoy1_DigitalXrot = InputTypes {
+  name: "Joy1_DigitalXrot",
+  id:   14,
+  capability: CapJoystickDigital,
+}
+var TypeJoy1_DigitalYrot = InputTypes {
+  name: "Joy1_DigitalYrot",
+  id:   15,
+  capability: CapJoystickDigital,
+}
+var TypeJoy1_DigitalZrot = InputTypes {
+  name: "Joy1_DigitalZrot",
+  id:   16,
+  capability: CapJoystickDigital,
+}
+var TypeJoy1_DigitalSlider = InputTypes {
+  name: "Joy1_DigitalSlider",
+  id:   17,
+  capability: CapJoystickDigital,
+}
+
+// Digital joystick 2
+var TypeJoy2_DigitalOffset = InputTypes {
+  name: "Joy2_DigitalOffset",
+  id:   40,
+  capability: CapJoystickDigital,
+}
+var TypeJoy2_DigitalThrottle = InputTypes {
+  name: "Joy2_DigitalThrottle",
+  id:   40,
+  capability: CapJoystickDigital,
+}
+var TypeJoy2_DigitalXaxis = InputTypes {
+  name: "Joy2_DigitalXaxis",
+  id:   41,
+  capability: CapJoystickDigital,
+}
+var TypeJoy2_DigitalYaxis = InputTypes {
+  name: "Joy2_DigitalYaxis",
+  id:   42,
+  capability: CapJoystickDigital,
+}
+var TypeJoy2_DigitalZaxis = InputTypes {
+  name: "Joy2_DigitalZaxis",
+  id:   43,
+  capability: CapJoystickDigital,
+}
+var TypeJoy2_DigitalXrot = InputTypes {
+  name: "Joy2_DigitalXrot",
+  id:   44,
+  capability: CapJoystickDigital,
+}
+var TypeJoy2_DigitalYrot = InputTypes {
+  name: "Joy2_DigitalYrot",
+  id:   45,
+  capability: CapJoystickDigital,
+}
+var TypeJoy2_DigitalZrot = InputTypes {
+  name: "Joy2_DigitalZrot",
+  id:   46,
+  capability: CapJoystickDigital,
+}
+var TypeJoy2_DigitalSlider = InputTypes {
+  name: "Joy2_DigitalSlider",
+  id:   47,
+  capability: CapJoystickDigital,
+}
+
+
+// Analog joystick 1
+var TypeJoy1_AnalogOffset = InputTypes {
+  name: "Joy1_AnalogOffset",
+  id:   20,
+  capability: CapJoystickAnalog,
+}
+var TypeJoy1_AnalogThrottle = InputTypes {
+  name: "Joy1_AnalogThrottle",
+  id:   20,
+  capability: CapJoystickAnalog,
+}
+var TypeJoy1_AnalogXaxis = InputTypes {
+  name: "Joy1_AnalogXaxis",
+  id:   21,
+  capability: CapJoystickAnalog,
+}
+var TypeJoy1_AnalogYaxis = InputTypes {
+  name: "Joy1_AnalogYaxis",
+  id:   22,
+  capability: CapJoystickAnalog,
+}
+var TypeJoy1_AnalogZaxis = InputTypes {
+  name: "Joy1_AnalogZaxis",
+  id:   23,
+  capability: CapJoystickAnalog,
+}
+var TypeJoy1_AnalogXrot = InputTypes {
+  name: "Joy1_AnalogXrot",
+  id:   24,
+  capability: CapJoystickAnalog,
+}
+var TypeJoy1_AnalogYrot = InputTypes {
+  name: "Joy1_AnalogYrot",
+  id:   25,
+  capability: CapJoystickAnalog,
+}
+var TypeJoy1_AnalogZrot = InputTypes {
+  name: "Joy1_AnalogZrot",
+  id:   26,
+  capability: CapJoystickAnalog,
+}
+var TypeJoy1_AnalogSlider = InputTypes {
+  name: "Joy1_AnalogSlider",
+  id:   27,
+  capability: CapJoystickAnalog,
+}
+
+// Analog joystick 2
+var TypeJoy2_AnalogOffset = InputTypes {
+  name: "Joy2_AnalogOffset",
+  id:   80,
+  capability: CapJoystickAnalog,
+}
+var TypeJoy2_AnalogThrottle = InputTypes {
+  name: "Joy2_AnalogThrottle",
+  id:   80,
+  capability: CapJoystickAnalog,
+}
+var TypeJoy2_AnalogXaxis = InputTypes {
+  name: "Joy2_AnalogXaxis",
+  id:   81,
+  capability: CapJoystickAnalog,
+}
+var TypeJoy2_AnalogYaxis = InputTypes {
+  name: "Joy2_AnalogYaxis",
+  id:   82,
+  capability: CapJoystickAnalog,
+}
+var TypeJoy2_AnalogZaxis = InputTypes {
+  name: "Joy2_AnalogZaxis",
+  id:   83,
+  capability: CapJoystickAnalog,
+}
+var TypeJoy2_AnalogXrot = InputTypes {
+  name: "Joy2_AnalogXrot",
+  id:   84,
+  capability: CapJoystickAnalog,
+}
+var TypeJoy2_AnalogYrot = InputTypes {
+  name: "Joy2_AnalogYrot",
+  id:   85,
+  capability: CapJoystickAnalog,
+}
+var TypeJoy2_AnalogZrot = InputTypes {
+  name: "Joy2_AnalogZrot",
+  id:   86,
+  capability: CapJoystickAnalog,
+}
+var TypeJoy2_AnalogSlider = InputTypes {
+  name: "Joy2_AnalogSlider",
+  id:   87,
+  capability: CapJoystickAnalog,
+}
+
+var InputTypesMap = map[InputType]InputTypes{
+  TypeJoystick1.id:                TypeJoystick1,                
+  TypeJoystick2.id:                TypeJoystick2,                
+  TypeKeyboard.id:                 TypeKeyboard,                 
+  TypeMouse.id:                    TypeMouse,                    
+                                 
+  TypeJoy1_AnalogThrottle.id:      TypeJoy1_AnalogThrottle,      
+  TypeJoy1_AnalogXaxis.id:         TypeJoy1_AnalogXaxis,         
+  TypeJoy1_AnalogYaxis.id:         TypeJoy1_AnalogYaxis,         
+  TypeJoy1_AnalogZaxis.id:         TypeJoy1_AnalogZaxis,         
+  TypeJoy1_AnalogXrot.id:          TypeJoy1_AnalogXrot,          
+  TypeJoy1_AnalogYrot.id:          TypeJoy1_AnalogYrot,          
+  TypeJoy1_AnalogZrot.id:          TypeJoy1_AnalogZrot,          
+  TypeJoy1_AnalogSlider.id:        TypeJoy1_AnalogSlider,        
+                                 
+  TypeJoy2_AnalogThrottle.id:      TypeJoy2_AnalogThrottle,      
+  TypeJoy2_AnalogXaxis.id:         TypeJoy2_AnalogXaxis,         
+  TypeJoy2_AnalogYaxis.id:         TypeJoy2_AnalogYaxis,         
+  TypeJoy2_AnalogZaxis.id:         TypeJoy2_AnalogZaxis,         
+  TypeJoy2_AnalogXrot.id:          TypeJoy2_AnalogXrot,          
+  TypeJoy2_AnalogYrot.id:          TypeJoy2_AnalogYrot,          
+  TypeJoy2_AnalogZrot.id:          TypeJoy2_AnalogZrot,          
+  TypeJoy2_AnalogSlider.id:        TypeJoy2_AnalogSlider,        
+                                 
+  TypeJoy1_DigitalThrottle.id:     TypeJoy1_DigitalThrottle,     
+  TypeJoy1_DigitalXaxis.id:        TypeJoy1_DigitalXaxis,        
+  TypeJoy1_DigitalYaxis.id:        TypeJoy1_DigitalYaxis,        
+  TypeJoy1_DigitalZaxis.id:        TypeJoy1_DigitalZaxis,        
+  TypeJoy1_DigitalXrot.id:         TypeJoy1_DigitalXrot,         
+  TypeJoy1_DigitalYrot.id:         TypeJoy1_DigitalYrot,         
+  TypeJoy1_DigitalZrot.id:         TypeJoy1_DigitalZrot,         
+  TypeJoy1_DigitalSlider.id:       TypeJoy1_DigitalSlider,       
+                                 
+  TypeJoy2_DigitalThrottle.id:     TypeJoy2_DigitalThrottle,     
+  TypeJoy2_DigitalXaxis.id:        TypeJoy2_DigitalXaxis,        
+  TypeJoy2_DigitalYaxis.id:        TypeJoy2_DigitalYaxis,        
+  TypeJoy2_DigitalZaxis.id:        TypeJoy2_DigitalZaxis,        
+  TypeJoy2_DigitalXrot.id:         TypeJoy2_DigitalXrot,         
+  TypeJoy2_DigitalYrot.id:         TypeJoy2_DigitalYrot,         
+  TypeJoy2_DigitalZrot.id:         TypeJoy2_DigitalZrot,         
+  TypeJoy2_DigitalSlider.id:       TypeJoy2_DigitalSlider,       
+}
+
+/*
 func (inputType InputTypes) String() string {
   if value, ok := ButtonTypeNames[inputType]; ok {
     return value
@@ -126,161 +295,154 @@ func (inputType InputTypes) String() string {
   }
   return "Unknown"
 }
+*/
 
-func ToInputType(inputType string) InputTypes {
-  switch strings.ToLower(inputType) {
-    // 1 (0x01)
-    case "1": fallthrough
+func StringToInputType(typ string) (InputTypes,error) {
+  switch strings.ToLower(typ) {
     case "joystick1": fallthrough
     case "typejoystick1":
-      return TypeJoystick1
+      return TypeJoystick1, nil
 
-    // 2 (0x02)
-    case "2": fallthrough
     case "joystick2": fallthrough
     case "typejoystick2":
-      return TypeJoystick2
+      return TypeJoystick2, nil
 
-    // 3 (0x03)
-    case "3": fallthrough
     case "keyboard": fallthrough
     case "typekeyboard":
-      return TypeKeyboard
+      return TypeKeyboard, nil
 
-    // 4 (0x04)
-    case "4": fallthrough
     case "mouse": fallthrough
     case "typemouse":
-      return TypeMouse
+      return TypeMouse, nil
 
     case "typejoy1_digitalthrottle": fallthrough
     case "joy1_digitalthrottle":
-      return TypeJoy1_DigitalThrottle
-    
+      return TypeJoy1_DigitalThrottle, nil
+
     case "typejoy1_digitalxaxis": fallthrough
     case "joy1_digitalxaxis":
-      return TypeJoy1_DigitalXaxis
-    
+      return TypeJoy1_DigitalXaxis, nil
+
     case "typejoy1_digitalyaxis": fallthrough
     case "joy1_digitalyaxis":
-      return TypeJoy1_DigitalYaxis
-    
+      return TypeJoy1_DigitalYaxis, nil
+
     case "typejoy1_digitalzaxis": fallthrough
     case "joy1_digitalzaxis":
-      return TypeJoy1_DigitalZaxis
-    
+      return TypeJoy1_DigitalZaxis, nil
+
     case "typejoy1_digitalxrot": fallthrough
     case "joy1_digitalxrot":
-      return TypeJoy1_DigitalXrot
-    
+      return TypeJoy1_DigitalXrot, nil
+
     case "typejoy1_digitalyrot": fallthrough
     case "joy1_digitalyrot":
-      return TypeJoy1_DigitalYrot
-    
+      return TypeJoy1_DigitalYrot, nil
+
     case "typejoy1_digitalzrot": fallthrough
     case "joy1_digitalzrot":
-      return TypeJoy1_DigitalZrot
-    
+      return TypeJoy1_DigitalZrot, nil
+
     case "typejoy1_digitalslider": fallthrough
     case "joy1_digitalslider":
-      return TypeJoy1_DigitalSlider
-    
+      return TypeJoy1_DigitalSlider, nil
+
     case "typejoy1_analogthrottle": fallthrough
     case "joy1_analogthrottle":
-      return TypeJoy1_AnalogThrottle
-    
+      return TypeJoy1_AnalogThrottle, nil
+
     case "typejoy1_analogxaxis": fallthrough
     case "joy1_analogxaxis":
-      return TypeJoy1_AnalogXaxis
-    
+      return TypeJoy1_AnalogXaxis, nil
+
     case "typejoy1_analogyaxis": fallthrough
     case "joy1_analogyaxis":
-      return TypeJoy1_AnalogYaxis
-    
+      return TypeJoy1_AnalogYaxis, nil
+
     case "typejoy1_analogzaxis": fallthrough
     case "joy1_analogzaxis":
-      return TypeJoy1_AnalogZaxis
-    
+      return TypeJoy1_AnalogZaxis, nil
+
     case "typejoy1_analogxrot": fallthrough
     case "joy1_analogxrot":
-      return TypeJoy1_AnalogXrot
-    
+      return TypeJoy1_AnalogXrot, nil
+
     case "typejoy1_analogyrot": fallthrough
     case "joy1_analogyrot":
-      return TypeJoy1_AnalogYrot
-    
+      return TypeJoy1_AnalogYrot, nil
+
     case "typejoy1_analogzrot": fallthrough
     case "joy1_analogzrot":
-      return TypeJoy1_AnalogZrot
-    
+      return TypeJoy1_AnalogZrot, nil
+
     case "typejoy1_analogslider": fallthrough
     case "joy1_analogslider":
-      return TypeJoy1_AnalogSlider
-    
+      return TypeJoy1_AnalogSlider, nil
+
     case "typejoy2_digitalthrottle": fallthrough
     case "joy2_digitalthrottle":
-      return TypeJoy2_DigitalThrottle
-    
+      return TypeJoy2_DigitalThrottle, nil
+
     case "typejoy2_digitalxaxis": fallthrough
     case "joy2_digitalxaxis":
-      return TypeJoy2_DigitalXaxis
-    
+      return TypeJoy2_DigitalXaxis, nil
+
     case "typejoy2_digitalyaxis": fallthrough
     case "joy2_digitalyaxis":
-      return TypeJoy2_DigitalYaxis
-    
+      return TypeJoy2_DigitalYaxis, nil
+
     case "typejoy2_digitalzaxis": fallthrough
     case "joy2_digitalzaxis":
-      return TypeJoy2_DigitalZaxis
-    
+      return TypeJoy2_DigitalZaxis, nil
+
     case "typejoy2_digitalxrot": fallthrough
     case "joy2_digitalxrot":
-      return TypeJoy2_DigitalXrot
-    
+      return TypeJoy2_DigitalXrot, nil
+
     case "typejoy2_digitalyrot": fallthrough
     case "joy2_digitalyrot":
-      return TypeJoy2_DigitalYrot
-    
+      return TypeJoy2_DigitalYrot, nil
+
     case "typejoy2_digitalzrot": fallthrough
     case "joy2_digitalzrot":
-      return TypeJoy2_DigitalZrot
-    
+      return TypeJoy2_DigitalZrot, nil
+
     case "typejoy2_digitalslider": fallthrough
     case "joy2_digitalslider":
-      return TypeJoy2_DigitalSlider
-    
+      return TypeJoy2_DigitalSlider, nil
+
     case "typejoy2_analogthrottle": fallthrough
     case "joy2_analogthrottle":
-      return TypeJoy2_AnalogThrottle
-    
+      return TypeJoy2_AnalogThrottle, nil
+
     case "typejoy2_analogxaxis": fallthrough
     case "joy2_analogxaxis":
-      return TypeJoy2_AnalogXaxis
-    
+      return TypeJoy2_AnalogXaxis, nil
+
     case "typejoy2_analogyaxis": fallthrough
     case "joy2_analogyaxis":
-      return TypeJoy2_AnalogYaxis
-    
+      return TypeJoy2_AnalogYaxis, nil
+
     case "typejoy2_analogzaxis": fallthrough
     case "joy2_analogzaxis":
-      return TypeJoy2_AnalogZaxis
-    
+      return TypeJoy2_AnalogZaxis, nil
+
     case "typejoy2_analogxrot": fallthrough
     case "joy2_analogxrot":
-      return TypeJoy2_AnalogXrot
-    
+      return TypeJoy2_AnalogXrot, nil
+
     case "typejoy2_analogyrot": fallthrough
     case "joy2_analogyrot":
-      return TypeJoy2_AnalogYrot
-    
+      return TypeJoy2_AnalogYrot, nil
+
     case "typejoy2_analogzrot": fallthrough
     case "joy2_analogzrot":
-      return TypeJoy2_AnalogZrot
-    
+      return TypeJoy2_AnalogZrot, nil
+
     case "typejoy2_analogslider": fallthrough
     case "joy2_analogslider":
-      return TypeJoy2_AnalogSlider
+      return TypeJoy2_AnalogSlider, nil
   }
 
-  return -1
+  return InputTypes{}, fmt.Errorf("Unknown input type: %s", typ)
 }
