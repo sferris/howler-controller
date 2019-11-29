@@ -84,6 +84,12 @@ func (input *HowlerInput) String() string {
           function.Capability(),
           MouseButtons(input.InputValue1),
       )
+  } else if function.Capability() & CapMouseAxis != 0 {
+      return fmt.Sprintf(
+        "%-12s %-16s",
+          control.Name(),
+          function.Capability(),
+      )
   } else if function.Capability() & CapAccelerometer != 0 {
       return fmt.Sprintf(
         "%-12s %-16s Min:%d Max:%d",
@@ -95,9 +101,10 @@ func (input *HowlerInput) String() string {
   }
 
   return fmt.Sprintf(
-    "%-12s %-16s",
+    "%-12s %-16s %+v",
       control.Name(),
       "Unknown",
+      input.raw,
   )
 }
 

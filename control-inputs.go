@@ -303,19 +303,19 @@ var ControlButton26 = ControlInput {
 var ControlXAxis = ControlInput {
   name:       "XAxis",
   typ:        "accelerometer",
-  id:         43,
+  id:         42,
   capability: CapAccelerometer,
 }
 var ControlYAxis = ControlInput {
   name:       "YAxis",
   typ:        "accelerometer",
-  id:         44,
+  id:         43,
   capability: CapAccelerometer,
 }
 var ControlZAxis = ControlInput {
   name:       "ZAxis",
   typ:        "accelerometer",
-  id:         45,
+  id:         44,
   capability: CapAccelerometer,
 }
 
@@ -511,7 +511,6 @@ func StringToControl(control string) (ControlInput,error) {
 
 func IDToControl(id ControlID) (ControlInput,error) {
   if control, ok := ControlInputMap[id]; ok {
-    fmt.Printf("Control in:%d, out:%d\n", id, control.id)
     return control, nil
   }
   return ControlInput{}, fmt.Errorf("Unknown control: %d\n", id)

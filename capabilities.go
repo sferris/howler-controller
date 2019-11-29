@@ -10,6 +10,7 @@ const (
   CapJoystickButton
   CapKeyboardButton
   CapMouseButton
+  CapMouseAxis
   CapJoystickAnalog
   CapJoystickDigital
   CapAccelerometer
@@ -20,6 +21,7 @@ var CapabilityNames = map[ControlCapability]string {
   CapJoystickButton:    "JoystickButton",
   CapKeyboardButton:    "KeyboardButton",
   CapMouseButton:       "MouseButton",
+  CapMouseAxis:         "MouseAxis",
   CapJoystickAnalog:    "JoystickAnalog",
   CapJoystickDigital:   "JoystickDigital",
   CapAccelerometer:     "Accelerometer",
