@@ -10,8 +10,17 @@ func (howler *HowlerDevice) SetInputJoystick(control ControlID, joystick Functio
     return HowlerInput{}, fmt.Errorf("Invalid joystick reference: %s", joystick)
   }
 
-  var stmt = []byte{HowlerID,0x03,byte(control),byte(joystick),byte(button),byte(ModifierNone),
-                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+  // CommandSetInput CommandID = 0x03
+  // CommandGetInput CommandID = 0x04
+  var stmt = []byte{
+    HowlerID,
+    byte(CommandSetInput),
+    byte(control),
+    byte(joystick),
+    byte(button),
+    byte(ModifierNone),
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+  }
 
   raw, err := howler.WriteWithResponse(stmt)
 

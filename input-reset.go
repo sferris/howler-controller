@@ -17,7 +17,13 @@ func (input *HowlerReset) Dump() {
 }
 
 func (howler *HowlerDevice) ResetToDefaults() (HowlerReset, error) {
-  var stmt = []byte{HowlerID,0x05,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+
+  // CommandSetDefault CommandID = 0x05
+  var stmt = []byte{
+    HowlerID,
+    byte(CommandSetDefault),
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+  }
 
   raw, err := howler.WriteWithResponse(stmt)
 

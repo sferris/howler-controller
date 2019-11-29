@@ -34,82 +34,84 @@ func (input *HowlerInput) Function() (ControlFunction,error) {
 }
 
 func (input *HowlerInput) String() string {
-  control, _ := input.Control()
-/*
+  control, err := input.Control()
   if err != nil {
     return fmt.Sprintf("Error: %s", err.Error())
   }
-*/
 
-  function, _ := input.Function()
-/*
+  function, err := input.Function()
   if err != nil {
     fmt.Println(input.Dump())
     return fmt.Sprintf("Error: %s", err.Error())
   }
-*/
 
-  if function.Capability() & CapJoystickAnalog != 0 {
-      return fmt.Sprintf(
-        "%-12s %-16s",
-          control.Name(),
-          function.Capability(),
-      )
+  if function.Capability() & CapJoystickButton != 0 {
+    return fmt.Sprintf(
+      "%-12s %-16s Joystick:%s Button:%d",
+        control.Name(),
+        function.Capability(),
+        function.Name(),
+        input.InputValue1,
+    )
+  } else if function.Capability() & CapJoystickAnalog != 0 {
+    return fmt.Sprintf(
+      "%-12s %-16s Function:%s",
+        control.Name(),
+        function.Capability(),
+        function.Name(),
+    )
   } else if function.Capability() & CapJoystickDigital != 0 {
-      return fmt.Sprintf(
-        "%-12s %-16s AxisValue: %d",
-          control.Name(),
-          function.Capability(),
-          int8(input.InputValue1),
-      )
-  } else if function.Capability() & CapJoystickButton != 0 {
-      return fmt.Sprintf(
-        "%-12s %-16s Button:%d",
-          control.Name(),
-          function.Capability(),
-          input.InputValue1,
-      )
+    return fmt.Sprintf(
+      "%-12s %-16s Function:%s AxisValue:%d",
+        control.Name(),
+        function.Capability(),
+        function.Name(),
+        int8(input.InputValue1),
+    )
   } else if function.Capability() & CapKeyboardButton != 0 {
-      return fmt.Sprintf(
-        "%-12s %-16s Key:%s Modifier:%s",
-          control.Name(),
-          function.Capability(),
-          KeyCodes(input.InputValue1),
-          KeyModifiers(input.InputValue2),
-      )
+    return fmt.Sprintf(
+      "%-12s %-16s Key:%s Modifier:%s",
+        control.Name(),
+        function.Capability(),
+        KeyCodes(input.InputValue1),
+        KeyModifiers(input.InputValue2),
+    )
   } else if function.Capability() & CapMouseButton != 0 {
-      return fmt.Sprintf(
-        "%-12s %-16s Button:%s",
-          control.Name(),
-          function.Capability(),
-          MouseButtons(input.InputValue1),
-      )
+    return fmt.Sprintf(
+      "%-12s %-16s Button:%s",
+        control.Name(),
+        function.Capability(),
+        MouseButtons(input.InputValue1),
+    )
   } else if function.Capability() & CapMouseAxis != 0 {
-      return fmt.Sprintf(
-        "%-12s %-16s",
-          control.Name(),
-          function.Capability(),
-      )
+    return fmt.Sprintf(
+      "%-12s %-16s Function:%s",
+        control.Name(),
+        function.Capability(),
+        function.Name(),
+    )
   } else if function.Capability() & CapAccelerometer != 0 {
-      return fmt.Sprintf(
-        "%-12s %-16s Min:%d Max:%d",
-          control.Name(),
-          function.Capability(),
-          input.InputAccelMin,
-          input.InputAccelMax,
-      )
+    return fmt.Sprintf(
+      "%-12s %-16s Min:%d Max:%d",
+        control.Name(),
+        function.Capability(),
+        input.InputAccelMin,
+        input.InputAccelMax,
+    )
   }
 
   return fmt.Sprintf(
-    "%-12s %-16s %+v",
+    "%-12s %s %+v",
       control.Name(),
-      "Unknown",
+      "Unable to interpret control data",
       input.raw,
   )
 }
 
+// CommandSetInput CommandID = 0x03
+// CommandGetInput CommandID = 0x04
 func (howler *HowlerDevice) GetInput(control ControlID) (HowlerInput, error) {
-  var qry = []byte{HowlerID,0x04,byte(control),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+  var qry = []byte{HowlerID,byte(CommandGetInput),byte(control),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
   raw, err := howler.WriteWithResponse(qry)
 
