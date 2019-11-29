@@ -87,7 +87,7 @@ func (joy JoystickButtons) String() string {
     return value
   }
 
-  return "Unknown"
+  return "Unknown joystick button"
 }
 
 func ToJoystickButton(button string)  JoystickButtons {

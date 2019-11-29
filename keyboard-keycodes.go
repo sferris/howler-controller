@@ -3,6 +3,7 @@ package howler;
 import (
   "strings"
 )
+
 /*
   Keyboard scan codes
 */
@@ -216,7 +217,8 @@ func (key KeyCodes) String() string {
   if value, ok := KeyNames[key]; ok {
     return value
   }
-  return "Unknown"
+
+  return "Unknown keyboard button"
 }
 
 func ToKey(key string) KeyCodes {

@@ -38,7 +38,8 @@ func (mod KeyModifiers) String() string {
   if value, ok := ModifierNames[mod]; ok {
     return value
   }
-  return "Unknown"
+
+  return "Unknown keyboard modifier"
 }
 
 func ToModifier(modifier string) (KeyModifiers) {
