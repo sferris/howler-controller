@@ -2,371 +2,372 @@ package howler
 
 import (
   "fmt"
+  "sort"
   "strings"
 )
 
-type ControlInput int
-type ControlInputs struct {
+type ControlID int
+type ControlInput struct {
   name        string
   typ         string
-  id          ControlInput
+  id          ControlID
   capability  ControlCapability
 }
 
-func (control ControlInputs) Name() string {
+func (control ControlInput) Name() string {
   return control.name
 }
-func (control ControlInputs) Type() string {
+func (control ControlInput) Type() string {
   return control.typ
 }
-func (control ControlInputs) ID() ControlInput {
+func (control ControlInput) ID() ControlID {
   return control.id
 }
-func (control ControlInputs) Capability() ControlCapability {
+func (control ControlInput) Capability() ControlCapability {
   return control.capability
 }
 
 // Joystick Inputs
-var ControlJoy1Up = ControlInputs {
+var ControlJoy1Up = ControlInput {
   name:       "Joy1Up",
+  typ:        "joystick",
+  id:         0,
+  capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
+              CapJoystickAnalog | CapJoystickDigital,
+}
+var ControlJoy1Down = ControlInput {
+  name:       "Joy1Down",
   typ:        "joystick",
   id:         1,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
               CapJoystickAnalog | CapJoystickDigital,
 }
-var ControlJoy1Down = ControlInputs {
-  name:       "Joy1Down",
+var ControlJoy1Left = ControlInput {
+  name:       "Joy1Left",
   typ:        "joystick",
   id:         2,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
               CapJoystickAnalog | CapJoystickDigital,
 }
-var ControlJoy1Left = ControlInputs {
-  name:       "Joy1Left",
+var ControlJoy1Right = ControlInput {
+  name:       "Joy1Right",
   typ:        "joystick",
   id:         3,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
               CapJoystickAnalog | CapJoystickDigital,
 }
-var ControlJoy1Right = ControlInputs {
-  name:       "Joy1Right",
+var ControlJoy2Up = ControlInput {
+  name:       "Joy2Up",
   typ:        "joystick",
   id:         4,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
-              CapJoystickAnalog | CapJoystickDigital,
+              CapJoystickDigital,
 }
-var ControlJoy2Up = ControlInputs {
-  name:       "Joy2Up",
+var ControlJoy2Down = ControlInput {
+  name:       "Joy2Down",
   typ:        "joystick",
   id:         5,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
               CapJoystickDigital,
 }
-var ControlJoy2Down = ControlInputs {
-  name:       "Joy2Down",
+var ControlJoy2Left = ControlInput {
+  name:       "Joy2Left",
   typ:        "joystick",
   id:         6,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
               CapJoystickDigital,
 }
-var ControlJoy2Left = ControlInputs {
-  name:       "Joy2Left",
+var ControlJoy2Right = ControlInput {
+  name:       "Joy2Right",
   typ:        "joystick",
   id:         7,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
               CapJoystickDigital,
 }
-var ControlJoy2Right = ControlInputs {
-  name:       "Joy2Right",
+var ControlJoy3Up = ControlInput {
+  name:       "Joy3Up",
   typ:        "joystick",
   id:         8,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
               CapJoystickDigital,
 }
-var ControlJoy3Up = ControlInputs {
-  name:       "Joy3Up",
+var ControlJoy3Down = ControlInput {
+  name:       "Joy3Down",
   typ:        "joystick",
   id:         9,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
               CapJoystickDigital,
 }
-var ControlJoy3Down = ControlInputs {
-  name:       "Joy3Down",
+var ControlJoy3Left = ControlInput {
+  name:       "Joy3Left",
   typ:        "joystick",
   id:         10,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
               CapJoystickDigital,
 }
-var ControlJoy3Left = ControlInputs {
-  name:       "Joy3Left",
+var ControlJoy3Right = ControlInput {
+  name:       "Joy3Right",
   typ:        "joystick",
   id:         11,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
               CapJoystickDigital,
 }
-var ControlJoy3Right = ControlInputs {
-  name:       "Joy3Right",
+var ControlJoy4Up = ControlInput {
+  name:       "Joy4Up",
   typ:        "joystick",
   id:         12,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
               CapJoystickDigital,
 }
-var ControlJoy4Up = ControlInputs {
-  name:       "Joy4Up",
+var ControlJoy4Down = ControlInput {
+  name:       "Joy4Down",
   typ:        "joystick",
   id:         13,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
               CapJoystickDigital,
 }
-var ControlJoy4Down = ControlInputs {
-  name:       "Joy4Down",
+var ControlJoy4Left = ControlInput {
+  name:       "Joy4Left",
   typ:        "joystick",
   id:         14,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
               CapJoystickDigital,
 }
-var ControlJoy4Left = ControlInputs {
-  name:       "Joy4Left",
+var ControlJoy4Right = ControlInput {
+  name:       "Joy4Right",
   typ:        "joystick",
   id:         15,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
               CapJoystickDigital,
 }
-var ControlJoy4Right = ControlInputs {
-  name:       "Joy4Right",
-  typ:        "joystick",
-  id:         16,
-  capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
-              CapJoystickDigital,
-}
 
 // Button Inputs
-var ControlButton1 = ControlInputs {
+var ControlButton1 = ControlInput {
   name:       "Button1",
+  typ:        "joystick",
+  id:         16,
+  capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
+}
+var ControlButton2 = ControlInput {
+  name:       "Button2",
   typ:        "joystick",
   id:         17,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton2 = ControlInputs {
-  name:       "Button2",
+var ControlButton3 = ControlInput {
+  name:       "Button3",
   typ:        "joystick",
   id:         18,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton3 = ControlInputs {
-  name:       "Button3",
+var ControlButton4 = ControlInput {
+  name:       "Button4",
   typ:        "joystick",
   id:         19,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton4 = ControlInputs {
-  name:       "Button4",
+var ControlButton5 = ControlInput {
+  name:       "Button5",
   typ:        "joystick",
   id:         20,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton5 = ControlInputs {
-  name:       "Button5",
+var ControlButton6 = ControlInput {
+  name:       "Button6",
   typ:        "joystick",
   id:         21,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton6 = ControlInputs {
-  name:       "Button6",
+var ControlButton7 = ControlInput {
+  name:       "Button7",
   typ:        "joystick",
   id:         22,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton7 = ControlInputs {
-  name:       "Button7",
+var ControlButton8 = ControlInput {
+  name:       "Button8",
   typ:        "joystick",
   id:         23,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton8 = ControlInputs {
-  name:       "Button8",
+var ControlButton9 = ControlInput {
+  name:       "Button9",
   typ:        "joystick",
   id:         24,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton9 = ControlInputs {
-  name:       "Button9",
+var ControlButton10 = ControlInput {
+  name:       "Button10",
   typ:        "joystick",
   id:         25,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton10 = ControlInputs {
-  name:       "Button10",
+var ControlButton11 = ControlInput {
+  name:       "Button11",
   typ:        "joystick",
   id:         26,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton11 = ControlInputs {
-  name:       "Button11",
+var ControlButton12 = ControlInput {
+  name:       "Button12",
   typ:        "joystick",
   id:         27,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton12 = ControlInputs {
-  name:       "Button12",
+var ControlButton13 = ControlInput {
+  name:       "Button13",
   typ:        "joystick",
   id:         28,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton13 = ControlInputs {
-  name:       "Button13",
+var ControlButton14 = ControlInput {
+  name:       "Button14",
   typ:        "joystick",
   id:         29,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton14 = ControlInputs {
-  name:       "Button14",
+var ControlButton15 = ControlInput {
+  name:       "Button15",
   typ:        "joystick",
   id:         30,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton15 = ControlInputs {
-  name:       "Button15",
+var ControlButton16 = ControlInput {
+  name:       "Button16",
   typ:        "joystick",
   id:         31,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton16 = ControlInputs {
-  name:       "Button16",
+var ControlButton17 = ControlInput {
+  name:       "Button17",
   typ:        "joystick",
   id:         32,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton17 = ControlInputs {
-  name:       "Button17",
+var ControlButton18 = ControlInput {
+  name:       "Button18",
   typ:        "joystick",
   id:         33,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton18 = ControlInputs {
-  name:       "Button18",
+var ControlButton19 = ControlInput {
+  name:       "Button19",
   typ:        "joystick",
   id:         34,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton19 = ControlInputs {
-  name:       "Button19",
+var ControlButton20 = ControlInput {
+  name:       "Button20",
   typ:        "joystick",
   id:         35,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton20 = ControlInputs {
-  name:       "Button20",
+var ControlButton21 = ControlInput {
+  name:       "Button21",
   typ:        "joystick",
   id:         36,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton21 = ControlInputs {
-  name:       "Button21",
+var ControlButton22 = ControlInput {
+  name:       "Button22",
   typ:        "joystick",
   id:         37,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton22 = ControlInputs {
-  name:       "Button22",
+var ControlButton23 = ControlInput {
+  name:       "Button23",
   typ:        "joystick",
   id:         38,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton23 = ControlInputs {
-  name:       "Button23",
+var ControlButton24 = ControlInput {
+  name:       "Button24",
   typ:        "joystick",
   id:         39,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton24 = ControlInputs {
-  name:       "Button24",
+var ControlButton25 = ControlInput {
+  name:       "Button25",
   typ:        "joystick",
   id:         40,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton25 = ControlInputs {
-  name:       "Button25",
+var ControlButton26 = ControlInput {
+  name:       "Button26",
   typ:        "joystick",
   id:         41,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
 }
-var ControlButton26 = ControlInputs {
-  name:       "Button26",
-  typ:        "joystick",
-  id:         42,
-  capability: CapJoystickButton | CapKeyboardButton | CapMouseButton,
-}
 
 // Axis Inputs
-var ControlXAxis = ControlInputs {
+var ControlXAxis = ControlInput {
   name:       "XAxis",
   typ:        "accelerometer",
   id:         43,
   capability: CapAccelerometer,
 }
-var ControlYAxis = ControlInputs {
+var ControlYAxis = ControlInput {
   name:       "YAxis",
   typ:        "accelerometer",
   id:         44,
   capability: CapAccelerometer,
 }
-var ControlZAxis = ControlInputs {
+var ControlZAxis = ControlInput {
   name:       "ZAxis",
   typ:        "accelerometer",
   id:         45,
   capability: CapAccelerometer,
 }
 
-var ControlInputMap = map[ControlInput]ControlInputs {
-  ControlJoy1Up.ID():       ControlJoy1Up,
-  ControlJoy1Down.ID():     ControlJoy1Down,
-  ControlJoy1Left.ID():     ControlJoy1Left,
-  ControlJoy1Right.ID():    ControlJoy1Right,
-  ControlJoy2Up.ID():       ControlJoy2Up,
-  ControlJoy2Down.ID():     ControlJoy2Down,
-  ControlJoy2Left.ID():     ControlJoy2Left,
-  ControlJoy2Right.ID():    ControlJoy2Right,
-  ControlJoy3Up.ID():       ControlJoy3Up,
-  ControlJoy3Down.ID():     ControlJoy3Down,
-  ControlJoy3Left.ID():     ControlJoy3Left,
-  ControlJoy3Right.ID():    ControlJoy3Right,
-  ControlJoy4Up.ID():       ControlJoy4Up,
-  ControlJoy4Down.ID():     ControlJoy4Down,
-  ControlJoy4Left.ID():     ControlJoy4Left,
-  ControlJoy4Right.ID():    ControlJoy4Right,
-  ControlButton1.ID():      ControlButton1,
-  ControlButton2.ID():      ControlButton2,
-  ControlButton3.ID():      ControlButton3,
-  ControlButton4.ID():      ControlButton4,
-  ControlButton5.ID():      ControlButton5,
-  ControlButton6.ID():      ControlButton6,
-  ControlButton7.ID():      ControlButton7,
-  ControlButton8.ID():      ControlButton8,
-  ControlButton9.ID():      ControlButton9,
-  ControlButton10.ID():     ControlButton10,
-  ControlButton11.ID():     ControlButton11,
-  ControlButton12.ID():     ControlButton12,
-  ControlButton13.ID():     ControlButton13,
-  ControlButton14.ID():     ControlButton14,
-  ControlButton15.ID():     ControlButton15,
-  ControlButton16.ID():     ControlButton16,
-  ControlButton17.ID():     ControlButton17,
-  ControlButton18.ID():     ControlButton18,
-  ControlButton19.ID():     ControlButton19,
-  ControlButton20.ID():     ControlButton20,
-  ControlButton21.ID():     ControlButton21,
-  ControlButton22.ID():     ControlButton22,
-  ControlButton23.ID():     ControlButton23,
-  ControlButton24.ID():     ControlButton24,
-  ControlButton25.ID():     ControlButton25,
-  ControlButton26.ID():     ControlButton26,
-  ControlXAxis.ID():        ControlXAxis,
-  ControlYAxis.ID():        ControlYAxis,
-  ControlZAxis.ID():        ControlZAxis,
+var ControlInputMap = map[ControlID]ControlInput {
+  ControlJoy1Up.id:       ControlJoy1Up,
+  ControlJoy1Down.id:     ControlJoy1Down,
+  ControlJoy1Left.id:     ControlJoy1Left,
+  ControlJoy1Right.id:    ControlJoy1Right,
+  ControlJoy2Up.id:       ControlJoy2Up,
+  ControlJoy2Down.id:     ControlJoy2Down,
+  ControlJoy2Left.id:     ControlJoy2Left,
+  ControlJoy2Right.id:    ControlJoy2Right,
+  ControlJoy3Up.id:       ControlJoy3Up,
+  ControlJoy3Down.id:     ControlJoy3Down,
+  ControlJoy3Left.id:     ControlJoy3Left,
+  ControlJoy3Right.id:    ControlJoy3Right,
+  ControlJoy4Up.id:       ControlJoy4Up,
+  ControlJoy4Down.id:     ControlJoy4Down,
+  ControlJoy4Left.id:     ControlJoy4Left,
+  ControlJoy4Right.id:    ControlJoy4Right,
+  ControlButton1.id:      ControlButton1,
+  ControlButton2.id:      ControlButton2,
+  ControlButton3.id:      ControlButton3,
+  ControlButton4.id:      ControlButton4,
+  ControlButton5.id:      ControlButton5,
+  ControlButton6.id:      ControlButton6,
+  ControlButton7.id:      ControlButton7,
+  ControlButton8.id:      ControlButton8,
+  ControlButton9.id:      ControlButton9,
+  ControlButton10.id:     ControlButton10,
+  ControlButton11.id:     ControlButton11,
+  ControlButton12.id:     ControlButton12,
+  ControlButton13.id:     ControlButton13,
+  ControlButton14.id:     ControlButton14,
+  ControlButton15.id:     ControlButton15,
+  ControlButton16.id:     ControlButton16,
+  ControlButton17.id:     ControlButton17,
+  ControlButton18.id:     ControlButton18,
+  ControlButton19.id:     ControlButton19,
+  ControlButton20.id:     ControlButton20,
+  ControlButton21.id:     ControlButton21,
+  ControlButton22.id:     ControlButton22,
+  ControlButton23.id:     ControlButton23,
+  ControlButton24.id:     ControlButton24,
+  ControlButton25.id:     ControlButton25,
+  ControlButton26.id:     ControlButton26,
+  ControlXAxis.id:        ControlXAxis,
+  ControlYAxis.id:        ControlYAxis,
+  ControlZAxis.id:        ControlZAxis,
 }
 
-func StringToControl(control string) (ControlInputs,error) {
+func StringToControl(control string) (ControlInput,error) {
   switch strings.ToLower(control) {
       case "joy1up": fallthrough
       case "controljoy1up":
@@ -505,12 +506,24 @@ func StringToControl(control string) (ControlInputs,error) {
         return ControlZAxis, nil
   }
 
-  return ControlInputs{}, fmt.Errorf("Unknown control: %s\n", control)
+  return ControlInput{}, fmt.Errorf("Unknown control: %s\n", control)
 }
 
-func InputToControl(input ControlInput) (ControlInputs,error) {
-  if control, ok := ControlInputMap[input]; ok {
+func IDToControl(id ControlID) (ControlInput,error) {
+  if control, ok := ControlInputMap[id]; ok {
+    fmt.Printf("Control in:%d, out:%d\n", id, control.id)
     return control, nil
   }
-  return ControlInputs{}, fmt.Errorf("Unknown control: %d\n", input)
+  return ControlInput{}, fmt.Errorf("Unknown control: %d\n", id)
 }
+
+func ControlInputs() ([]int) {
+  var controls []int
+  for k, _ := range ControlInputMap {
+      controls = append(controls, int(k))
+  }
+  sort.Ints(controls)
+
+  return controls;
+}
+

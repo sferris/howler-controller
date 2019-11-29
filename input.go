@@ -2,15 +2,16 @@ package howler
 
 import (
   "fmt"
-  "encoding/hex"
+  _"encoding/hex"
 )
 
 type HowlerInput struct {
   howlerId, request   int
   raw                 []byte
 
-  Control             ControlInput
-  InputType           int
+  ControlID           ControlID
+  FunctionID          FunctionID
+
   InputValue1         int
   InputValue2         int
 
@@ -20,85 +21,87 @@ type HowlerInput struct {
   ControlSet          int
 }
 
-func (input *HowlerInput) Dump() {
-  fmt.Println(hex.Dump(input.raw))
+func (input *HowlerInput) Dump() string {
+  //return hex.Dump(input.raw)
+  return fmt.Sprintf("%+v", input.raw)
 }
 
-/*
-  CapJoystickButton
-  CapKeyboardButton
-  CapMouseButton
-  CapJoystickAnalog
-  CapJoystickDigital
-  CapAccelerometer
-*/
+func (input *HowlerInput) Control() (ControlInput,error) {
+  return IDToControl(input.ControlID)
+}
+func (input *HowlerInput) Function() (ControlFunction,error) {
+  return IDToFunction(input.FunctionID)
+}
 
 func (input *HowlerInput) String() string {
-
-  control, err := InputToControl(input.Control)
+  control, _ := input.Control()
+/*
   if err != nil {
-    return "unknown"
+    return fmt.Sprintf("Error: %s", err.Error())
   }
+*/
 
-  if control.Capability() & CapJoystickAnalog != 0 {
+  function, _ := input.Function()
+/*
+  if err != nil {
+    fmt.Println(input.Dump())
+    return fmt.Sprintf("Error: %s", err.Error())
+  }
+*/
+
+  if function.Capability() & CapJoystickAnalog != 0 {
       return fmt.Sprintf(
         "%-12s %-16s",
           control.Name(),
-          control.Type(),
+          function.Capability(),
       )
-  }
-
-/*
-  switch bt {
-    case "joystick-digital":
+  } else if function.Capability() & CapJoystickDigital != 0 {
       return fmt.Sprintf(
         "%-12s %-16s AxisValue: %d",
-          input.Name(),
-          input.Type(),
+          control.Name(),
+          function.Capability(),
           int8(input.InputValue1),
       )
-    case "joystick-analog":
-      return fmt.Sprintf(
-        "%-12s %-16s",
-          input.Control,
-          bt,
-      )
-    case "joystick-button":
+  } else if function.Capability() & CapJoystickButton != 0 {
       return fmt.Sprintf(
         "%-12s %-16s Button:%d",
-          input.Control,
-          bt,
+          control.Name(),
+          function.Capability(),
           input.InputValue1,
       )
-    case "keyboard-button":
+  } else if function.Capability() & CapKeyboardButton != 0 {
       return fmt.Sprintf(
         "%-12s %-16s Key:%s Modifier:%s",
-          input.Control,
-          bt,
+          control.Name(),
+          function.Capability(),
           KeyCodes(input.InputValue1),
           KeyModifiers(input.InputValue2),
       )
-    case "mouse-button":
+  } else if function.Capability() & CapMouseButton != 0 {
       return fmt.Sprintf(
         "%-12s %-16s Button:%s",
-          input.Control,
-          bt,
+          control.Name(),
+          function.Capability(),
           MouseButtons(input.InputValue1),
       )
-    case "accelerometer":
+  } else if function.Capability() & CapAccelerometer != 0 {
       return fmt.Sprintf(
-        "%-12s %-16s",
-          input.Control,
-          bt,
+        "%-12s %-16s Min:%d Max:%d",
+          control.Name(),
+          function.Capability(),
+          input.InputAccelMin,
+          input.InputAccelMax,
       )
   }
-*/
 
-  return "Unknown"
+  return fmt.Sprintf(
+    "%-12s %-16s",
+      control.Name(),
+      "Unknown",
+  )
 }
 
-
-func (howler *HowlerDevice) GetInput(control ControlInput) (HowlerInput, error) {
+func (howler *HowlerDevice) GetInput(control ControlID) (HowlerInput, error) {
   var qry = []byte{HowlerID,0x04,byte(control),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
   raw, err := howler.WriteWithResponse(qry)
@@ -108,8 +111,9 @@ func (howler *HowlerDevice) GetInput(control ControlInput) (HowlerInput, error) 
     request:        int(raw[1]),
     raw:            raw,
                    
-    Control:        ControlInput(raw[2]),
-    InputType:      int(raw[3]),
+    ControlID:      ControlID(raw[2]),
+    FunctionID:     FunctionID(raw[3]),
+
     InputValue1:    int(raw[4]),
     InputValue2:    int(raw[5]),
                    

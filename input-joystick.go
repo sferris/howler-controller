@@ -4,7 +4,7 @@ import (
   "fmt"
 )
 
-func (howler *HowlerDevice) SetInputJoystick(control ControlInput, joystick InputType, button JoystickButtons) (HowlerInput, error) {
+func (howler *HowlerDevice) SetInputJoystick(control ControlID, joystick FunctionID, button JoystickButtons) (HowlerInput, error) {
 
   if joystick != TypeJoystick1.id && joystick != TypeJoystick2.id {
     return HowlerInput{}, fmt.Errorf("Invalid joystick reference: %s", joystick)
@@ -19,8 +19,8 @@ func (howler *HowlerDevice) SetInputJoystick(control ControlInput, joystick Inpu
     howlerId:       int(raw[0]),
     request:        int(raw[1]),
 
-    Control:        ControlInput(raw[2]),
-    InputType:      int(raw[3]),
+    ControlID:      ControlID(raw[2]),
+    FunctionID:     FunctionID(raw[3]),
     InputValue1:    int(raw[4]),
     InputValue2:    int(raw[5]),
 
