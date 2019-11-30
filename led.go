@@ -14,8 +14,13 @@ type HowlerLed struct {
   Red, Green, Blue  int
 }
 
-func (howler *HowlerDevice) getLEDColor(led LedInputs, scope byte) (HowlerLed, error) {
-  var qry = []byte{HowlerID,scope,byte(led),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+func (howler *HowlerDevice) GetLEDColor(led LedInputs) (HowlerLed, error) {
+  var qry = []byte{
+    HowlerID,
+    byte(CommandGetRGBLed),
+    byte(led),
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+  }
 
   raw, err := howler.WriteWithResponse(qry)
 
@@ -32,17 +37,41 @@ func (howler *HowlerDevice) getLEDColor(led LedInputs, scope byte) (HowlerLed, e
   return result, err
 }
 
-func (howler *HowlerDevice) setLEDRGB(led LedInputs, scope byte, Red, Green, Blue int) (error) {
-  var raw = []byte{HowlerID,scope,byte(led),byte(Red),byte(Green),byte(Blue),
-                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+func (howler *HowlerDevice) SetLEDColor(led LedInputs, value string) (error) {
+  rgb, ok := color.Lookup(value)
+  if !ok {
+    return fmt.Errorf("Invalid color: %s\n", value)
+  }
+
+  var raw = []byte{
+    HowlerID,
+    byte(CommandSetLedRGB),
+    byte(led),
+    byte(rgb.Red),
+    byte(rgb.Green),
+    byte(rgb.Blue),
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+  }
 
   err := howler.Write(raw)
   return err
 }
 
-func (howler *HowlerDevice) setDefaultLEDRGB(led LedInputs, scope byte, Red, Green, Blue int) (HowlerLed, error) {
-  var qry = []byte{HowlerID,scope,byte(led),byte(Red),byte(Green),byte(Blue),
-                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+func (howler *HowlerDevice) SetDefaultLEDColor(led LedInputs, value string) (HowlerLed, error) {
+  rgb, ok := color.Lookup(value)
+  if !ok {
+    return HowlerLed{}, fmt.Errorf("Invalid color: %s\n", value)
+  }
+
+  var qry = []byte{
+    HowlerID,
+    byte(CommandSetRGBLedDefault),
+    byte(led),
+    byte(rgb.Red),
+    byte(rgb.Green),
+    byte(rgb.Blue),
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+  }
 
   raw, err := howler.WriteWithResponse(qry)
   result := HowlerLed{
@@ -56,34 +85,6 @@ func (howler *HowlerDevice) setDefaultLEDRGB(led LedInputs, scope byte, Red, Gre
   }
 
   return result, err
-}
-
-
-func (howler *HowlerDevice) GetLEDColor(led LedInputs) (HowlerLed, error) {
-  return howler.getLEDColor(led, 0x08)
-}
-
-
-func (howler *HowlerDevice) SetLEDRGB(led LedInputs, Red, Green, Blue int) (error) {
-  return howler.setLEDRGB(led, 0x01, Red, Green, Blue)
-}
-func (howler *HowlerDevice) SetLEDColor(led LedInputs, value string) (error) {
-  if c, ok := color.Lookup(value); ok {
-    return howler.setLEDRGB(led, 0x01, c.Red, c.Green, c.Blue)
-  }
-
-  return fmt.Errorf("Invalid color: %s\n", value)
-}
-
-func (howler *HowlerDevice) SetDefaultLEDRGB(led LedInputs, Red, Green, Blue int) (HowlerLed, error) {
-  return howler.setDefaultLEDRGB(led, 0x07, Red, Green, Blue)
-}
-func (howler *HowlerDevice) SetDefaultLEDColor(led LedInputs, value string) (HowlerLed, error) {
-  if c, ok := color.Lookup(value); ok {
-    return howler.setDefaultLEDRGB(led, 0x01, c.Red, c.Green, c.Blue)
-  }
-
-  return HowlerLed{}, fmt.Errorf("Invalid color: %s\n", value)
 }
 
 // String options

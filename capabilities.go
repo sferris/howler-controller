@@ -1,37 +1,47 @@
 package howler
 
 import (
+  "sort"
   "strings"
 )
 
 type ControlCapability int
 const (
-  CapMin               ControlCapability = 1 << (iota)
-  CapJoystickButton
-  CapKeyboardButton
-  CapMouseButton
-  CapMouseAxis
+  CapNone                ControlCapability = 0
+  CapAccelerometer       ControlCapability = 1 << (iota-1)
   CapJoystickAnalog
+  CapJoystickButton
   CapJoystickDigital
-  CapAccelerometer
-  CapMax
+  CapKeyboardButton
+  CapMouseAxis
+  CapMouseButton
 )
 
 var CapabilityNames = map[ControlCapability]string {
-  CapJoystickButton:    "JoystickButton",
-  CapKeyboardButton:    "KeyboardButton",
-  CapMouseButton:       "MouseButton",
-  CapMouseAxis:         "MouseAxis",
-  CapJoystickAnalog:    "JoystickAnalog",
-  CapJoystickDigital:   "JoystickDigital",
   CapAccelerometer:     "Accelerometer",
+  CapJoystickAnalog:    "JoystickAnalog",
+  CapJoystickButton:    "JoystickButton",
+  CapJoystickDigital:   "JoystickDigital",
+  CapKeyboardButton:    "KeyboardButton",
+  CapMouseAxis:         "MouseAxis",
+  CapMouseButton:       "MouseButton",
 }
 
-func (cap ControlCapability) String() string {
-  var keys []string
+func ControlCapabilities() ([]int) {
+  var capabilities []int
   for k, _ := range CapabilityNames {
-    if cap&k != 0 {
-      keys = append(keys, CapabilityNames[k])
+      capabilities = append(capabilities, int(k))
+  }
+  sort.Ints(capabilities)
+  return capabilities;
+}
+
+func (capability ControlCapability) String() string {
+  var keys []string
+
+  for _, k := range ControlCapabilities() {
+    if capability & ControlCapability(k) != 0 {
+      keys = append(keys, CapabilityNames[ControlCapability(k)])
     }
   }
 
@@ -39,6 +49,5 @@ func (cap ControlCapability) String() string {
     return strings.Join(keys, "|")
   }
 
-  return "Unknown"
+  return "Unknown control capability"
 }
-

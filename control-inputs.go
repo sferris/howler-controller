@@ -519,10 +519,8 @@ func IDToControl(id ControlID) (ControlInput,error) {
 func ControlInputs() ([]int) {
   var controls []int
   for k, _ := range ControlInputMap {
-      controls = append(controls, int(k))
+    controls = append(controls, int(k))
   }
   sort.Ints(controls)
-
   return controls;
 }
-
