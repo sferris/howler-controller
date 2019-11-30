@@ -1,20 +1,28 @@
 package howler
 
-func (howler *HowlerDevice) SetInputMouse(control ControlID, button MouseButtons) (HowlerInput, error) {
+import "fmt"
 
-  // CommandSetInput CommandID = 0x03
-  // CommandGetInput CommandID = 0x04
+func (howler *HowlerDevice) SetKeyboardButton(control ControlInput, key KeyCodes, modifier KeyModifiers) (HowlerInput, error) {
+
+  if control.Capability() & CapKeyboardButton == 0 {
+    return HowlerInput{}, fmt.Errorf(
+      "This control '%s', is not capable generating keystrokes\n",
+      control.Name(),
+    )
+  }
+
   var stmt = []byte{
     HowlerID,
     byte(CommandSetInput),
-    byte(control),
-    byte(TypeMouse.id),
-    byte(button),
-    byte(ModifierNone),
+    byte(control.id),
+    byte(TypeKeyboard.id),
+    byte(key),
+    byte(modifier),
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
   }
 
   raw, err := howler.WriteWithResponse(stmt)
+
 
   result := HowlerInput{
     howlerId:       int(raw[0]),
@@ -33,4 +41,3 @@ func (howler *HowlerDevice) SetInputMouse(control ControlID, button MouseButtons
 
   return result, err
 }
-

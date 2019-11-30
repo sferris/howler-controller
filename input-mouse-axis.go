@@ -1,24 +1,29 @@
 package howler
 
-import (
-  "fmt"
-)
+import "fmt"
 
-func (howler *HowlerDevice) SetInputJoystick(control ControlID, joystick FunctionID, button JoystickButtons) (HowlerInput, error) {
-
-  if joystick != TypeJoystick1.id && joystick != TypeJoystick2.id {
-    return HowlerInput{}, fmt.Errorf("Invalid joystick reference: %s", joystick)
+func (howler *HowlerDevice) SetMouseAxis(control ControlInput, function ControlFunction) (HowlerInput, error) {
+  if control.Capability() & CapMouseAxis == 0 {
+    return HowlerInput{}, fmt.Errorf(
+      "This control '%s', is not capable generating mouse movement\n",
+      control.Name(),
+    )
   }
 
-  // CommandSetInput CommandID = 0x03
-  // CommandGetInput CommandID = 0x04
+  if function.Capability() & CapMouseAxis == 0 {
+    return HowlerInput{}, fmt.Errorf(
+      "Invalid mouse axis function reference: %s",
+      function.Name(),
+    )
+  }
+
   var stmt = []byte{
     HowlerID,
     byte(CommandSetInput),
-    byte(control),
-    byte(joystick),
-    byte(button),
-    byte(ModifierNone),
+    byte(control.id),
+    byte(function.id),
+    0,
+    0,
     0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
   }
 

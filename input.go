@@ -108,10 +108,13 @@ func (input *HowlerInput) String() string {
   )
 }
 
-// CommandSetInput CommandID = 0x03
-// CommandGetInput CommandID = 0x04
 func (howler *HowlerDevice) GetInput(control ControlID) (HowlerInput, error) {
-  var qry = []byte{HowlerID,byte(CommandGetInput),byte(control),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+  var qry = []byte{
+    HowlerID,
+    byte(CommandGetInput),
+    byte(control),
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+  }
 
   raw, err := howler.WriteWithResponse(qry)
 

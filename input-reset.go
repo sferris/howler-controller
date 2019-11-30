@@ -17,8 +17,6 @@ func (input *HowlerReset) Dump() {
 }
 
 func (howler *HowlerDevice) ResetToDefaults() (HowlerReset, error) {
-
-  // CommandSetDefault CommandID = 0x05
   var stmt = []byte{
     HowlerID,
     byte(CommandSetDefault),
