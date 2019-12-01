@@ -304,10 +304,12 @@ var ControlFunctionMap = map[FunctionID]ControlFunction{
 
 func StringToControlFunction(typ string) (ControlFunction,error) {
   switch strings.ToLower(typ) {
+    case "1": fallthrough
     case "joystick1": fallthrough
     case "typejoystick1":
       return TypeJoystick1, nil
 
+    case "2": fallthrough
     case "joystick2": fallthrough
     case "typejoystick2":
       return TypeJoystick2, nil
