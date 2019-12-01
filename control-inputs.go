@@ -304,13 +304,13 @@ var ControlXAxis = ControlInput {
   name:       "XAxis",
   typ:        "accelerometer",
   id:         42,
-  capability: CapAccelerometer | CapMouseAxis,
+  capability: CapAccelerometer,
 }
 var ControlYAxis = ControlInput {
   name:       "YAxis",
   typ:        "accelerometer",
   id:         43,
-  capability: CapAccelerometer | CapMouseAxis,
+  capability: CapAccelerometer,
 }
 var ControlZAxis = ControlInput {
   name:       "ZAxis",
