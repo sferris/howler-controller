@@ -322,6 +322,18 @@ func StringToControlFunction(typ string) (ControlFunction,error) {
     case "typemouse":
       return TypeMouse, nil
 
+    case "xaxis": fallthrough
+    case "mousexaxis":
+      return TypeMouseXAxis, nil
+
+    case "yaxis": fallthrough
+    case "mouseyaxis":
+      return TypeMouseYAxis, nil
+
+    case "zaxis": fallthrough
+    case "mousezaxis":
+      return TypeMouseZAxis, nil
+
     case "typejoy1_digitalthrottle": fallthrough
     case "joy1_digitalthrottle":
       return TypeJoy1_DigitalThrottle, nil
@@ -471,3 +483,50 @@ func ControlFunctions() ([]int) {
   return functions;
 }
 
+// Sort by ID
+type cfIDSlice []ControlFunction
+func (controls cfIDSlice) Len() int {
+  return len(controls)
+}
+func (controls cfIDSlice) Swap(i, j int) {
+  controls[i], controls[j] = controls[j], controls[i]
+}
+func (controls cfIDSlice) Less(i, j int) bool {
+  return int(controls[i].ID()) < int(controls[j].ID())
+}
+
+// Sort by Name
+type cfNameSlice []ControlFunction
+func (controls cfNameSlice) Len() int {
+  return len(controls)
+}
+func (controls cfNameSlice) Swap(i, j int) {
+  controls[i], controls[j] = controls[j], controls[i]
+}
+func (controls cfNameSlice) Less(i, j int) bool {
+  if strings.Compare(controls[i].Name(),controls[j].Name()) == -1 {
+    return true
+  }
+  return false
+}
+
+
+func ControlFunctionsByID() ([]ControlFunction) {
+  controls := make(cfIDSlice,0,len(ControlFunctionMap))
+  for _, control := range ControlFunctionMap {
+    controls = append(controls, control)
+  }
+  sort.Sort(controls)
+
+  return controls;
+}
+
+func ControlFunctionsByName() ([]ControlFunction) {
+  controls := make(cfNameSlice,0,len(ControlFunctionMap))
+  for _, control := range ControlFunctionMap {
+    controls = append(controls, control)
+  }
+  sort.Sort(controls)
+
+  return controls;
+}

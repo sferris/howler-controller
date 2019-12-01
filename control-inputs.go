@@ -89,28 +89,28 @@ var ControlJoy3Up = ControlInput {
   typ:        "joystick",
   id:         8,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
-              CapJoystickDigital,
+              CapJoystickDigital | CapMouseAxis,
 }
 var ControlJoy3Down = ControlInput {
   name:       "Joy3Down",
   typ:        "joystick",
   id:         9,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
-              CapJoystickDigital,
+              CapJoystickDigital | CapMouseAxis,
 }
 var ControlJoy3Left = ControlInput {
   name:       "Joy3Left",
   typ:        "joystick",
   id:         10,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
-              CapJoystickDigital,
+              CapJoystickDigital | CapMouseAxis,
 }
 var ControlJoy3Right = ControlInput {
   name:       "Joy3Right",
   typ:        "joystick",
   id:         11,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
-              CapJoystickDigital,
+              CapJoystickDigital | CapMouseAxis,
 }
 var ControlJoy4Up = ControlInput {
   name:       "Joy4Up",
@@ -131,14 +131,14 @@ var ControlJoy4Left = ControlInput {
   typ:        "joystick",
   id:         14,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
-              CapJoystickDigital,
+              CapJoystickDigital | CapMouseAxis,
 }
 var ControlJoy4Right = ControlInput {
   name:       "Joy4Right",
   typ:        "joystick",
   id:         15,
   capability: CapJoystickButton | CapKeyboardButton | CapMouseButton |
-              CapJoystickDigital,
+              CapJoystickDigital | CapMouseAxis,
 }
 
 // Button Inputs
@@ -304,13 +304,13 @@ var ControlXAxis = ControlInput {
   name:       "XAxis",
   typ:        "accelerometer",
   id:         42,
-  capability: CapAccelerometer,
+  capability: CapAccelerometer | CapMouseAxis,
 }
 var ControlYAxis = ControlInput {
   name:       "YAxis",
   typ:        "accelerometer",
   id:         43,
-  capability: CapAccelerometer,
+  capability: CapAccelerometer | CapMouseAxis,
 }
 var ControlZAxis = ControlInput {
   name:       "ZAxis",
@@ -516,11 +516,50 @@ func IDToControl(id ControlID) (ControlInput,error) {
   return ControlInput{}, fmt.Errorf("Unknown control: %d\n", id)
 }
 
-func ControlInputs() ([]int) {
-  var controls []int
-  for k, _ := range ControlInputMap {
-    controls = append(controls, int(k))
+// Sort by ID
+type ciIDSlice []ControlInput
+func (controls ciIDSlice) Len() int {
+  return len(controls)
+}
+func (controls ciIDSlice) Swap(i, j int) {
+  controls[i], controls[j] = controls[j], controls[i]
+}
+func (controls ciIDSlice) Less(i, j int) bool {
+  return int(controls[i].ID()) < int(controls[j].ID())
+}
+
+// Sort by Name
+type ciNameSlice []ControlInput
+func (controls ciNameSlice) Len() int {
+  return len(controls)
+}
+func (controls ciNameSlice) Swap(i, j int) {
+  controls[i], controls[j] = controls[j], controls[i]
+}
+func (controls ciNameSlice) Less(i, j int) bool {
+  if strings.Compare(controls[i].Name(),controls[j].Name()) == -1 {
+    return true
   }
-  sort.Ints(controls)
+  return false
+}
+
+
+func ControlInputsByID() ([]ControlInput) {
+  controls := make(ciIDSlice,0,len(ControlInputMap))
+  for _, control := range ControlInputMap {
+    controls = append(controls, control)
+  }
+  sort.Sort(controls)
+
+  return controls;
+}
+
+func ControlInputsByName() ([]ControlInput) {
+  controls := make(ciNameSlice,0,len(ControlInputMap))
+  for _, control := range ControlInputMap {
+    controls = append(controls, control)
+  }
+  sort.Sort(controls)
+
   return controls;
 }
